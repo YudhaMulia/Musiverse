@@ -66,24 +66,8 @@
 }
 .navbar__menu a:hover::after, .navbar__menu a.is-active::after { left: 0; right: 0; }
 
-/* Sisi kanan: badge, login/profil */
+/* Sisi kanan: login/profil */
 .navbar__right { display: flex; align-items: center; gap: 14px; }
-
-.nav-badge {
-    display: flex; align-items: center; gap: 6px;
-    padding: 5px 12px; border-radius: 999px;
-    font-size: .7rem; font-weight: 700; letter-spacing: .12em; color: var(--nav-muted);
-    background: rgba(18, 3, 7, .55); border: 1px solid rgba(201, 162, 74, .35);
-    white-space: nowrap;
-}
-.nav-badge__main { color: var(--nav-gold-light); }
-.nav-badge__sep { color: rgba(201, 162, 74, .5); }
-.nav-badge__dot {
-    width: 7px; height: 7px; border-radius: 50%; background: var(--nav-gold);
-    box-shadow: 0 0 8px var(--nav-gold);
-    animation: navDot 1.8s ease-in-out infinite;
-}
-@keyframes navDot { 50% { opacity: .35; } }
 
 .navbar .btn-login {
     display: inline-block;
@@ -122,7 +106,6 @@
 .navbar__toggle { display: none; }
 
 /* Layar HP & tablet */
-@media (max-width: 1100px) { .nav-badge { display: none; } }
 @media (max-width: 960px) {
     .navbar__inner, .navbar.is-scrolled .navbar__inner { padding: 12px 16px; gap: 14px; }
     .navbar__toggle {
@@ -141,4 +124,49 @@
     .navbar__menu a::after { display: none; }
     .navbar .btn-login { padding: 8px 14px; font-size: .85rem; }
     .nav-profile__name { display: none; }
+}
+
+/* =========================================================
+   TOMBOL MUSIK (pojok kanan bawah, semua halaman)
+   ========================================================= */
+.tombol-musik {
+    position: fixed; right: 20px; bottom: 20px; z-index: 60;
+    width: 52px; height: 52px; border-radius: 50%; padding: 0; cursor: pointer;
+    display: grid; place-items: center; color: #ead39a;
+    border: 2px solid transparent;
+    background:
+        radial-gradient(circle at 35% 30%, #5c1626, #1d060c) padding-box,
+        linear-gradient(145deg, #fff1c4, #c9a24a 40%, #7a5620 70%, #e9cd7e) border-box;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .5);
+    transition: transform .2s, box-shadow .3s;
+}
+.tombol-musik:hover { transform: scale(1.07); }
+.tombol-musik svg { width: 22px; height: 22px; grid-area: 1 / 1; }
+.tombol-musik__on { display: none; }
+.tombol-musik.is-playing .tombol-musik__on { display: block; }
+.tombol-musik.is-playing .tombol-musik__off { display: none; }
+
+/* cincin emas berdenyut saat lagu diputar */
+.tombol-musik.is-playing { animation: denyutMusik 2.4s ease-in-out infinite; }
+@keyframes denyutMusik {
+    0%, 100% { box-shadow: 0 8px 22px rgba(0, 0, 0, .5), 0 0 0 0 rgba(201, 162, 74, .45); }
+    50%      { box-shadow: 0 8px 22px rgba(0, 0, 0, .5), 0 0 0 8px rgba(201, 162, 74, 0); }
+}
+
+/* bar equalizer mini di atas tombol */
+.tombol-musik__bars {
+    position: absolute; top: -9px; left: 50%; translate: -50% 0;
+    display: none; gap: 2px; align-items: flex-end; height: 10px;
+}
+.tombol-musik.is-playing .tombol-musik__bars { display: flex; }
+.tombol-musik__bars i {
+    display: block; width: 3px; height: 100%; border-radius: 2px; background: #ead39a;
+    transform-origin: bottom; animation: barMusik .9s ease-in-out infinite;
+}
+.tombol-musik__bars i:nth-child(2) { animation-delay: .2s; }
+.tombol-musik__bars i:nth-child(3) { animation-delay: .4s; }
+@keyframes barMusik { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .tombol-musik, .tombol-musik__bars i { animation: none !important; }
 }

@@ -14,8 +14,8 @@
         </p>
 
         <div class="btn-row">
-            <x-btn-play label="Single Player" data-solo="Musiverse Puzzle" />
-            <x-btn-play label="Multi Player" data-open="modal-buat" data-game="Musiverse Puzzle" />
+            <x-btn-play label="Main Sendiri" data-solo="Musiverse Puzzle" />
+            <x-btn-play label="Main Bersama" data-open="modal-buat" data-game="Musiverse Puzzle" />
         </div>
 
         <ul class="badges">

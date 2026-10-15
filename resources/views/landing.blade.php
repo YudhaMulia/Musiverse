@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Selamat Datang - Rediscover Heritage')
+@section('jarak_atas', 'pt-0')
 
 @section('content')
 <div class="relative flex items-center justify-center min-h-screen bg-cover bg-center text-on-surface p-6 overflow-hidden" style="background-image: url('{{ asset('images/ampera.jpg') }}');">

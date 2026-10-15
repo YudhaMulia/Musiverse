@@ -16,8 +16,8 @@
     <div class="quiz__head">
         <h2 class="game-title game-title--light quiz__title">Musiverse Quiz</h2>
         <div class="btn-row">
-            <x-btn-play label="Single Player" data-solo="Musiverse Quiz" />
-            <x-btn-play label="Multi Player" data-open="modal-buat" data-game="Musiverse Quiz" />
+            <x-btn-play label="Main Sendiri" data-solo="Musiverse Quiz" />
+            <x-btn-play label="Main Bersama" data-open="modal-buat" data-game="Musiverse Quiz" />
         </div>
     </div>
 

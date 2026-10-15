@@ -29,7 +29,10 @@
 
     @include('games.partials.footer')
 
+    @include('components.musik')
+
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/musik.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

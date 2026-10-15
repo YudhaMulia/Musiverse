@@ -149,7 +149,7 @@
 <body class="bg-surface font-body-md text-on-surface min-h-screen selection:bg-primary-container selection:text-secondary">
     @include('components.header')
 
-    <main class="w-full pt-20 bg-gradient-to-b from-[#160b0e] via-[#1c1013] to-[#160b0e]">
+    <main class="w-full @yield('jarak_atas', 'pt-20') bg-gradient-to-b from-[#160b0e] via-[#1c1013] to-[#160b0e]">
         @yield('content')
     </main>
 
@@ -157,11 +157,8 @@
 
     
 
-    {{-- Gending Sriwijaya Audio Player --}}
-    <audio id="gendingSriwijayaAudio" src="{{ asset('audio/gending-sriwijaya.mp3') }}" preload="auto" loop></audio>
-    <button id="audioControlBtn" class="fixed bottom-4 right-4 z-50 p-3 rounded-full bg-primary text-on-primary shadow-lg hover:scale-105 transition-transform duration-200">
-        <span class="material-symbols-outlined" id="audioControlIcon">volume_off</span>
-    </button>
+    {{-- Musik latar Gending Sriwijaya (lanjut terus saat pindah halaman) --}}
+    @include('components.musik')
 
     <script>
         // Image Carousel Functionality
@@ -270,76 +267,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             new ImageCarousel();
         });
-
-        // Gending Sriwijaya Audio Control
-        const audio = document.getElementById('gendingSriwijayaAudio');
-        const audioControlBtn = document.getElementById('audioControlBtn');
-        const audioControlIcon = document.getElementById('audioControlIcon');
-
-        // Set initial state based on local storage or default to paused
-        let isAudioPlaying = localStorage.getItem('gendingAudioState') === 'playing';
-
-        if (audio && audioControlBtn && audioControlIcon) {
-            if (isAudioPlaying) {
-                audio.play().catch(e => console.error("Audio play failed:", e));
-                audioControlIcon.textContent = 'volume_up';
-            } else {
-                audio.pause();
-                audioControlIcon.textContent = 'volume_off';
-            }
-
-            audioControlBtn.addEventListener('click', () => {
-                if (audio.paused) {
-                    audio.play().then(() => {
-                        audioControlIcon.textContent = 'volume_up';
-                        localStorage.setItem('gendingAudioState', 'playing');
-                        isAudioPlaying = true;
-                    }).catch(e => {
-                        console.error("Audio play failed:", e);
-                        audioControlIcon.textContent = 'volume_off';
-                        localStorage.setItem('gendingAudioState', 'paused');
-                        isAudioPlaying = false;
-                    });
-                } else {
-                    audio.pause();
-                    audioControlIcon.textContent = 'volume_off';
-                    localStorage.setItem('gendingAudioState', 'paused');
-                    isAudioPlaying = false;
-                }
-            });
-
-            // Handle cases where autoplay is prevented by browsers
-            audio.addEventListener('play', () => {
-                audioControlIcon.textContent = 'volume_up';
-                localStorage.setItem('gendingAudioState', 'playing');
-            });
-            audio.addEventListener('pause', () => {
-                audioControlIcon.textContent = 'volume_off';
-                localStorage.setItem('gendingAudioState', 'paused');
-            });
-            audio.addEventListener('ended', () => {
-                audio.currentTime = 0;
-                audio.play();
-            });
-
-            // Attempt to play on user interaction if initial autoplay failed
-            document.body.addEventListener('click', () => {
-                if (!isAudioPlaying && audio.paused) {
-                    audio.play().then(() => {
-                        audioControlIcon.textContent = 'volume_up';
-                        localStorage.setItem('gendingAudioState', 'playing');
-                        isAudioPlaying = true;
-                    }).catch(e => {
-                        console.warn("User interaction play failed:", e);
-                    });
-                }
-            }, { once: true }); // Only try once per user interaction
-        }
     </script>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     {{-- Navbar Musiverse: transparan -> gelap saat scroll, menu HP --}}
     <script src="{{ asset('js/app.js') }}"></script>
+    {{-- Musik latar: lanjut terus saat pindah halaman --}}
+    <script src="{{ asset('js/musik.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

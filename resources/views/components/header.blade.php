@@ -5,7 +5,7 @@
      ========================================================= --}}
 <header class="navbar">
     <div class="navbar__inner">
-        <a href="{{ route('home') }}" class="logo">
+        <a href="{{ route('welcome') }}" class="logo" aria-label="Musiverse - halaman awal">
             <span class="logo__icon" aria-hidden="true"></span>
             <span class="logo__text">Musiverse</span>
         </a>
@@ -25,13 +25,6 @@
         </nav>
 
         <div class="navbar__right">
-            {{-- Badge POLSRI (dari navbar Yudha) --}}
-            <div class="nav-badge" title="Politeknik Negeri Sriwijaya • Heritage Lab">
-                <span class="nav-badge__dot" aria-hidden="true"></span>
-                <span class="nav-badge__main">POLSRI</span>
-                <span class="nav-badge__sep" aria-hidden="true">&bull;</span>
-                <span>HERITAGE LAB</span>
-            </div>
 
             @auth
                 {{-- Sudah login: foto/inisial + menu keluar --}}

@@ -32,6 +32,13 @@ Route::prefix('audio-tour')->group(function () {
     Route::get('/play/{id}', [AudioTourController::class, 'play'])->name('audio-tour.play');
 });
 
+// Musik latar lewat Laravel, supaya browser bisa melompat ke detik tertentu
+Route::get('/musik-latar', function () {
+    return response()->file(public_path('audio/gending-sriwijaya.mp3'), [
+        'Content-Type' => 'audio/mpeg',
+    ]);
+})->name('musik.latar');
+
 // Review Routes
 Route::prefix('review')->middleware('auth')->group(function () {
     Route::get('/create/{cagarBudaya}', [\App\Http\Controllers\ReviewController::class, 'create'])->name('review.create');
