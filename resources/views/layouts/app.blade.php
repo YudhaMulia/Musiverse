@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
+    {{-- Navbar Musiverse: font & CSS khusus navbar --}}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <script id="tailwind-config">
@@ -334,10 +338,8 @@
     </script>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    @stack('scripts')
-</body>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    {{-- Navbar Musiverse: transparan -> gelap saat scroll, menu HP --}}
+    <script src="{{ asset('js/app.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

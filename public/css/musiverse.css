@@ -1,0 +1,755 @@
+/* =========================================================
+   MUSIVERSE - CSS utama
+   Warna: merah marun keemasan, tidak terlalu terang
+   ========================================================= */
+
+:root {
+    --bg:          #1c0812;   /* latar luar (marun gelap) */
+    --maroon-950:  #120307;
+    --maroon-900:  #1d060c;
+    --maroon-800:  #2c0a14;
+    --maroon-700:  #44101d;
+    --maroon-600:  #5c1626;
+    --gold:        #c9a24a;
+    --gold-light:  #ead39a;
+    --gold-dark:   #9c7a33;
+    --rose:        #b5536b;
+    --red:         #c8243a;
+    --text:        #f6ecdc;
+    --text-muted:  #d9c7b0;
+
+    --font-title: 'Montserrat', Arial, sans-serif;
+    --font-body:  'Nunito Sans', Arial, sans-serif;
+    --radius: 24px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    /* Latar: cahaya marun & emas samar + motif belah ketupat songket */
+    background:
+        radial-gradient(1100px 700px at 10% 35%, rgba(130, 26, 52, .28), transparent 60%),
+        radial-gradient(900px 600px at 90% 75%, rgba(201, 162, 74, .07), transparent 60%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23c9a24a' stroke-opacity='.07'%3E%3Cpath d='M28 3 53 28 28 53 3 28Z'/%3E%3Cpath d='M28 17 39 28 28 39 17 28Z'/%3E%3C/g%3E%3Ccircle cx='28' cy='28' r='2' fill='%23c9a24a' fill-opacity='.1'/%3E%3C/svg%3E"),
+        var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+/* ---------------- NAVBAR ---------------- */
+.navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    /* bayangan tipis di atas agar menu tetap terbaca di atas gambar */
+    background: linear-gradient(180deg, rgba(10, 2, 5, .65), transparent);
+    border-bottom: 1px solid transparent;
+    transition: background .35s, border-color .35s, box-shadow .35s;
+}
+/* Ditambahkan oleh app.js setelah halaman di-scroll */
+.navbar.is-scrolled, .navbar.menu-open {
+    background: rgba(14, 3, 7, .94);
+    backdrop-filter: blur(10px);
+    border-bottom-color: rgba(201, 162, 74, .18);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+.navbar__inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; gap: 32px;
+    padding: 18px 24px;
+    transition: padding .35s;
+}
+.navbar.is-scrolled .navbar__inner { padding: 12px 24px; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo__icon {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--maroon-600) 0 50%, var(--text) 50% 100%);
+    border: 2px solid var(--text);
+    position: relative;
+}
+.logo__icon::before {   /* garis merah di tengah logo */
+    content: ""; position: absolute; left: -12px; top: 50%;
+    width: 40px; height: 3px; background: var(--red); transform: translateY(-50%);
+}
+.logo__text { font-family: var(--font-title); font-weight: 800; font-size: 1.6rem; }
+
+.navbar__menu { display: flex; gap: 28px; margin-left: auto; }
+.navbar__menu a {
+    position: relative; padding: 6px 2px; color: var(--text-muted); font-weight: 600;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
+    transition: color .2s;
+}
+.navbar__menu a:hover, .navbar__menu a.is-active { color: var(--text); }
+.navbar__menu a.is-active::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -4px;
+    height: 3px; border-radius: 3px; background: var(--red);
+}
+.btn-login {
+    padding: 10px 22px; border-radius: 8px; font-weight: 700; white-space: nowrap;
+    background: linear-gradient(90deg, #a3203f, #c96a2c);
+}
+.navbar__toggle { display: none; }
+
+/* ---------------- HERO ---------------- */
+.hero {
+    position: relative; overflow: hidden;
+    min-height: 100vh; padding-top: 80px;
+    display: flex; align-items: center;
+    /* transparan agar menyatu dengan latar bermotif di bawahnya */
+    background: radial-gradient(ellipse 60% 70% at 20% 45%, rgba(70, 14, 30, .55), transparent 70%);
+}
+.hero__art {
+    position: absolute; top: 0; right: 0; bottom: 0; width: 60%;
+    background-size: cover; background-position: center top;
+    /* gambar memudar ke kiri, tanpa garis potong */
+    /* gambar memudar ke kiri DAN ke bawah, tanpa garis potong */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 35%), linear-gradient(0deg, transparent 0%, #000 22%);
+    -webkit-mask-composite: source-in;
+            mask-image: linear-gradient(90deg, transparent 0%, #000 35%), linear-gradient(0deg, transparent 0%, #000 22%);
+            mask-composite: intersect;
+}
+.hero__content {
+    position: relative; z-index: 1;
+    width: min(620px, 100%);
+    margin-left: max(24px, calc((100vw - 1280px) / 2 + 24px));
+    padding: 64px 0;
+}
+.hero__content > * { animation: fadeUp .9s cubic-bezier(.2, .7, .2, 1) both; }
+.hero__content > *:nth-child(2) { animation-delay: .08s; }
+.hero__content > *:nth-child(3) { animation-delay: .16s; }
+.hero__content > *:nth-child(4) { animation-delay: .24s; }
+.hero__content > *:nth-child(5) { animation-delay: .32s; }
+.hero__content > *:nth-child(6) { animation-delay: .40s; }
+.hero__art { animation: fadeIn 1.4s ease both; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.hero__quote {
+    font-family: Georgia, serif; font-size: 4rem; line-height: .5;
+    color: var(--rose); display: block; height: 28px;
+}
+.hero__tagline { font-style: italic; color: var(--text-muted); margin-bottom: 28px; }
+.hero__title {
+    font-family: var(--font-title); font-style: italic; font-weight: 800;
+    font-size: clamp(2.4rem, 5vw, 4rem); text-align: center; line-height: 1.1;
+}
+.divider {
+    display: flex; align-items: center; gap: 16px; margin: 18px 0 24px;
+    color: var(--gold-light); font-weight: 700; letter-spacing: .35em;
+    text-transform: uppercase; font-size: .95rem;
+}
+.divider::before, .divider::after {
+    content: ""; flex: 1; height: 2px; background: var(--gold);
+}
+.divider span { white-space: nowrap; }
+.hero__desc { color: var(--text); margin-bottom: 32px; }
+
+.btn-outline {
+    display: flex; align-items: center; gap: 12px; margin: 0 auto;
+    padding: 16px 48px; border-radius: 8px;
+    background: rgba(18, 3, 7, .7); color: var(--text);
+    border: 2px solid var(--gold); font-weight: 700; font-size: 1.1rem;
+    transition: background .2s;
+}
+.btn-outline:hover { background: var(--maroon-700); }
+.btn-outline .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--text); }
+
+/* ---------------- DAFTAR GAME ---------------- */
+.games {
+    max-width: 1280px; margin: 0 auto; padding: 24px 24px 96px;
+    display: grid; gap: 32px;
+}
+
+/* Judul bagian "Pilih Permainanmu" */
+.section-head { text-align: center; max-width: 640px; margin: 0 auto 12px; }
+.section-head__eyebrow {
+    display: inline-block; font-size: .8rem; font-weight: 700; letter-spacing: .3em;
+    text-transform: uppercase; color: var(--rose);
+}
+.section-head__title {
+    font-family: var(--font-title); font-style: italic; font-weight: 800;
+    font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.15; margin-top: 6px;
+}
+.section-head p { color: var(--text-muted); }
+
+/* Ornamen garis emas dengan belah ketupat di tengah */
+.ornament { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px 0 16px; }
+.ornament::before, .ornament::after {
+    content: ""; width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+}
+.ornament::after { transform: scaleX(-1); }
+.ornament span {
+    width: 10px; height: 10px; border: 1px solid var(--gold); transform: rotate(45deg);
+    box-shadow: 0 0 0 4px rgba(201, 162, 74, .12);
+}
+
+/* Judul game (gradasi emas) */
+.game-title {
+    font-family: var(--font-title); font-style: italic; font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; text-transform: uppercase;
+    background: linear-gradient(180deg, var(--gold-light), var(--gold) 70%, var(--gold-dark));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.game-title--light {
+    background: linear-gradient(180deg, #fff, var(--text));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.game-title--stack { font-style: normal; display: grid; }
+.game-title--stack > span:last-child {
+    background: linear-gradient(180deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.game-desc { color: var(--text); margin: 14px 0 24px; max-width: 560px; }
+
+/* Tombol emas */
+.btn-gold {
+    padding: 14px 32px; border-radius: 8px;
+    font-family: var(--font-title); font-weight: 700; text-transform: uppercase;
+    letter-spacing: .02em; color: #2a0a10;
+    background: linear-gradient(180deg, #f1dfa8 0%, var(--gold) 55%, var(--gold-dark) 100%);
+    border: 1px solid #f3e2b0;
+    box-shadow: inset 0 0 0 3px rgba(120, 80, 20, .35), 0 6px 16px rgba(0, 0, 0, .35);
+    transition: transform .15s, filter .15s;
+}
+.btn-gold:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.btn-block { width: 100%; }
+.btn-stack { display: grid; gap: 16px; width: min(330px, 100%); margin-left: 12%; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 20px; }
+
+/* Badge marun dengan ujung belah ketupat */
+.badges { list-style: none; display: flex; flex-wrap: wrap; gap: 20px 36px; margin-top: 28px; }
+.badges--center { justify-content: center; }
+.badges li {
+    position: relative; padding: 8px 26px;
+    font-style: italic; font-weight: 700; font-size: .95rem; color: var(--gold-light);
+    background: var(--maroon-800);
+    border: 1px solid var(--gold); border-radius: 999px;
+}
+.badges li::before, .badges li::after {
+    content: ""; position: absolute; top: 50%; width: 9px; height: 9px;
+    background: var(--maroon-800); border: 1px solid var(--gold);
+    transform: translateY(-50%) rotate(45deg);
+}
+.badges li::before { left: -5px; }
+.badges li::after  { right: -5px; }
+
+/* ---------------- CARD MATCH & PUZZLE ---------------- */
+.game-card, .quiz {
+    border: 1px solid rgba(201, 162, 74, .22);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, .45), inset 0 0 0 1px rgba(255, 255, 255, .02);
+}
+.game-card {
+    position: relative; overflow: hidden;
+    min-height: 440px; border-radius: var(--radius);
+    background: var(--maroon-900);
+    display: flex; align-items: center;
+}
+.game-card__art { transition: transform 1.2s cubic-bezier(.2, .7, .2, 1); }
+.game-card:hover .game-card__art { transform: scale(1.03); }
+.game-card__art {
+    position: absolute; inset: 0;
+    background-size: cover; background-repeat: no-repeat;
+}
+/* lapisan gelap agar teks terbaca, tapi gambar masih samar terlihat */
+.game-card__art::after { content: ""; position: absolute; inset: 0; }
+
+.game-card--art-right .game-card__art { background-position: right center; left: 25%; }
+.game-card--art-right .game-card__art::after {
+    background: linear-gradient(90deg, var(--maroon-900) 0%, rgba(29, 6, 12, .75) 22%, rgba(29, 6, 12, 0) 55%);
+}
+.game-card--art-right .game-card__content { padding: 48px 56px; width: 55%; position: relative; }
+
+.game-card--art-left { justify-content: flex-end; }
+.game-card--art-left { min-height: 420px; }
+.game-card--art-left .game-card__art { background-position: 60% center; right: 30%; }
+.game-card--art-left .game-card__art::after {
+    background: linear-gradient(270deg, var(--maroon-900) 0%, rgba(29, 6, 12, .75) 20%, rgba(29, 6, 12, 0) 50%);
+}
+.game-card--art-left .game-card__content { padding: 36px 36px; width: 38%; position: relative; }
+.game-card--art-left .game-desc { font-size: .95rem; margin: 10px 0 20px; }
+.game-card--art-left .btn-row { flex-wrap: nowrap; gap: 14px; }
+.game-card--art-left .btn-gold { padding: 12px 20px; font-size: .9rem; }
+.game-card--art-left .badges { gap: 14px 26px; margin-top: 22px; }
+.game-card--art-left .game-desc { text-align: left; }
+
+/* ---------------- CARD QUIZ (3 panel diagonal) ---------------- */
+.quiz { border-radius: var(--radius); overflow: hidden; background: var(--maroon-900); }
+.quiz__panels { position: relative; display: flex; height: 380px; overflow: hidden; }
+.quiz__panel {
+    position: relative; flex: 1; overflow: hidden;
+    transform: skewX(-14deg);
+    border-right: 6px solid var(--maroon-950);
+}
+.quiz__panel:first-child { margin-left: -70px; }
+.quiz__panel:nth-child(3) { margin-right: -70px; border-right: 0; }
+.quiz__panel img {
+    position: absolute; top: 0; left: -100px;
+    width: calc(100% + 200px); max-width: none; height: 100%;
+    object-fit: cover; object-position: center 12%;
+    transform: skewX(14deg);   /* luruskan lagi gambarnya */
+}
+.quiz__panel:first-child img { left: -170px; }  /* geser agar wajah pemuda terlihat */
+.quiz__panel--center {
+    background: radial-gradient(ellipse at 50% 30%, #6b2a3a 0%, var(--maroon-900) 75%);
+}
+.quiz__panel--center img {
+    top: 4%; height: 62%; object-fit: contain;
+    /* pinggiran papan soal dibuat memudar agar tidak terlihat kotak */
+    -webkit-mask-image: radial-gradient(ellipse 48% 50% at 50% 50%, #000 70%, transparent 100%);
+            mask-image: radial-gradient(ellipse 48% 50% at 50% 50%, #000 70%, transparent 100%);
+}
+
+.quiz__overlay {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 24px 22px;
+    display: grid; justify-items: center; gap: 14px;
+    background: linear-gradient(0deg, rgba(18, 3, 7, .95) 0%, rgba(18, 3, 7, .7) 55%, transparent 100%);
+}
+.quiz__title { display: flex; align-items: center; gap: 18px; }
+.quiz__title::before, .quiz__title::after {
+    content: ""; width: 90px; height: 2px; background: var(--gold);
+}
+
+.quiz__more {
+    position: relative; text-align: center; padding: 22px 24px 28px;
+    border-top: 1px solid rgba(201, 162, 74, .15);
+    background:
+        linear-gradient(180deg, var(--maroon-900) 0%, rgba(29, 6, 12, .85) 100%),
+        url('../images/games/hero.webp') center 70% / cover;
+}
+.quiz__more p { max-width: 760px; margin: 0 auto; font-size: .95rem; }
+.quiz__more .badges { margin-top: 16px; }
+
+/* ---------------- ANIMASI MUNCUL SAAT SCROLL ---------------- */
+/* Class "js" dipasang di <html> oleh layout, jadi tanpa JS konten tetap tampil */
+.js .reveal {
+    opacity: 0; transform: translateY(48px);
+    transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1);
+}
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Untuk pengguna yang mematikan animasi di pengaturan perangkat */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .js .reveal { opacity: 1; transform: none; }
+}
+
+/* ---------------- MODAL ---------------- */
+.modal {
+    margin: auto; border: 0; background: transparent; color: var(--text);
+    width: min(460px, calc(100% - 32px));
+}
+.modal::backdrop { background: rgba(10, 2, 5, .75); backdrop-filter: blur(4px); }
+.modal__box {
+    background: linear-gradient(180deg, var(--maroon-700), var(--maroon-900));
+    border: 1px solid var(--gold); border-radius: 18px; padding: 28px;
+    display: grid; gap: 14px;
+}
+.modal__head { display: flex; justify-content: space-between; align-items: center; }
+.modal__head h3 { font-family: var(--font-title); font-style: italic; color: var(--gold-light); }
+.modal__close { background: none; border: 0; color: var(--text); font-size: 1.8rem; line-height: 1; }
+.modal__label { font-weight: 700; }
+.modal__hint { font-size: .9rem; color: var(--text-muted); }
+.input-kode {
+    width: 100%; padding: 14px; border-radius: 10px; text-align: center;
+    font-family: var(--font-title); font-size: 1.8rem; letter-spacing: .4em; text-transform: uppercase;
+    background: var(--maroon-950); color: var(--gold-light); border: 1px solid var(--gold-dark);
+}
+.input-kode:focus { outline: 2px solid var(--gold); }
+.pilih-pemain { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.pilih-pemain input { display: none; }
+.pilih-pemain span {
+    display: block; text-align: center; padding: 10px; border-radius: 10px; font-weight: 700;
+    border: 1px solid var(--gold-dark); background: var(--maroon-950); cursor: pointer;
+}
+.pilih-pemain input:checked + span { background: var(--gold); color: #2a0a10; }
+
+/* ---------------- FOOTER ---------------- */
+.footer { background: rgba(10, 2, 5, .85); border-top: 1px solid rgba(201, 162, 74, .18); }
+.footer__inner {
+    max-width: 1280px; margin: 0 auto; padding: 32px 24px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; color: var(--text-muted);
+}
+.footer__copy { margin-left: auto; }
+
+/* ---------------- RESPONSIF (HP & tablet) ---------------- */
+@media (max-width: 960px) {
+    .navbar__toggle {
+        display: grid; gap: 5px; margin-left: auto;
+        background: none; border: 0; padding: 6px;
+    }
+    .navbar__toggle span { width: 24px; height: 2px; background: var(--text); }
+    .navbar__menu {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; gap: 0; padding: 8px 24px 16px;
+        background: var(--maroon-950);
+    }
+    .navbar__menu.is-open { display: flex; }
+    .navbar__menu a { padding: 12px 0; }
+    .btn-login { display: none; }
+
+    .hero { padding-top: 70px; }
+    .hero__art { width: 100%; opacity: .4;
+        -webkit-mask-image: none; mask-image: none; }
+    .hero__content { margin: 0 auto; padding: 48px 16px; }
+    .navbar__inner, .navbar.is-scrolled .navbar__inner { padding: 12px 16px; }
+
+    .game-card { min-height: 0; flex-direction: column; align-items: stretch; }
+    .game-card__art { position: relative; inset: auto; height: 240px; }
+    .game-card__art::after { background: linear-gradient(0deg, var(--maroon-900), transparent 60%) !important; }
+    .game-card--art-right .game-card__content,
+    .game-card--art-left .game-card__content { width: 100%; padding: 24px 16px 32px; }
+    .game-card--art-right .game-card__art,
+    .game-card--art-left .game-card__art { left: auto; right: auto; background-position: center; }
+    .btn-stack { margin-left: 0; width: 100%; }
+    .btn-row, .game-card--art-left .btn-row { flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .btn-row .btn-gold { flex: 1 1 140px; padding: 12px 10px; font-size: .8rem; white-space: nowrap; }
+
+    .quiz__title { font-size: 1.9rem; }
+    .quiz__title::before, .quiz__title::after { display: none; }
+    .quiz__overlay { padding: 60px 16px 20px; }
+
+    .quiz__panels { height: 320px; }
+    .quiz__panel:first-child, .quiz__panel:nth-child(3) { display: none; }
+    .quiz__panel { transform: none; margin: 0 !important; border: 0; }
+    .quiz__panel img { left: 0; width: 100%; transform: none; }
+}
+
+/* =========================================================
+   PERBAIKAN V3
+   Ditaruh paling bawah agar menimpa aturan yang lama
+   ========================================================= */
+
+main { overflow-x: clip; }   /* cegah scroll ke samping karena Quiz selebar layar */
+
+/* ---------- 1. Card lebih pendek ---------- */
+.game-card { min-height: 340px; }
+.game-card--art-left { min-height: 340px; }
+.game-card--art-right .game-card__content { padding: 36px 44px; width: 52%; }
+.game-card--art-left .game-card__content { padding: 32px 36px; width: 40%; }
+.game-title { font-size: clamp(1.8rem, 3.2vw, 2.7rem); }
+.game-desc, .game-card--art-left .game-desc { font-size: .95rem; margin: 10px 0 20px; max-width: 520px; }
+
+/* ---------- 2. Tombol gaya pil bergaris gradasi emas-merah ---------- */
+.btn-row, .game-card--art-left .btn-row { display: flex; flex-wrap: nowrap; gap: 14px; }
+
+.btn-play {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 20px 10px 22px; border-radius: 999px;
+    font-family: var(--font-title); font-weight: 800; font-style: italic;
+    font-size: .85rem; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap;
+    border: 2px solid transparent;
+    /* trik: lapisan 1 = isi gelap, lapisan 2 = garis tepi gradasi */
+    background:
+        linear-gradient(var(--maroon-950), var(--maroon-950)) padding-box,
+        linear-gradient(90deg, #f3dc9a, var(--gold) 45%, var(--red)) border-box;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .45);
+    transition: box-shadow .4s, transform .4s, background .4s;
+}
+.btn-play__text {
+    background: linear-gradient(90deg, #f6e3a8, var(--gold) 55%, #e0566a);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.btn-play__arrow { width: 18px; height: 12px; overflow: visible; transition: margin .4s; }
+.btn-play__arrow path { fill: var(--gold-light); transition: transform .4s; }
+.btn-play__arrow .one { transform: translateX(-60%); }
+.btn-play__arrow .two { transform: translateX(-30%); }
+
+.btn-play:hover, .btn-play:focus-visible {
+    outline: none;
+    transform: translateY(-2px);
+    background:
+        linear-gradient(#2a0a14, #2a0a14) padding-box,
+        linear-gradient(90deg, #f3dc9a, var(--gold) 45%, var(--red)) border-box;
+    box-shadow: 6px 6px 0 rgba(201, 162, 74, .55), 0 0 22px rgba(200, 36, 58, .35);
+}
+.btn-play:hover .btn-play__arrow { margin-right: 14px; }
+.btn-play:hover .btn-play__arrow .one,
+.btn-play:hover .btn-play__arrow .two { transform: translateX(0); }
+.btn-play:hover .btn-play__arrow .three { animation: warnaPanah 1s infinite .2s; }
+.btn-play:hover .btn-play__arrow .two   { animation: warnaPanah 1s infinite .4s; }
+.btn-play:hover .btn-play__arrow .one   { animation: warnaPanah 1s infinite .6s; }
+@keyframes warnaPanah {
+    0%, 100% { fill: var(--gold-light); }
+    50%      { fill: var(--red); }
+}
+
+/* Badge lebih kecil dan selalu satu baris */
+.badges, .game-card--art-left .badges { flex-wrap: nowrap; gap: 18px; margin-top: 18px; }
+.badges li { padding: 4px 16px; font-size: .78rem; white-space: nowrap; }
+.badges li::before, .badges li::after { width: 7px; height: 7px; }
+.badges li::before { left: -4px; }
+.badges li::after  { right: -4px; }
+
+/* ---------- 3. Bingkai emas 3D ---------- */
+.game-card {
+    border: 3px solid transparent;
+    background:
+        linear-gradient(var(--maroon-900), var(--maroon-900)) padding-box,
+        linear-gradient(145deg, #fff1c4 0%, #d9b45c 18%, #7a5620 40%, #e9cd7e 60%, #8a6424 82%, #f5dd99 100%) border-box;
+    box-shadow:
+        0 0 0 1px rgba(0, 0, 0, .7),            /* garis gelap di luar */
+        0 20px 45px rgba(0, 0, 0, .55),          /* bayangan jatuh */
+        0 0 30px rgba(201, 162, 74, .12);        /* pendar emas tipis */
+}
+/* garis terang di sisi dalam bingkai, memberi kesan timbul */
+.game-card::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 3;
+    box-shadow: inset 0 1px 0 rgba(255, 240, 200, .45), inset 0 0 0 1px rgba(255, 230, 170, .18),
+                inset 0 -10px 24px rgba(0, 0, 0, .35);
+}
+
+/* ---------- 4. Efek miring 3D + kilau hologram emas ---------- */
+.game-card {
+    transform-style: preserve-3d;
+    transition: transform .6s cubic-bezier(.2, .7, .2, 1), box-shadow .4s;
+}
+.game-card.is-tilting { transition: transform .12s linear, box-shadow .4s; }
+.game-card:hover {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .7), 0 28px 60px rgba(0, 0, 0, .6), 0 0 40px rgba(201, 162, 74, .28);
+}
+/* kilau yang menyapu diagonal saat kursor masuk (diadaptasi dari contoh hologram) */
+.game-card::before {
+    content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    z-index: 2; pointer-events: none; opacity: 0;
+    background: linear-gradient(0deg, transparent 40%, rgba(255, 226, 150, .18) 50%, transparent 60%);
+    transform: rotate(-45deg) translateY(-60%);
+    transition: transform 1s ease, opacity .4s ease;
+}
+.game-card:hover::before { opacity: 1; transform: rotate(-45deg) translateY(60%); }
+.game-card__content { z-index: 4; }
+
+/* Animasi fade-up memakai "translate" agar tidak bentrok dengan efek miring */
+.js .reveal { transform: none; translate: 0 48px; transition: opacity .9s cubic-bezier(.2, .7, .2, 1), translate .9s cubic-bezier(.2, .7, .2, 1); }
+.js .reveal.is-visible { translate: 0 0; }
+.js .game-card.reveal { transition: opacity .9s, translate .9s, transform .6s cubic-bezier(.2, .7, .2, 1), box-shadow .4s; }
+.js .game-card.reveal.is-tilting { transition: opacity .9s, translate .9s, transform .12s linear, box-shadow .4s; }
+
+/* ---------- 6. Quiz selebar layar (bukan card) ---------- */
+.quiz {
+    margin-inline: calc(50% - 50vw);
+    border-radius: 0; border: 0; box-shadow: none; background: transparent;
+}
+.quiz__panels {
+    height: 360px;
+    border-block: 2px solid transparent;
+    border-image: linear-gradient(90deg, transparent, var(--gold) 20%, #f5dd99 50%, var(--gold) 80%, transparent) 1;
+}
+.quiz__panel:first-child { margin-left: -90px; }
+.quiz__panel:nth-child(3) { margin-right: -90px; }
+.quiz__overlay { padding: 50px 24px 22px; }
+.quiz__more { background: transparent; border-top: 0; padding: 22px 24px 8px; }
+
+/* ---------- Penyesuaian layar HP ---------- */
+@media (max-width: 960px) {
+    .game-card, .game-card--art-left { min-height: 0; }
+    .game-card--art-right .game-card__content,
+    .game-card--art-left .game-card__content { width: 100%; padding: 20px 16px 28px; }
+    .btn-row, .game-card--art-left .btn-row { flex-wrap: wrap; justify-content: center; }
+    .btn-play { flex: 1 1 140px; justify-content: center; padding: 10px 14px; font-size: .78rem; }
+    .badges, .game-card--art-left .badges { flex-wrap: wrap; justify-content: center; gap: 12px 18px; }
+    .quiz__panels { height: 320px; }
+}
+
+/* =========================================================
+   PERBAIKAN V4 - MUSIVERSE QUIZ
+   Ditaruh paling bawah agar menimpa aturan yang lama
+   ========================================================= */
+
+/* Sejajar dengan card (tidak lagi selebar layar), tanpa garis pemisah */
+.quiz { margin-inline: 0; }
+.quiz__panels {
+    height: 340px; gap: 14px; border: 0; border-image: none;
+    /* memudar halus ke kiri, kanan, dan bawah agar menyatu dengan latar */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%),
+                        linear-gradient(0deg, transparent 0%, #000 28%, #000 88%, transparent 100%);
+    -webkit-mask-composite: source-in;
+            mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%),
+                        linear-gradient(0deg, transparent 0%, #000 28%, #000 88%, transparent 100%);
+            mask-composite: intersect;
+}
+.quiz__panel { border: 0; border-radius: 4px; }
+.quiz__panel:first-child { margin-left: -60px; }
+.quiz__panel:nth-child(3) { margin-right: -60px; }
+.quiz__panel img { z-index: 1; transition: scale .8s cubic-bezier(.2, .7, .2, 1); }
+
+/* Judul & tombol di bawah panel, sedikit menumpuk ke panel */
+.quiz__head {
+    position: relative; z-index: 2; margin-top: -54px;
+    display: grid; justify-items: center; gap: 16px; text-align: center;
+}
+.quiz__title { text-shadow: 0 6px 24px rgba(0, 0, 0, .7); }
+.quiz__title::before, .quiz__title::after { width: 70px; opacity: .8; }
+.quiz__more { padding: 20px 24px 0; }
+
+/* ---------- Animasi 1: panel masuk dari kiri, bawah, kanan ---------- */
+.js .quiz .quiz__panel {
+    opacity: 0;
+    transition: opacity .9s ease, translate 1s cubic-bezier(.2, .7, .2, 1), filter .5s;
+}
+.js .quiz .quiz__panel--left   { translate: -80px 0; }
+.js .quiz .quiz__panel--center { translate: 0 60px; transition-delay: .15s; }
+.js .quiz .quiz__panel--right  { translate: 80px 0;  transition-delay: .3s; }
+.js .quiz.is-visible .quiz__panel { opacity: 1; translate: 0 0; }
+
+/* ---------- Animasi 2: papan soal melayang + cahaya emas berdenyut ---------- */
+.quiz__panel--center img { animation: melayang 4.5s ease-in-out infinite; }
+@keyframes melayang {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -10px; }
+}
+.quiz__panel--center::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 45% 40% at 50% 38%, rgba(240, 196, 110, .45), transparent 70%);
+    animation: denyut 3s ease-in-out infinite;
+}
+@keyframes denyut {
+    0%, 100% { opacity: .35; }
+    50%      { opacity: 1; }
+}
+
+/* ---------- Animasi 3: kilau emas menyapu ketiga panel berkala ---------- */
+.quiz__panels::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: -30%; width: 22%;
+    z-index: 3; pointer-events: none;
+    background: linear-gradient(100deg, transparent, rgba(255, 228, 160, .22), transparent);
+    transform: skewX(-14deg);
+    animation: sapuan 7s ease-in-out infinite 2s;
+}
+@keyframes sapuan {
+    0%       { left: -30%; }
+    35%, 100% { left: 115%; }
+}
+
+/* ---------- Animasi 4: hover = panel yang ditunjuk menyala, lainnya meredup ---------- */
+@media (hover: hover) {
+    .quiz__panels:hover .quiz__panel { filter: brightness(.55) saturate(.8); }
+    .quiz__panels .quiz__panel:hover { filter: none; }
+    .quiz__panel:hover img { scale: 1.06; }
+}
+
+/* ---------- Layar HP ---------- */
+@media (max-width: 960px) {
+    .quiz__panels { height: 280px; gap: 0; }
+    .quiz__head { margin-top: -40px; }
+    .js .quiz .quiz__panel--center { translate: 0 40px; }
+    .js .quiz.is-visible .quiz__panel--center { translate: 0 0; }
+}
+
+/* =========================================================
+   PERBAIKAN V5 - EFEK GLAMOR HERO
+   Ditaruh paling bawah agar menimpa aturan yang lama
+   ========================================================= */
+
+/* ---------- 1. Aura emas berdenyut di belakang penari ---------- */
+.hero::before {
+    content: ""; position: absolute; z-index: 1; pointer-events: none;
+    mix-blend-mode: screen;   /* cahaya menambah terang gambar di bawahnya */
+    top: 10%; right: 12%; width: 46vw; height: 46vw; max-width: 720px; max-height: 720px;
+    background: radial-gradient(circle, rgba(232, 190, 100, .22) 0%, rgba(200, 36, 58, .10) 40%, transparent 70%);
+    animation: aura 6s ease-in-out infinite;
+}
+@keyframes aura {
+    0%, 100% { opacity: .6; scale: 1; }
+    50%      { opacity: 1;  scale: 1.08; }
+}
+
+/* ---------- 2. Gambar perlahan membesar (efek sinematik) + bergeser ikut kursor ---------- */
+.hero__art {
+    z-index: 0;
+    animation: fadeIn 1.4s ease both, sinematik 22s ease-in-out 1.4s infinite alternate;
+    transition: translate .8s cubic-bezier(.2, .7, .2, 1);   /* untuk efek paralaks dari JS */
+}
+@keyframes sinematik {
+    from { scale: 1; }
+    to   { scale: 1.07; }
+}
+
+/* ---------- 3. Partikel debu emas melayang naik ---------- */
+.hero__sparkles { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.hero__sparkles span {
+    position: absolute; bottom: -12px; left: var(--x);
+    width: var(--s); height: var(--s); border-radius: 50%;
+    background: radial-gradient(circle, #fff6d8 0%, #e8c56f 55%, transparent 72%);
+    box-shadow: 0 0 10px 2px rgba(232, 197, 111, .55);
+    opacity: 0;
+    animation: debuEmas var(--t) linear var(--d) infinite;
+}
+@keyframes debuEmas {
+    0%   { translate: 0 0;          opacity: 0; }
+    10%  { opacity: 1; }
+    50%  { translate: 18px -45vh; }
+    85%  { opacity: .7; }
+    100% { translate: -12px -92vh;  opacity: 0; }
+}
+.hero__content { z-index: 2; }
+
+/* ---------- 4. Kilau emas berjalan pada judul ---------- */
+.hero__title {
+    background: linear-gradient(110deg, var(--text) 38%, #fff6d8 46%, #e8c56f 50%, #fff6d8 54%, var(--text) 62%);
+    background-size: 260% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 4px 18px rgba(0, 0, 0, .55));
+    animation: fadeUp .9s cubic-bezier(.2, .7, .2, 1) both, kilauJudul 5s ease-in-out 1.2s infinite;
+}
+@keyframes kilauJudul {
+    0%        { background-position: 100% 0; }
+    45%, 100% { background-position: -60% 0; }
+}
+
+/* Garis di kiri-kanan "CULTURE NEVER FADES" ikut berkilau */
+.divider::before, .divider::after {
+    background: linear-gradient(90deg, var(--gold-dark), #fff1c4, var(--gold-dark));
+    background-size: 200% 100%;
+    animation: kilauGaris 4s linear infinite;
+}
+@keyframes kilauGaris {
+    from { background-position: 200% 0; }
+    to   { background-position: 0 0; }
+}
+
+/* ---------- 5. Tombol "Masuk Ruangan" berpendar + kilau saat hover ---------- */
+.btn-outline {
+    position: relative; overflow: hidden;
+    animation: fadeUp .9s cubic-bezier(.2, .7, .2, 1) both, pendarTombol 2.8s ease-in-out 1.5s infinite;
+}
+@keyframes pendarTombol {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201, 162, 74, 0); }
+    50%      { box-shadow: 0 0 22px 2px rgba(201, 162, 74, .45); }
+}
+.btn-outline::before {
+    content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
+    background: linear-gradient(100deg, transparent, rgba(255, 236, 180, .35), transparent);
+    transform: skewX(-20deg);
+    transition: left .7s ease;
+}
+.btn-outline:hover::before { left: 120%; }
+.btn-outline .dot { animation: kedip 1.4s ease-in-out infinite; }
+@keyframes kedip {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(246, 236, 220, .6); }
+    50%      { opacity: .5; box-shadow: 0 0 0 6px rgba(246, 236, 220, 0); }
+}
+
+/* ---------- Perbaikan kecil: hilangkan garis tipis gelap di bawah navbar ---------- */
+.navbar { background-origin: border-box; }
+
+/* ---------- Layar HP: partikel dikurangi agar ringan ---------- */
+@media (max-width: 960px) {
+    .hero::before { width: 90vw; height: 90vw; right: -10%; }
+    .hero__sparkles span:nth-child(n + 12) { display: none; }
+}
+
+/* =========================================================
+   PERBAIKAN V6 - GAMBAR QUIZ BARU (tanpa karakter)
+   ========================================================= */
+.quiz__panels { height: 380px; }
+.quiz__panel:first-child img { left: -100px; }   /* jam pasir di tengah panel kiri */
+.quiz__panel--left img,
+.quiz__panel--right img { object-position: center 30%; }
+@media (max-width: 960px) {
+    .game-card--art-left .game-card__art { background-position: center 40%; }
+}

@@ -1,0 +1,144 @@
+/* =========================================================
+   MUSIVERSE - NAVBAR (dipakai semua halaman)
+   Berdiri sendiri: tidak bergantung pada musiverse.css / Tailwind
+   ========================================================= */
+
+.navbar {
+    --nav-gold: #c9a24a;
+    --nav-gold-light: #ead39a;
+    --nav-text: #f6ecdc;
+    --nav-muted: #d9c7b0;
+    --nav-red: #c8243a;
+    --nav-dark: #120307;
+
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    color: var(--nav-text);
+    /* transparan di atas, dengan bayangan tipis agar menu terbaca */
+    background: linear-gradient(180deg, rgba(10, 2, 5, .65), transparent);
+    background-origin: border-box;
+    border-bottom: 1px solid transparent;
+    transition: background .35s, border-color .35s, box-shadow .35s;
+}
+/* ditambahkan oleh app.js setelah halaman di-scroll */
+.navbar.is-scrolled, .navbar.menu-open {
+    background: rgba(14, 3, 7, .94);
+    -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+    border-bottom-color: rgba(201, 162, 74, .18);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+
+.navbar__inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; gap: 28px;
+    padding: 18px 24px;
+    transition: padding .35s;
+}
+.navbar.is-scrolled .navbar__inner { padding: 12px 24px; }
+
+/* Logo */
+.navbar .logo { display: flex; align-items: center; gap: 10px; color: var(--nav-text); text-decoration: none; }
+.navbar .logo__icon {
+    width: 38px; height: 38px; border-radius: 50%; position: relative; flex-shrink: 0;
+    background: linear-gradient(180deg, #5c1626 0 50%, var(--nav-text) 50% 100%);
+    border: 2px solid var(--nav-text);
+}
+.navbar .logo__icon::before {
+    content: ""; position: absolute; left: -12px; top: 50%;
+    width: 40px; height: 3px; background: var(--nav-red); transform: translateY(-50%);
+}
+.navbar .logo__text { font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 1.6rem; line-height: 1; }
+
+/* Menu */
+.navbar__menu { display: flex; gap: 30px; margin-left: auto; }
+.navbar__menu a {
+    position: relative; padding: 6px 2px; color: var(--nav-muted);
+    font-weight: 600; text-decoration: none;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
+    transition: color .2s;
+}
+.navbar__menu a:hover, .navbar__menu a.is-active { color: var(--nav-text); }
+.navbar__menu a::after {
+    content: ""; position: absolute; left: 50%; right: 50%; bottom: -4px;
+    height: 3px; border-radius: 3px; background: var(--nav-red);
+    transition: left .3s, right .3s;
+}
+.navbar__menu a:hover::after, .navbar__menu a.is-active::after { left: 0; right: 0; }
+
+/* Sisi kanan: badge, login/profil */
+.navbar__right { display: flex; align-items: center; gap: 14px; }
+
+.nav-badge {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 999px;
+    font-size: .7rem; font-weight: 700; letter-spacing: .12em; color: var(--nav-muted);
+    background: rgba(18, 3, 7, .55); border: 1px solid rgba(201, 162, 74, .35);
+    white-space: nowrap;
+}
+.nav-badge__main { color: var(--nav-gold-light); }
+.nav-badge__sep { color: rgba(201, 162, 74, .5); }
+.nav-badge__dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--nav-gold);
+    box-shadow: 0 0 8px var(--nav-gold);
+    animation: navDot 1.8s ease-in-out infinite;
+}
+@keyframes navDot { 50% { opacity: .35; } }
+
+.navbar .btn-login {
+    display: inline-block;
+    padding: 10px 22px; border-radius: 8px; font-weight: 700; white-space: nowrap;
+    color: #fff; text-decoration: none;
+    background: linear-gradient(90deg, #a3203f, #c96a2c);
+    transition: filter .2s, transform .2s;
+}
+.navbar .btn-login:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+/* Profil (setelah login) */
+.nav-profile { position: relative; }
+.nav-profile summary {
+    display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
+    padding: 4px 12px 4px 4px; border-radius: 999px;
+    border: 1px solid rgba(201, 162, 74, .45); background: rgba(18, 3, 7, .55);
+}
+.nav-profile summary::-webkit-details-marker { display: none; }
+.nav-profile__avatar {
+    width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+    display: grid; place-items: center; font-weight: 800; color: #410005;
+    background: linear-gradient(135deg, #ffe088, #e9c349 60%, #af8d11);
+}
+.nav-profile__name { font-weight: 700; font-size: .9rem; }
+.nav-profile__menu {
+    position: absolute; right: 0; top: calc(100% + 8px); min-width: 150px; padding: 6px;
+    border-radius: 10px; background: #1d060c; border: 1px solid rgba(201, 162, 74, .35);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .5);
+}
+.nav-profile__menu button {
+    width: 100%; text-align: left; padding: 8px 12px; border: 0; border-radius: 6px;
+    background: none; color: var(--nav-text); font: inherit; cursor: pointer;
+}
+.nav-profile__menu button:hover { background: rgba(201, 162, 74, .15); }
+
+.navbar__toggle { display: none; }
+
+/* Layar HP & tablet */
+@media (max-width: 1100px) { .nav-badge { display: none; } }
+@media (max-width: 960px) {
+    .navbar__inner, .navbar.is-scrolled .navbar__inner { padding: 12px 16px; gap: 14px; }
+    .navbar__toggle {
+        display: grid; gap: 5px; order: 3; margin-left: 4px;
+        background: none; border: 0; padding: 6px; cursor: pointer;
+    }
+    .navbar__toggle span { display: block; width: 24px; height: 2px; background: var(--nav-text); }
+    .navbar__right { margin-left: auto; }
+    .navbar__menu {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; gap: 0; padding: 8px 24px 16px; margin: 0;
+        background: rgba(14, 3, 7, .97);
+    }
+    .navbar__menu.is-open { display: flex; }
+    .navbar__menu a { padding: 12px 0; }
+    .navbar__menu a::after { display: none; }
+    .navbar .btn-login { padding: 8px 14px; font-size: .85rem; }
+    .nav-profile__name { display: none; }
+}

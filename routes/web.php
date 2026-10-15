@@ -24,6 +24,9 @@ Route::prefix('cagar-budaya')->group(function () {
     Route::get('/{slug}', [CagarBudayaController::class, 'show'])->name('cagar-budaya.show');
 });
 
+// Games (versi tampilan; route ruangan & permainan menyusul)
+Route::view('/games', 'games.index')->name('games.index');
+
 Route::prefix('audio-tour')->group(function () {
     Route::get('/{cagarBudaya}', [AudioTourController::class, 'show'])->name('audio-tour.show');
     Route::get('/play/{id}', [AudioTourController::class, 'play'])->name('audio-tour.play');
