@@ -1,0 +1,186 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+/* ============================================================
+   CAGAR BUDAYA PALEMBANG — Sriwijaya Heritage Design System
+   Tailwind CSS v4 Theme Configuration
+   ============================================================ */
+
+@theme {
+    /* Typography — Font Families */
+    --font-display: 'Noto Serif', serif;
+    --font-body: 'Manrope', sans-serif;
+    --font-label: 'Space Grotesk', sans-serif;
+    --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Noto Serif', ui-serif, Georgia, serif;
+
+    /* ── Color Palette: Sriwijaya Heritage (Dark Maroon + Gold Songket) ── */
+
+    /* Primary (Maroon / Rose Heritage) */
+    --color-primary: #ffb2b6;
+    --color-primary-container: #720921;
+    --color-primary-fixed: #ffdadb;
+    --color-primary-fixed-dim: #ffb2b6;
+    --color-on-primary: #67001b;
+    --color-on-primary-container: #fd7683;
+    --color-on-primary-fixed: #40000d;
+    --color-on-primary-fixed-variant: #871c2f;
+    --color-inverse-primary: #a83545;
+
+    /* Secondary (Gold Songket) */
+    --color-secondary: #e9c349;
+    --color-secondary-container: #af8d11;
+    --color-secondary-fixed: #ffe088;
+    --color-secondary-fixed-dim: #e9c349;
+    --color-on-secondary: #3c2f00;
+    --color-on-secondary-container: #342800;
+    --color-on-secondary-fixed: #241a00;
+    --color-on-secondary-fixed-variant: #574500;
+
+    /* Tertiary (Warm Coral) */
+    --color-tertiary: #ffb3af;
+    --color-tertiary-container: #760010;
+    --color-tertiary-fixed: #ffdad7;
+    --color-tertiary-fixed-dim: #ffb3af;
+    --color-on-tertiary: #68000d;
+    --color-on-tertiary-container: #ff7672;
+    --color-on-tertiary-fixed: #410005;
+    --color-on-tertiary-fixed-variant: #910618;
+
+    /* Surface (Deep Maroon Darks) */
+    --color-surface: #1c1013;
+    --color-surface-dim: #1c1013;
+    --color-surface-bright: #443539;
+    --color-surface-container-lowest: #160b0e;
+    --color-surface-container-low: #25181b;
+    --color-surface-container: #291c1f;
+    --color-surface-container-high: #34262a;
+    --color-surface-container-highest: #3f3134;
+    --color-surface-variant: #3f3134;
+    --color-surface-tint: #ffb2b6;
+    --color-on-surface: #f4dde1;
+    --color-on-surface-variant: #debfc0;
+    --color-inverse-surface: #f4dde1;
+    --color-inverse-on-surface: #3b2d30;
+
+    /* Background */
+    --color-background: #1c1013;
+    --color-on-background: #f4dde1;
+
+    /* Error */
+    --color-error: #ffb4ab;
+    --color-error-container: #93000a;
+    --color-on-error: #690005;
+    --color-on-error-container: #ffdad6;
+
+    /* Outline */
+    --color-outline: #a58a8b;
+    --color-outline-variant: #574142;
+
+    /* ── Spacing ── */
+    --spacing-space-xs: 0.25rem;
+    --spacing-space-sm: 0.5rem;
+    --spacing-space-md: 1rem;
+    --spacing-space-lg: 1.5rem;
+    --spacing-space-xl: 2.5rem;
+    --spacing-margin: 3rem;
+    --spacing-margin-mobile: 1.25rem;
+    --spacing-gutter: 1.5rem;
+    --spacing-gutter-mobile: 1rem;
+}
+
+/* ── Custom Keyframe Animations ── */
+@keyframes float-ember {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+    50% { transform: translateY(-20px) scale(1.15); opacity: 1; }
+}
+
+@keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(233, 195, 73, 0.3); }
+    50% { box-shadow: 0 0 28px rgba(233, 195, 73, 0.7); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes wave-bar {
+    0%, 100% { height: 4px; }
+    50% { height: 12px; }
+}
+
+/* ── Utility Layer ── */
+@layer utilities {
+    .animate-float-ember {
+        animation: float-ember 4s ease-in-out infinite;
+    }
+    .animate-glow-pulse {
+        animation: glow-pulse 2.5s ease-in-out infinite;
+    }
+    .animate-shimmer {
+        background-size: 200% 100%;
+        animation: shimmer 3s linear infinite;
+    }
+    .animate-wave-bar {
+        animation: wave-bar 1.2s ease-in-out infinite;
+    }
+    .text-gradient-gold {
+        background: linear-gradient(135deg, #ffd700 0%, #d4af37 38%, #b32d3e 78%, #9b111e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .text-shadow-gold {
+        text-shadow: 0 0 18px rgba(233, 195, 73, 0.4);
+    }
+    .border-gold {
+        border-color: rgba(233, 195, 73, 0.45);
+    }
+    .glow-gold {
+        box-shadow: 0 0 20px rgba(233, 195, 73, 0.45);
+    }
+    .glow-maroon {
+        box-shadow: 0 0 20px rgba(114, 9, 33, 0.45);
+    }
+    .bg-heritage-radial {
+        background: radial-gradient(circle at 50% 15%, #291c1f 0%, #1c1013 55%, #160b0e 100%);
+    }
+    .bg-card-dark {
+        background: linear-gradient(180deg, rgba(37, 24, 27, 0.85) 0%, rgba(22, 11, 14, 0.95) 100%);
+    }
+    .bg-glass-dark {
+        background: rgba(37, 24, 27, 0.88);
+    }
+    .bg-footer-gradient {
+        background: linear-gradient(180deg, #1c1013 0%, #160b0e 100%);
+    }
+}
+
+/* ── Base Layer ── */
+@layer base {
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        overscroll-behavior: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #160b0e;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #574142;
+        border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #a58a8b;
+    }
+}
