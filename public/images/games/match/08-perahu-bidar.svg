@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Perahu Bidar</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect x="0" y="0" width="200" height="200" fill="#f4dcb0"/><rect x="0" y="110" width="200" height="40" fill="#5b8fb0"/>
+<path d="M20 118 q8 -5 16 0 t16 0 M80 124 q8 -5 16 0 t16 0 M140 118 q8 -5 16 0 t16 0" fill="none" stroke="#dbeaf3" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="44" cy="96" r="5" fill="#f0c49a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M44 101 L36 128" stroke="#7a4220" stroke-width="2.5"/><circle cx="60" cy="96" r="5" fill="#f0c49a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M60 101 L52 128" stroke="#7a4220" stroke-width="2.5"/><circle cx="76" cy="96" r="5" fill="#f0c49a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M76 101 L68 128" stroke="#7a4220" stroke-width="2.5"/><circle cx="92" cy="96" r="5" fill="#f0c49a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M92 101 L84 128" stroke="#7a4220" stroke-width="2.5"/><circle cx="108" cy="96" r="5" fill="#f0c49a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M108 101 L100 128" stroke="#7a4220" stroke-width="2.5"/><circle cx="124" cy="96" r="5" fill="#f0c49a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M124 101 L116 128" stroke="#7a4220" stroke-width="2.5"/><circle cx="140" cy="96" r="5" fill="#f0c49a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M140 101 L132 128" stroke="#7a4220" stroke-width="2.5"/><circle cx="156" cy="96" r="5" fill="#f0c49a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M156 101 L148 128" stroke="#7a4220" stroke-width="2.5"/>
+<path d="M14 104 L182 104 Q178 116 160 118 L36 118 Q18 116 14 104Z" fill="#c8243a" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M20 108 H178" stroke="#e9c349" stroke-width="3"/>
+<path d="M182 104 Q194 88 184 76 Q176 70 172 80 Q180 82 178 92 Z" fill="#e9c349" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="180" cy="80" r="1.8" fill="#3a0d17"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="21">Perahu Bidar</text></g>
+</svg>

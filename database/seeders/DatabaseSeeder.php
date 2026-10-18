@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class,
             CagarBudayaSeeder::class,
             AudioTourSeeder::class,
-            CardItemSeeder::class,
             KuisQuestionSeeder::class,
-            RoomSeeder::class,
+            KartuMatchSeeder::class,
+            TebakGambarSeeder::class,
         ]);
     }
 }

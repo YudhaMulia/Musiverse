@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><title>Kerudung Songket</title><clipPath id="c"><circle cx="60" cy="60" r="60"/></clipPath><g clip-path="url(#c)"><circle cx="60" cy="60" r="60" fill="#44101d"/><path d="M0 60 Q30 40 60 60 T120 60 V120 H0Z" fill="#000" opacity=".12"/><path d="M26 120 L26 70 Q26 30 60 30 Q94 30 94 70 L94 120Z" fill="#5c1626" stroke="#2a0710" stroke-width="3"/><circle cx="60" cy="64" r="27" fill="#c98d5f" stroke="#2a0710" stroke-width="3"/>
+<circle cx="50" cy="65" r="3.4" fill="#2a0710"/><circle cx="70" cy="65" r="3.4" fill="#2a0710"/>
+<circle cx="51" cy="64" r="1.1" fill="#fff"/><circle cx="71" cy="64" r="1.1" fill="#fff"/>
+<ellipse cx="43" cy="73" rx="4.5" ry="3" fill="#e46a6a" opacity=".45"/><ellipse cx="77" cy="73" rx="4.5" ry="3" fill="#e46a6a" opacity=".45"/>
+<path d="M53 74 Q60 81 67 74" fill="none" stroke="#2a0710" stroke-width="2.6" stroke-linecap="round"/><path d="M33 62 Q34 36 60 36 Q86 36 87 62 Q80 46 60 45 Q40 46 33 62Z" fill="#5c1626" stroke="#2a0710" stroke-width="3" stroke-linejoin="round"/>
+<path d="M38 50 Q60 40 82 50" fill="none" stroke="#e9c349" stroke-width="2.5"/></g></svg>

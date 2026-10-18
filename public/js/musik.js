@@ -9,6 +9,9 @@
     const audio = document.getElementById('musikLatar');
     const tombol = document.getElementById('tombolMusik');
     if (!audio || !tombol) return;
+    
+    // Halaman permainan memakai musik sendiri (lihat js/suara.js), jadi musik latar dilewati di sini
+    if (document.querySelector('[data-match], [data-quiz], [data-puzzle]')) return;
 
     const KUNCI_STATUS = 'musiverse_musik_status';   // 'on' atau 'off'
     const KUNCI_POSISI = 'musiverse_musik_posisi';   // { t: detik, at: waktu disimpan }

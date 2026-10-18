@@ -5,18 +5,23 @@
         <h2 class="game-title">Musiverse Match</h2>
 
         <p class="game-desc">
-            64 kartu tersembunyi menyimpan 32 pasang gambar budaya Palembang. Buka dua kartu,
+            36 kartu tersembunyi menyimpan 18 pasang gambar budaya Palembang. Buka dua kartu,
             temukan pasangan yang sama, dan terus jalan selama tebakanmu tepat.
             Sekali meleset, giliran pindah ke lawan!
         </p>
 
         <div class="btn-row">
-            <x-btn-play label="Main Sendiri" data-solo="Musiverse Match" />
-            <x-btn-play label="Main Bersama" data-open="modal-buat" data-game="Musiverse Match" />
+            <x-btn-play label="Main Sendiri" :href="route('games.match.play', ['solo' => 1])" />
+            @auth
+                <x-btn-play label="Main Bersama" :href="route('games.room', 'match')" />
+            @else
+                <x-btn-play label="Main Bersama" data-open="modal-login"
+                            data-kembali="{{ route('games.room', 'match', false) }}" />
+            @endauth
         </div>
 
         <ul class="badges">
-            <li>8&times;8 Kartu</li>
+            <li>6&times;6 Kartu</li>
             <li>2&ndash;4 Pemain</li>
             <li>Bergiliran</li>
         </ul>

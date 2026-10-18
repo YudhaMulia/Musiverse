@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Kain Songket</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7ead2"/>
+<path d="M30 60 L170 52 L176 132 L24 140Z" fill="#7a1530" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M28 74 L171 66 M26 122 L174 114" stroke="#e9c349" stroke-width="7"/>
+<g fill="none" stroke="#e9c349" stroke-width="2.5">
+<path d="M60 96 l10 -10 l10 10 l-10 10z M98 94 l10 -10 l10 10 l-10 10z M136 92 l10 -10 l10 10 l-10 10z"/></g>
+<g fill="#e9c349"><circle cx="70" cy="96" r="3"/><circle cx="108" cy="94" r="3"/><circle cx="146" cy="92" r="3"/>
+<circle cx="44" cy="98" r="2"/><circle cx="88" cy="96" r="2"/><circle cx="126" cy="94" r="2"/><circle cx="162" cy="92" r="2"/></g>
+<path d="M24 140 L176 132 L176 142 L24 150Z" fill="#5c0f22" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="21">Kain Songket</text></g>
+</svg>

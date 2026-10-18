@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Pempek Lenjer</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7ead2"/><ellipse cx="88" cy="132" rx="70" ry="18" fill="#d9c9a8"/><ellipse cx="88" cy="128" rx="70" ry="18" fill="#ffffff" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="88" cy="128" rx="56" ry="12" fill="none" stroke="#e6dcc8" stroke-width="2"/>
+<rect x="32" y="96" width="70" height="26" rx="13" fill="#e2c08a" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<g stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><ellipse cx="114" cy="112" rx="12" ry="12" fill="#f3e2bf"/><ellipse cx="114" cy="112" rx="8" ry="8" fill="#fbf2dc" stroke="none"/>
+<ellipse cx="140" cy="116" rx="12" ry="12" fill="#f3e2bf"/><ellipse cx="72" cy="128" rx="11" ry="9" fill="#f3e2bf"/></g>
+<path d="M44 104 h4 M60 102 h3 M80 104 h4" stroke="#b9925a" stroke-width="2"/><ellipse cx="160" cy="114" rx="22" ry="5" fill="#d9c9a8"/>
+<path d="M138 96 Q140 116 160 116 Q180 116 182 96Z" fill="#fff" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="160" cy="96" rx="22" ry="7" fill="#4a1d0e" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="150" y="93" width="5" height="4" fill="#7fb35a"/><rect x="163" y="94" width="5" height="4" fill="#7fb35a"/><circle cx="159" cy="97" r="1.6" fill="#c8243a"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="21">Pempek Lenjer</text></g>
+</svg>

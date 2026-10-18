@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Perahu Ketek</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect x="0" y="0" width="200" height="200" fill="#f6dfb8"/><rect x="0" y="110" width="200" height="40" fill="#5b8fb0"/>
+<path d="M20 118 q8 -5 16 0 t16 0 M80 124 q8 -5 16 0 t16 0 M140 118 q8 -5 16 0 t16 0" fill="none" stroke="#dbeaf3" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M28 108 L172 108 L156 128 L44 128Z" fill="#9c5a2c" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M30 108 H170" stroke="#c9a24a" stroke-width="3"/>
+<rect x="64" y="84" width="72" height="24" fill="#d9a94f" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M58 86 L100 66 L142 86Z" fill="#a3203f" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="74" y="90" width="14" height="12" fill="#5b8fb0" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><rect x="112" y="90" width="14" height="12" fill="#5b8fb0" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="160" y="100" width="12" height="10" fill="#555" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M172 104 L184 132" stroke="#3a0d17" stroke-width="3"/>
+<path d="M150 136 q10 -5 20 0" fill="none" stroke="#fff" stroke-width="2.5"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="21">Perahu Ketek</text></g>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Pempek Kapal Selam</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7ead2"/><ellipse cx="84" cy="130" rx="66" ry="18" fill="#d9c9a8"/><ellipse cx="84" cy="126" rx="66" ry="18" fill="#ffffff" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="84" cy="126" rx="52" ry="12" fill="none" stroke="#e6dcc8" stroke-width="2"/>
+<path d="M34 116 Q40 76 84 74 Q128 76 132 116 Q84 128 34 116Z" fill="#d79a4a" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M50 112 Q60 92 84 90 Q108 92 116 112 Q84 120 50 112Z" fill="#f7e7c3" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="84" cy="106" rx="16" ry="9" fill="#f2b632" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M44 92 l6 -3 M120 92 l-6 -3 M70 80 l4 -2" stroke="#a9682a" stroke-width="2"/><ellipse cx="158" cy="130" rx="22" ry="5" fill="#d9c9a8"/>
+<path d="M136 112 Q138 132 158 132 Q178 132 180 112Z" fill="#fff" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="158" cy="112" rx="22" ry="7" fill="#4a1d0e" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="148" y="109" width="5" height="4" fill="#7fb35a"/><rect x="161" y="110" width="5" height="4" fill="#7fb35a"/><circle cx="157" cy="113" r="1.6" fill="#c8243a"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="170" text-anchor="middle" font-size="18">Pempek</text><text x="100" y="189" text-anchor="middle" font-size="18">Kapal Selam</text></g>
+</svg>

@@ -14,8 +14,13 @@
         </p>
 
         <div class="btn-row">
-            <x-btn-play label="Main Sendiri" data-solo="Musiverse Puzzle" />
-            <x-btn-play label="Main Bersama" data-open="modal-buat" data-game="Musiverse Puzzle" />
+            <x-btn-play label="Main Sendiri" :href="route('games.puzzle.play', ['solo' => 1])" />
+            @auth
+                <x-btn-play label="Main Bersama" :href="route('games.room', 'puzzle')" />
+            @else
+                <x-btn-play label="Main Bersama" data-open="modal-login"
+                            data-kembali="{{ route('games.room', 'puzzle', false) }}" />
+            @endauth
         </div>
 
         <ul class="badges">

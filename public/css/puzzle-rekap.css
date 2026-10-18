@@ -1,0 +1,116 @@
+/* =========================================================
+   MUSIVERSE PUZZLE - bagian khusus halaman rekap
+   Dipakai oleh: resources/views/games/puzzle-rekap.blade.php
+   Kartu, tombol, dan chip memakai public/css/rekap.css (sama dengan rekap Match & Quiz).
+   File ini hanya untuk daftar yang dibuat oleh puzzle-rekap.js (awalan "pr-").
+   Warna sengaja memakai abu transparan supaya terbaca di latar terang maupun gelap.
+   ========================================================= */
+
+/* atribut hidden harus menang atas display dari rekap.css */
+.rekap [hidden] { display: none !important; }
+
+/* ---------- Peringkat pemain ---------- */
+.pr-peringkat { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.pr-pemain {
+    display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 10px; border-radius: 14px;
+    border: 1px solid rgba(128, 128, 128, .35); background: rgba(128, 128, 128, .10);
+}
+.pr-pemain--kamu { border-color: #d4af37; box-shadow: inset 0 0 0 1px #d4af37; }
+.pr-pemain__no {
+    width: 30px; height: 30px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%;
+    font-weight: 800; font-size: .85rem; color: #2b2b2b; background: var(--warna, #d4af37);
+}
+.pr-pemain img { width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; border: 2px solid var(--warna, #d4af37); max-width: none; }
+.pr-pemain__teks { flex: 1; min-width: 0; }
+.pr-pemain__nama { margin: 0; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pr-pemain__sub { font-size: .8rem; opacity: .75; }
+.pr-pemain__poin { font-weight: 800; white-space: nowrap; }
+.pr-pemain--juara .pr-pemain__nama::after { content: " \1F451"; }
+
+/* ---------- Pemenang tiap gambar (10 kotak) ---------- */
+/* kartu ini melebar penuh di tata letak dua kolom */
+.pr-jejak-kartu { grid-column: 1 / -1; }
+.pr-jejak { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+@media (min-width: 640px) { .pr-jejak { grid-template-columns: repeat(10, 1fr); } }
+.pr-jejak__sel {
+    position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: 14px;
+    border: 2px solid var(--warna, rgba(128, 128, 128, .45)); background: rgba(128, 128, 128, .10);
+}
+.pr-jejak__sel img { width: 62%; height: 62%; border-radius: 50%; max-width: none; border: 2px solid var(--warna, #d4af37); background: #fff; }
+.pr-jejak__no {
+    position: absolute; top: -8px; left: -6px; width: 22px; height: 22px; display: grid; place-items: center;
+    border-radius: 50%; font-size: .72rem; font-weight: 800; color: #2b2b2b; background: #d4af37;
+}
+.pr-jejak__sel.is-kosong { border-style: dashed; }
+.pr-jejak__silang { font-size: 1.5rem; font-weight: 800; color: #a8323a; }
+
+/* ---------- Kontrol review ---------- */
+.pr-kontrol { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; justify-content: flex-end; }
+.pr-saring { display: inline-flex; align-items: center; gap: 6px; font-size: .85rem; cursor: pointer; }
+.pr-buka {
+    padding: 4px 14px; border-radius: 999px; font-size: .8rem; font-weight: 800; cursor: pointer;
+    color: inherit; background: transparent; border: 2px solid #d4af37;
+    transition: background .15s;
+}
+.pr-buka:hover { background: rgba(212, 175, 55, .22); }
+
+/* ---------- Review gambar ---------- */
+.pr-review { display: grid; gap: 10px; margin-top: 12px; }
+.pr-soal { border: 1px solid rgba(128, 128, 128, .35); border-radius: 14px; background: rgba(128, 128, 128, .08); }
+.pr-soal--salah, .pr-soal--direbut, .pr-soal--kosong { border-left: 4px solid #a8323a; }
+.pr-soal--benar { border-left: 4px solid #d4af37; }
+.pr-soal__ringkas {
+    display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; cursor: pointer; list-style: none;
+}
+.pr-soal__ringkas::-webkit-details-marker { display: none; }
+.pr-soal__mini {
+    width: 52px; height: 52px; flex-shrink: 0; border-radius: 10px; object-fit: cover; max-width: none;
+    border: 2px solid rgba(128, 128, 128, .4); background: rgba(128, 128, 128, .2);
+}
+.pr-soal__judul { flex: 1; min-width: 0; display: grid; line-height: 1.25; }
+.pr-soal__judul small { font-size: .72rem; opacity: .7; font-weight: 700; }
+.pr-soal__judul b { font-size: 1rem; overflow-wrap: anywhere; }
+.pr-status { flex-shrink: 0; padding: 2px 10px; border-radius: 999px; font-size: .72rem; font-weight: 800; white-space: nowrap; }
+.pr-status--benar { color: #2b2b2b; background: #d4af37; }
+.pr-status--salah { color: #f9f6f0; background: #7a1c1c; }
+.pr-status--direbut { color: #f9f6f0; background: #8a5a2b; }
+.pr-status--kosong { color: #fff; background: #6f6554; }
+
+.pr-soal__isi { padding: 0 14px 14px; display: grid; gap: 12px; }
+.pr-soal__besar {
+    width: 100%; max-height: 260px; object-fit: contain; max-width: none; border-radius: 12px;
+    background: rgba(128, 128, 128, .15);
+}
+
+/* kotak penjelasan */
+.pr-penjelasan {
+    padding: 12px 16px; border-radius: 12px;
+    border: 1px dashed rgba(179, 139, 45, .75); background: rgba(212, 175, 55, .12);
+}
+.pr-penjelasan__judul { margin: 0 0 4px; font-weight: 800; font-size: .85rem; color: #b38b2d; }
+.pr-penjelasan__teks { margin: 0; font-size: .95rem; line-height: 1.5; }
+
+/* riwayat tebakan */
+.pr-riwayat { display: grid; gap: 8px; }
+.pr-riwayat__judul { margin: 0; font-weight: 800; font-size: .8rem; opacity: .8; }
+.pr-riwayat__kosong, .pr-riwayat__hasil { margin: 0; font-size: .85rem; opacity: .85; }
+.pr-riwayat__daftar { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.pr-tebak {
+    display: flex; align-items: center; gap: 10px; padding: 5px 12px 5px 6px; border-radius: 999px;
+    border: 2px solid rgba(128, 128, 128, .35);
+}
+.pr-tebak img { width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; max-width: none; border: 2px solid var(--warna, #d4af37); }
+.pr-tebak__nama { font-weight: 800; font-size: .85rem; white-space: nowrap; }
+.pr-tebak__teks { flex: 1; min-width: 0; font-size: .9rem; overflow-wrap: anywhere; }
+.pr-tebak__tanda { font-weight: 800; }
+.pr-tebak.is-benar { border-color: #d4af37; background: rgba(212, 175, 55, .22); }
+.pr-tebak.is-salah { border-color: #a8323a; background: rgba(168, 50, 58, .16); }
+.pr-tebak.is-salah .pr-tebak__teks { text-decoration: line-through; opacity: .8; }
+
+@media (max-width: 640px) {
+    .pr-soal__ringkas { gap: 8px; padding: 8px; }
+    .pr-soal__mini { width: 44px; height: 44px; }
+    .pr-pemain { padding-right: 10px; gap: 8px; }
+    .pr-pemain__poin { font-size: .85rem; }
+    .pr-kontrol { justify-content: flex-start; }
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><title>Kepang Dua</title><clipPath id="c"><circle cx="60" cy="60" r="60"/></clipPath><g clip-path="url(#c)"><circle cx="60" cy="60" r="60" fill="#6b2a4a"/><path d="M0 60 Q30 40 60 60 T120 60 V120 H0Z" fill="#000" opacity=".12"/><path d="M32 62 Q28 90 36 104" fill="none" stroke="#2b1410" stroke-width="9" stroke-linecap="round"/>
+<path d="M88 62 Q92 90 84 104" fill="none" stroke="#2b1410" stroke-width="9" stroke-linecap="round"/>
+<path d="M33 66 Q30 34 60 35 Q90 34 87 66 Q84 50 60 47 Q36 50 33 66Z" fill="#2b1410" stroke="#2a0710" stroke-width="3" stroke-linejoin="round"/><circle cx="36" cy="104" r="4" fill="#c8243a" stroke="#2a0710" stroke-width="2"/><circle cx="84" cy="104" r="4" fill="#c8243a" stroke="#2a0710" stroke-width="2"/><path d="M22 122 Q24 92 60 90 Q96 92 98 122Z" fill="#e9cd7e" stroke="#2a0710" stroke-width="3"/><path d="M48 92 L60 104 L72 92" fill="none" stroke="#2a0710" stroke-width="2.5"/><circle cx="60" cy="64" r="27" fill="#c48a5c" stroke="#2a0710" stroke-width="3"/>
+<circle cx="50" cy="65" r="3.4" fill="#2a0710"/><circle cx="70" cy="65" r="3.4" fill="#2a0710"/>
+<circle cx="51" cy="64" r="1.1" fill="#fff"/><circle cx="71" cy="64" r="1.1" fill="#fff"/>
+<ellipse cx="43" cy="73" rx="4.5" ry="3" fill="#e46a6a" opacity=".45"/><ellipse cx="77" cy="73" rx="4.5" ry="3" fill="#e46a6a" opacity=".45"/>
+<path d="M53 74 Q60 81 67 74" fill="none" stroke="#2a0710" stroke-width="2.6" stroke-linecap="round"/></g></svg>

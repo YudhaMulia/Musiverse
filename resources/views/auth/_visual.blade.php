@@ -1,0 +1,2 @@
+{{-- Panel gambar. Pemakaian: @include('auth._visual', ['gambar' => 'login.jpg']) --}}
+<aside class="auth__visual" style="--gambar: url('{{ asset('images/auth/'.$gambar) }}')" aria-hidden="true"></aside>

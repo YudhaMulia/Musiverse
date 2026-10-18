@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Rumah Limas</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect x="0" y="0" width="200" height="200" fill="#f1e6cf"/>
+<rect x="0" y="140" width="200" height="30" fill="#a9be86"/>
+<g fill="#6b3a1c" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="46" y="116" width="7" height="26"/><rect x="78" y="116" width="7" height="26"/><rect x="115" y="116" width="7" height="26"/><rect x="147" y="116" width="7" height="26"/></g>
+<rect x="38" y="90" width="124" height="28" fill="#a8642f" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<g stroke="#7a4220" stroke-width="2"><path d="M60 90 V118 M82 90 V118 M118 90 V118 M140 90 V118"/></g>
+<rect x="92" y="96" width="16" height="22" fill="#5a2d14" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M28 92 L172 92 L150 62 L50 62Z" fill="#6b2a14" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M54 62 L146 62 L128 40 L72 40Z" fill="#7d3418" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M66 40 L72 26 M134 40 L128 26" stroke="#3a0d17" stroke-width="3"/><circle cx="72" cy="25" r="3" fill="#c9a24a"/><circle cx="128" cy="25" r="3" fill="#c9a24a"/>
+<path d="M92 118 L86 142 M108 118 L114 142 M88 126 H112 M87 134 H113" stroke="#6b3a1c" stroke-width="3"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="21">Rumah Limas</text></g>
+</svg>

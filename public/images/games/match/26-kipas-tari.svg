@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Kipas Tari</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7e6cf"/>
+<path d="M100 132 L180.8 117.8 A82 82 0 0 0 19.2 117.8Z" fill="#e9c349" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M100 132 L155.1 122.3 A56 56 0 0 0 44.9 122.3Z" fill="#a3203f"/>
+<path d="M100 132 L179.2 110.8" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L171.0 91.0" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L158.0 74.0" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L141.0 61.0" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L121.2 52.8" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L100.0 50.0" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L78.8 52.8" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L59.0 61.0" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L42.0 74.0" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L29.0 91.0" stroke="#8a6424" stroke-width="2"/><path d="M100 132 L20.8 110.8" stroke="#8a6424" stroke-width="2"/>
+<path d="M168.9 119.8 A70 70 0 0 0 31.1 119.8" fill="none" stroke="#fff3c4" stroke-width="2" stroke-dasharray="3 5"/>
+<circle cx="100" cy="132" r="7" fill="#8a6424" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M100 139 Q96 150 104 154" fill="none" stroke="#c8243a" stroke-width="3"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="25">Kipas Tari</text></g>
+</svg>

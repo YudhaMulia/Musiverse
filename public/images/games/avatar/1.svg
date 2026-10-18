@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><title>Tanjak Merah</title><clipPath id="c"><circle cx="60" cy="60" r="60"/></clipPath><g clip-path="url(#c)"><circle cx="60" cy="60" r="60" fill="#7a1530"/><path d="M0 60 Q30 40 60 60 T120 60 V120 H0Z" fill="#000" opacity=".12"/><path d="M22 122 Q24 92 60 90 Q96 92 98 122Z" fill="#c9a24a" stroke="#2a0710" stroke-width="3"/><path d="M48 92 L60 104 L72 92" fill="none" stroke="#2a0710" stroke-width="2.5"/><circle cx="60" cy="64" r="27" fill="#f2c9a0" stroke="#2a0710" stroke-width="3"/>
+<circle cx="50" cy="65" r="3.4" fill="#2a0710"/><circle cx="70" cy="65" r="3.4" fill="#2a0710"/>
+<circle cx="51" cy="64" r="1.1" fill="#fff"/><circle cx="71" cy="64" r="1.1" fill="#fff"/>
+<ellipse cx="43" cy="73" rx="4.5" ry="3" fill="#e46a6a" opacity=".45"/><ellipse cx="77" cy="73" rx="4.5" ry="3" fill="#e46a6a" opacity=".45"/>
+<path d="M53 74 Q60 81 67 74" fill="none" stroke="#2a0710" stroke-width="2.6" stroke-linecap="round"/><path d="M30 54 L60 18 L90 54 Q60 46 30 54Z" fill="#a3203f" stroke="#2a0710" stroke-width="3" stroke-linejoin="round"/>
+<path d="M44 40 L76 40 M50 32 L70 32" stroke="#e9c349" stroke-width="2.5"/>
+<path d="M31 54 Q60 44 89 54 L88 59 Q60 50 32 59Z" fill="#e9c349" stroke="#2a0710" stroke-width="2.5" stroke-linejoin="round"/></g></svg>

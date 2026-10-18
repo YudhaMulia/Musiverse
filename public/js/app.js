@@ -18,6 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
         navbar.classList.toggle('menu-open');
     });
 
+    // 2b. Kartu profil: tutup saat klik di luar kartu atau tekan Esc
+    const profil = document.querySelector('[data-profil]');
+    if (profil) {
+        document.addEventListener('click', (e) => {
+            if (!profil.contains(e.target)) profil.removeAttribute('open');
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') profil.removeAttribute('open');
+        });
+    }
+
     // 3. Animasi fade-up: elemen dengan class "reveal" muncul saat terlihat di layar
     const elemenReveal = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window) {

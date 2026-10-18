@@ -14,6 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const namaGame = modal.querySelector('[data-game-name]');
             if (namaGame && tombol.dataset.game) namaGame.textContent = tombol.dataset.game;
 
+            // modal ajak masuk: titipkan tujuan semula ke link Masuk & Daftar
+            if (tombol.dataset.kembali) {
+                modal.querySelectorAll('[data-link-auth]').forEach((a) => {
+                    const url = new URL(a.getAttribute('href'), window.location.origin);
+                    url.searchParams.set('kembali', tombol.dataset.kembali);
+                    a.href = url.toString();
+                });
+            }
+
             modal.showModal();
         });
     });

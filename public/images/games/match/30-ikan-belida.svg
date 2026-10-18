@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Ikan Belida</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#e6f0f2"/>
+<path d="M24 96 Q40 56 100 52 Q140 52 160 92 L188 74 L184 116 L160 104 Q130 128 80 124 Q36 120 24 96Z" fill="#c4ced6" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M30 100 Q90 112 160 100" fill="none" stroke="#e9eef2" stroke-width="4"/>
+<path d="M74 54 Q100 44 120 56" fill="#9fb0bd" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="120" cy="102" r="3.5" fill="#4a5a68"/><circle cx="132" cy="96" r="3.5" fill="#4a5a68"/><circle cx="140" cy="106" r="3.5" fill="#4a5a68"/><circle cx="128" cy="110" r="3.5" fill="#4a5a68"/><circle cx="146" cy="98" r="3.5" fill="#4a5a68"/>
+<circle cx="44" cy="90" r="5" fill="#fff" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="44" cy="90" r="2" fill="#3a0d17"/>
+<path d="M26 100 q6 2 10 -2" fill="none" stroke="#3a0d17" stroke-width="2"/>
+<path d="M80 122 L90 138 L100 122" fill="#9fb0bd" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="21">Ikan Belida</text></g>
+</svg>

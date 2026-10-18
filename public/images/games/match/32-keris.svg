@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Keris</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7ead2"/><g transform="translate(14 -12) scale(.9)">
+<path d="M58 140 L66 128 Q60 118 72 112 Q66 100 80 96 Q74 84 88 80 Q84 68 98 64 Q96 52 108 50 L150 22 L118 60 Q122 72 108 74 Q112 86 98 88 Q102 100 88 102 Q92 114 78 116 Q82 128 70 132Z" fill="#c4ced6" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M66 134 L146 26" stroke="#e9eef2" stroke-width="2"/>
+<path d="M44 146 L66 128 L74 136 L54 156Z" fill="#c9a24a" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M54 156 Q40 168 30 160 Q36 150 44 146Z" fill="#6b3a1c" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M132 120 L176 96 Q186 104 176 112 L140 136 Q128 132 132 120Z" fill="#8a4a1c" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M140 124 L174 104" stroke="#c9a24a" stroke-width="2.5"/></g></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="25">Keris</text></g>
+</svg>

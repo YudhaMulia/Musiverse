@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Mi Celor</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f3ead8"/><ellipse cx="100" cy="138" rx="42.48" ry="6" fill="#d9c9a8"/>
+<path d="M41.0 82 Q47.0 132 100 132 Q153.0 132 159.0 82Z" fill="#fff" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M51.0 102 Q100 116 149.0 102" fill="none" stroke="#e8b52e" stroke-width="4"/>
+<ellipse cx="100" cy="82" rx="59.0" ry="13" fill="#fff" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<g><ellipse cx="100" cy="82" rx="54" ry="10" fill="#f3e6c8"/>
+<path d="M58 82 q6 -8 12 0 t12 0 t12 0 t12 0 t12 0 t12 0 t12 0" fill="none" stroke="#e8b52e" stroke-width="4"/>
+<path d="M64 76 q6 -6 12 0 t12 0 t12 0 t12 0 t12 0" fill="none" stroke="#e8b52e" stroke-width="4"/>
+<ellipse cx="118" cy="70" rx="14" ry="10" fill="#fff" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="118" cy="70" r="6" fill="#f2b632"/>
+<path d="M70 70 l8 -6 M86 66 l6 -6" stroke="#4f9a3c" stroke-width="3"/></g></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="25">Mi Celor</text></g>
+</svg>

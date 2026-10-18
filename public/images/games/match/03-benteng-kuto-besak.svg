@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Benteng Kuto Besak</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect x="0" y="0" width="200" height="200" fill="#f3e3c3"/>
+<rect x="0" y="138" width="200" height="30" fill="#9db37a"/>
+<rect x="26" y="82" width="148" height="58" fill="#e7c06e" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M26 82 v-10 h12 v10 h10 v-10 h12 v10 h10 v-10 h12 v10 h12 v-10 h12 v10 h10 v-10 h12 v10 h10 v-10 h12 v10" fill="#e7c06e" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="16" y="60" width="26" height="80" fill="#d9a94f" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><rect x="158" y="60" width="26" height="80" fill="#d9a94f" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M14 62 L29 46 L44 62Z M156 62 L171 46 L186 62Z" fill="#a3203f" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M84 140 V108 a16 16 0 0 1 32 0 V140Z" fill="#5a2d14" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="88" y="66" width="24" height="16" fill="#e7c06e" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M86 66 L100 54 L114 66Z" fill="#a3203f" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="52" y="100" width="12" height="14" fill="#5a2d14" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><rect x="136" y="100" width="12" height="14" fill="#5a2d14" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="170" text-anchor="middle" font-size="18">Benteng</text><text x="100" y="189" text-anchor="middle" font-size="18">Kuto Besak</text></g>
+</svg>

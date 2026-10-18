@@ -1,0 +1,90 @@
+/* =========================================================
+   MUSIVERSE QUIZ - bagian khusus halaman rekap
+   Dipakai oleh: resources/views/games/quiz-rekap.blade.php
+   Kartu, tombol, dan chip memakai public/css/rekap.css (sama dengan rekap Match).
+   File ini hanya untuk daftar yang dibuat oleh quiz-rekap.js (awalan "kr-").
+   Warna sengaja memakai abu transparan supaya terbaca di latar terang maupun gelap.
+   ========================================================= */
+
+/* atribut hidden harus menang atas display dari rekap.css */
+.rekap [hidden] { display: none !important; }
+
+/* ---------- Peringkat pemain ---------- */
+.kr-peringkat, .kr-kategori { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.kr-pemain {
+    display: flex; align-items: center; gap: 12px; padding: 8px 16px 8px 10px; border-radius: 14px;
+    border: 1px solid rgba(128, 128, 128, .35); background: rgba(128, 128, 128, .10);
+}
+.kr-pemain--kamu { border-color: #d4af37; box-shadow: inset 0 0 0 1px #d4af37; }
+.kr-pemain__no {
+    width: 30px; height: 30px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%;
+    font-weight: 800; font-size: .85rem; color: #2b2b2b; background: var(--warna, #d4af37);
+}
+.kr-pemain img { width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; border: 2px solid var(--warna, #d4af37); max-width: none; }
+.kr-pemain__teks { flex: 1; min-width: 0; }
+.kr-pemain__nama { margin: 0; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kr-pemain__sub { font-size: .8rem; opacity: .75; }
+.kr-pemain__poin { font-weight: 800; white-space: nowrap; }
+.kr-pemain--juara .kr-pemain__nama::after { content: " \1F451"; }
+
+/* ---------- Per kategori ---------- */
+.kr-kat__atas { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 4px; font-weight: 700; font-size: .92rem; }
+.kr-kat__nilai { font-variant-numeric: tabular-nums; }
+.kr-batang { height: 10px; border-radius: 999px; overflow: hidden; background: rgba(128, 128, 128, .28); }
+.kr-batang > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #b38b2d, #d4af37); }
+
+/* ---------- Review soal ---------- */
+.kr-saring { display: inline-flex; align-items: center; gap: 6px; font-size: .85rem; cursor: pointer; }
+.kr-review { display: grid; gap: 10px; margin-top: 12px; }
+.kr-soal { border: 1px solid rgba(128, 128, 128, .35); border-radius: 14px; background: rgba(128, 128, 128, .08); }
+.kr-soal--salah, .kr-soal--habis { border-left: 4px solid #a8323a; }
+.kr-soal--benar { border-left: 4px solid #d4af37; }
+.kr-soal__ringkas {
+    display: flex; align-items: center; gap: 12px; padding: 12px 14px; cursor: pointer; list-style: none;
+}
+.kr-soal__ringkas::-webkit-details-marker { display: none; }
+.kr-soal__no {
+    width: 28px; height: 28px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%;
+    font-weight: 800; font-size: .8rem; background: rgba(128, 128, 128, .25);
+}
+.kr-soal__tanya { flex: 1; min-width: 0; font-weight: 700; font-size: .95rem; line-height: 1.3; }
+.kr-status { flex-shrink: 0; padding: 2px 10px; border-radius: 999px; font-size: .72rem; font-weight: 800; }
+.kr-status--benar { color: #2b2b2b; background: #d4af37; }
+.kr-status--salah { color: #f9f6f0; background: #7a1c1c; }
+.kr-status--habis { color: #fff; background: #6f6554; }
+
+.kr-soal__isi { padding: 0 14px 14px; display: grid; gap: 10px; }
+.kr-opsi { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.kr-opsi__item {
+    display: flex; align-items: center; gap: 10px; padding: 7px 12px; border-radius: 10px;
+    border: 1px solid rgba(128, 128, 128, .3);
+}
+.kr-opsi__item b {
+    width: 24px; height: 24px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%;
+    font-size: .75rem; background: rgba(128, 128, 128, .25);
+}
+.kr-opsi__item span { flex: 1; }
+.kr-opsi__item em { font-size: .72rem; font-style: normal; font-weight: 800; }
+.kr-opsi__item.is-benar { border-color: #d4af37; background: rgba(212, 175, 55, .22); }
+.kr-opsi__item.is-benar b { color: #2b2b2b; background: #d4af37; }
+.kr-opsi__item.is-salah { border-color: #a8323a; background: rgba(168, 50, 58, .18); }
+.kr-soal__info { margin: 0; font-size: .85rem; opacity: .8; }
+.kr-penjelasan {
+    margin: 0; padding: 10px 14px; border-radius: 10px; font-size: .9rem; line-height: 1.45;
+    border: 1px dashed rgba(179, 139, 45, .7); background: rgba(212, 175, 55, .10);
+}
+
+/* pilihan semua pemain */
+.kr-lain { display: flex; flex-wrap: wrap; gap: 8px; }
+.kr-lain__chip {
+    display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px 2px 3px; border-radius: 999px;
+    font-size: .8rem; font-weight: 800; border: 2px solid rgba(128, 128, 128, .4);
+}
+.kr-lain__chip img { width: 24px; height: 24px; border-radius: 50%; max-width: none; border: 2px solid var(--warna, #d4af37); }
+.kr-lain__chip.is-benar { border-color: #d4af37; background: rgba(212, 175, 55, .22); }
+
+@media (max-width: 640px) {
+    .kr-soal__ringkas { gap: 8px; padding: 10px; }
+    .kr-pemain { padding-right: 10px; gap: 8px; }
+    .kr-pemain__poin { font-size: .85rem; }
+}

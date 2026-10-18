@@ -1,0 +1,304 @@
+/* =========================================================
+   MUSIVERSE MATCH - halaman permainan (gaya panel game marun-emas)
+   Dipakai oleh: resources/views/games/match.blade.php
+   ========================================================= */
+.arena, .g-dialog {
+    --g-ink:    #160307;
+    --g-panel:  #2c0a14;
+    --g-panel2: #44101d;
+    --g-gold:   #c9a24a;
+    --g-gold-l: #ead39a;
+    --g-gold-d: #8a6424;
+    --g-red:    #c8243a;
+    --g-red-d:  #5c0f22;
+}
+.halaman-permainan { overflow-x: hidden; }
+
+.arena {
+    min-height: 100vh; min-height: 100dvh;
+    display: flex; flex-direction: column; gap: 10px;
+    padding: 14px 20px 18px;
+}
+
+/* ---------- Baris atas ---------- */
+.arena-atas {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px;
+}
+.tombol-keluar {
+    justify-self: start;
+    padding: 8px 16px; border-radius: 12px; font-weight: 800; font-size: .9rem;
+    color: var(--g-gold-l); background: linear-gradient(180deg, #7a1530, var(--g-red-d));
+    border: 2px solid var(--g-gold-d); box-shadow: 0 0 0 2px var(--g-ink), 0 4px 0 var(--g-ink);
+    transition: transform .12s, box-shadow .12s;
+}
+.tombol-keluar:hover  { transform: translateY(-2px); }
+.tombol-keluar:active { transform: translateY(3px); box-shadow: 0 0 0 2px var(--g-ink), 0 1px 0 var(--g-ink); }
+
+.arena-status {
+    padding: 8px 22px; border-radius: 999px; text-align: center;
+    font-family: var(--font-title); font-weight: 800; font-size: .95rem; color: var(--g-gold-l);
+    background: var(--g-panel); border: 2px solid var(--g-gold-d);
+    box-shadow: 0 0 0 2px var(--g-ink), 0 4px 0 var(--g-ink);
+}
+.arena-status.is-kamu {
+    color: var(--g-red-d); background: linear-gradient(180deg, #e2bf6a, var(--g-gold)); border-color: var(--g-ink);
+    animation: denyutStatus 1.6s ease-in-out infinite;
+}
+@keyframes denyutStatus { 50% { transform: scale(1.04); } }
+
+/* Jam pasir + sisa waktu */
+.jam-pasir {
+    justify-self: end; display: flex; align-items: center; gap: 8px;
+    padding: 5px 16px 5px 8px; border-radius: 999px;
+    font-family: var(--font-title); font-weight: 800; font-size: 1.25rem; color: var(--g-gold-l);
+    background: var(--g-panel); border: 2px solid var(--g-gold-d);
+    box-shadow: 0 0 0 2px var(--g-ink), 0 4px 0 var(--g-ink);
+    font-variant-numeric: tabular-nums;
+}
+.jam-pasir svg { width: 30px; height: 36px; animation: putarJam 8s ease-in-out infinite; }
+.jam-pasir__kayu { fill: #8a4a1c; stroke: var(--g-ink); stroke-width: 2; }
+.jam-pasir__kaca { fill: rgba(255, 255, 255, .12); stroke: var(--g-gold-l); stroke-width: 2; }
+.jam-pasir__atas, .jam-pasir__bawah { fill: var(--g-gold); }
+.jam-pasir__atas  { transform-origin: 20px 22px; animation: pasirAtas 8s linear infinite; }
+.jam-pasir__bawah { transform-origin: 20px 39px; animation: pasirBawah 8s linear infinite; }
+.jam-pasir__aliran { stroke: var(--g-gold); stroke-width: 1.5; stroke-dasharray: 2 2; animation: aliran .4s linear infinite; }
+@keyframes pasirAtas  { 0% { transform: scaleY(1); } 90%, 100% { transform: scaleY(0); } }
+@keyframes pasirBawah { 0% { transform: scaleY(0); } 90%, 100% { transform: scaleY(1); } }
+@keyframes aliran { to { stroke-dashoffset: -4; } }
+@keyframes putarJam { 0%, 90% { transform: rotate(0); } 100% { transform: rotate(180deg); } }
+.jam-pasir.is-kritis { color: #ff9a9a; border-color: var(--g-red); animation: kedipKritis 1s ease-in-out infinite; }
+@keyframes kedipKritis { 50% { box-shadow: 0 0 0 2px var(--g-ink), 0 4px 0 var(--g-ink), 0 0 18px rgba(200, 36, 58, .7); } }
+
+/* ---------- Meja ----------
+   Laptop: lawan & kamu di kolom kiri/kanan, papan memakai tinggi penuh.
+     kiri  | papan | atas
+     bawah | papan | kanan      (bawah = KAMU)
+   HP: lawan di atas papan, kamu di bawah papan.
+   ---------------------------------------------------------- */
+.arena-meja {
+    flex: 1; display: grid; align-items: center; justify-items: center;
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+        "kiri  papan atas"
+        "bawah papan kanan";
+    gap: 22px 30px;
+}
+.kursi--kiri  { grid-area: kiri;  align-self: end; }
+.kursi--bawah { grid-area: bawah; align-self: start; }
+.kursi--atas  { grid-area: atas;  align-self: end; }
+.kursi--kanan { grid-area: kanan; align-self: start; }
+
+/* ---------- Papan 6x6 ---------- */
+.papan-wadah {
+    grid-area: papan; padding: 10px; border-radius: 22px;
+    background:
+        repeating-linear-gradient(45deg, rgba(201, 162, 74, .05) 0 2px, transparent 2px 16px),
+        repeating-linear-gradient(-45deg, rgba(201, 162, 74, .05) 0 2px, transparent 2px 16px),
+        linear-gradient(180deg, var(--g-panel2), var(--g-panel));
+    border: 4px solid var(--g-gold);
+    box-shadow: 0 0 0 3px var(--g-ink), inset 0 0 0 3px var(--g-panel), inset 0 0 0 4px rgba(201, 162, 74, .4),
+                0 10px 0 var(--g-ink), 0 26px 40px rgba(0, 0, 0, .45);
+}
+.papan {
+    /* setinggi layar dikurangi baris atas (+/- 118px), tetap menyisakan kolom pemain */
+    --ukuran: max(300px, min(900px, calc(100vh - 118px), calc(100vw - 460px)));
+    width: var(--ukuran); height: var(--ukuran);
+    display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(6, 1fr);
+    gap: clamp(3px, .6vw, 7px);
+}
+
+/* ---------- Kartu (balik 3D) ---------- */
+.kartu {
+    position: relative; padding: 0; border: 0; background: none; perspective: 600px;
+    cursor: default; animation: kartuMuncul .4s cubic-bezier(.3, 1.5, .5, 1) backwards;
+}
+.kartu:disabled { cursor: default; }
+.kartu__dalam {
+    position: absolute; inset: 0; transform-style: preserve-3d;
+    transition: transform .45s cubic-bezier(.3, 1.3, .5, 1);
+}
+.kartu__muka {
+    position: absolute; inset: 0; border-radius: 10%; overflow: hidden;
+    -webkit-backface-visibility: hidden; backface-visibility: hidden;
+    box-shadow: 0 3px 0 var(--g-ink);
+}
+.kartu__muka img { width: 100%; height: 100%; max-width: none; display: block; pointer-events: none; }
+.kartu__depan { transform: rotateY(180deg); }
+.kartu.is-terbuka .kartu__dalam,
+.kartu.is-cocok .kartu__dalam { transform: rotateY(180deg); }
+.kartu.is-terbuka:not(.is-cocok) .kartu__depan { box-shadow: 0 0 0 3px var(--g-gold-l), 0 3px 0 var(--g-ink); }
+
+/* bisa diklik saat giliranmu */
+.papan.is-giliranku .kartu:not(.is-terbuka):not(.is-cocok) { cursor: pointer; }
+.papan.is-giliranku .kartu:not(.is-terbuka):not(.is-cocok):hover .kartu__dalam { transform: translateY(-3px); }
+.papan.is-giliranku .kartu:not(.is-terbuka):not(.is-cocok):hover .kartu__belakang { box-shadow: 0 0 0 2px var(--g-gold-l), 0 5px 0 var(--g-ink); }
+
+/* pasangan ditemukan: bingkai warna penemunya */
+.kartu.is-cocok .kartu__depan { box-shadow: 0 0 0 3px var(--warna, var(--g-gold)), 0 3px 0 var(--g-ink); }
+.kartu.is-cocok { animation: kartuCocok .5s ease both; }
+.kartu.is-salah .kartu__dalam { animation: kartuSalah .4s ease; }
+
+@keyframes kartuMuncul { from { opacity: 0; translate: 0 10px; } to { opacity: 1; translate: 0 0; } }
+@keyframes kartuCocok  { 40% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@keyframes kartuSalah  {
+    0%, 100% { transform: rotateY(180deg) translateX(0); }
+    25% { transform: rotateY(180deg) translateX(-4px); }
+    75% { transform: rotateY(180deg) translateX(4px); }
+}
+
+/* ---------- Profil pemain ---------- */
+.pemain { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 150px; text-align: center; }
+.pemain__foto { position: relative; width: 84px; height: 84px; transition: transform .25s; }
+.pemain__foto img {
+    position: absolute; inset: 7px; width: calc(100% - 14px); height: calc(100% - 14px); max-width: none;
+    border-radius: 50%; border: 3px solid var(--g-gold-d); box-shadow: 0 3px 0 var(--g-ink);
+    background: var(--g-ink);
+}
+/* profilmu: lebih besar dan berbingkai agar mudah dikenali */
+.pemain--kamu {
+    width: 170px; padding: 14px 10px 12px; border-radius: 22px;
+    background: rgba(22, 3, 7, .5); border: 3px solid var(--g-gold-d);
+    box-shadow: 0 0 0 2px var(--g-ink), 0 6px 0 var(--g-ink);
+}
+.pemain--kamu .pemain__foto { width: 100px; height: 100px; }
+
+/* cincin penghitung waktu giliran */
+.pemain__cincin { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); opacity: 0; transition: opacity .2s; }
+.pemain__cincin circle { fill: none; stroke-width: 7; }
+.pemain__cincin-latar { stroke: rgba(22, 3, 7, .7); }
+.pemain__cincin-sisa  { stroke: var(--warna); stroke-linecap: round; transition: stroke-dashoffset .1s linear, stroke .2s; }
+.pemain__detik {
+    position: absolute; right: -4px; bottom: -2px; min-width: 26px; height: 26px; padding: 0 4px;
+    display: none; place-items: center; border-radius: 999px;
+    font: 800 .8rem var(--font-title); color: var(--g-red-d);
+    background: var(--warna); border: 2px solid var(--g-ink);
+}
+.pemain__info { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; max-width: 100%; }
+.pemain__nama {
+    max-width: 100%; padding: 3px 12px; border-radius: 999px;
+    font-weight: 800; font-size: .88rem; color: var(--text);
+    background: var(--g-panel); border: 2px solid var(--g-gold-d);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pemain__skor { font-size: .82rem; color: var(--text-muted); }
+.pemain__skor b { font-family: var(--font-title); font-size: 1.15rem; color: var(--warna); }
+
+.pemain.is-giliran .pemain__foto { transform: scale(1.08); }
+.pemain.is-giliran .pemain__cincin { opacity: 1; }
+.pemain.is-giliran .pemain__detik { display: grid; }
+.pemain.is-giliran .pemain__foto img { border-color: var(--g-gold-l); }
+.pemain.is-giliran .pemain__nama { color: var(--g-red-d); background: var(--warna); border-color: var(--g-ink); }
+.pemain.is-mepet .pemain__cincin-sisa { stroke: var(--g-red); }
+.pemain.is-mepet .pemain__foto { animation: getar .3s linear infinite; }
+@keyframes getar { 25% { translate: -1px 0; } 75% { translate: 1px 0; } }
+
+/* ---------- Sorotan: pasangan ditemukan ---------- */
+.sorotan {
+    position: fixed; left: 50%; top: 70px; z-index: 40; translate: -50% 0;
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 18px 8px 8px; border-radius: 18px; max-width: calc(100% - 32px);
+    background: linear-gradient(180deg, var(--g-panel2), var(--g-panel));
+    border: 3px solid var(--g-gold); box-shadow: 0 0 0 3px var(--g-ink), 0 7px 0 var(--g-ink);
+    color: var(--text); font-weight: 700; pointer-events: none;
+}
+.sorotan[hidden] { display: none; }
+.sorotan img { width: 58px; height: 58px; border-radius: 10px; max-width: none; }
+.sorotan b { color: var(--g-gold-l); }
+.sorotan.is-tampil { animation: sorotanMasuk 2.2s ease both; }
+@keyframes sorotanMasuk {
+    0%   { opacity: 0; transform: translateY(-16px) scale(.9); }
+    12%  { opacity: 1; transform: none; }
+    85%  { opacity: 1; transform: none; }
+    100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* ---------- Tombol game ---------- */
+.g-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 150px; padding: 12px 22px; border-radius: 16px;
+    font-family: var(--font-title); font-weight: 800; font-size: .95rem;
+    letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; border: 3px solid var(--g-ink);
+    transition: transform .12s, box-shadow .12s, filter .15s;
+}
+.g-btn--emas {
+    color: var(--g-red-d); background: linear-gradient(180deg, #e2bf6a, var(--g-gold));
+    box-shadow: inset 0 2px 0 rgba(255, 248, 225, .6), inset 0 -6px 0 var(--g-gold-d), 0 6px 0 var(--g-ink);
+}
+.g-btn--marun {
+    color: var(--g-gold-l); background: linear-gradient(180deg, #7a1530, var(--g-red-d));
+    border-color: var(--g-gold-d);
+    box-shadow: 0 0 0 3px var(--g-ink), inset 0 -6px 0 rgba(0, 0, 0, .3), 0 6px 0 var(--g-ink);
+}
+.g-btn:hover  { transform: translateY(-2px); filter: brightness(1.07); }
+.g-btn:active { transform: translateY(5px); }
+
+/* ---------- Popup (keluar & hasil) ---------- */
+.g-dialog { margin: auto; border: 0; padding: 18px 0; background: transparent; color: var(--text); width: min(420px, calc(100% - 32px)); overflow: visible; }
+.g-dialog::backdrop { background: rgba(14, 3, 6, .78); backdrop-filter: blur(4px); }
+.g-dialog__kotak {
+    display: grid; gap: 14px; justify-items: center; text-align: center;
+    padding: 28px 24px 26px; border-radius: 24px;
+    background: linear-gradient(180deg, var(--g-panel2), var(--g-panel) 50%);
+    border: 4px solid var(--g-gold);
+    box-shadow: 0 0 0 3px var(--g-ink), inset 0 0 0 3px var(--g-panel), inset 0 0 0 4px rgba(201, 162, 74, .45),
+                0 12px 0 var(--g-ink), 0 28px 40px rgba(0, 0, 0, .5);
+    animation: dialogMasuk .4s cubic-bezier(.3, 1.5, .5, 1) both;
+}
+@keyframes dialogMasuk { from { opacity: 0; transform: translateY(30px) scale(.88); } to { opacity: 1; transform: none; } }
+.g-dialog__judul {
+    font-family: var(--font-title); font-weight: 800; font-size: 1.6rem; line-height: 1.1;
+    color: var(--g-gold-l); -webkit-text-stroke: .5px var(--g-ink); filter: drop-shadow(0 3px 0 var(--g-ink));
+}
+.g-dialog__teks { color: var(--text-muted); font-size: .92rem; }
+.g-dialog__tombol { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+.g-dialog__tombol .g-btn { flex: 1 1 130px; min-width: 0; }
+
+/* Peringkat */
+.peringkat { list-style: none; width: 100%; display: grid; gap: 10px; }
+.peringkat__baris {
+    display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px; border-radius: 14px;
+    background: rgba(22, 3, 7, .55); border: 2px solid var(--g-gold-d); text-align: left;
+}
+.peringkat__baris.is-juara { border-color: var(--g-gold-l); background: rgba(201, 162, 74, .14); }
+.peringkat__no {
+    width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0;
+    font: 800 .85rem var(--font-title); color: var(--g-red-d); background: var(--warna); border: 2px solid var(--g-ink);
+}
+.peringkat__baris img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--g-gold-d); max-width: none; }
+.peringkat__nama { flex: 1; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.peringkat__skor { font-weight: 800; color: var(--g-gold-l); white-space: nowrap; }
+.peringkat__baris.is-juara .peringkat__nama::after { content: " \1F451"; }
+
+/* ---------- Layar HP (tegak) ---------- */
+@media (max-width: 820px) {
+    .arena { padding: 10px 10px 16px; gap: 8px; }
+    .arena-atas { grid-template-columns: 1fr 1fr; grid-template-areas: "keluar jam" "status status"; row-gap: 8px; }
+    .tombol-keluar { grid-area: keluar; }
+    .jam-pasir     { grid-area: jam; font-size: 1.05rem; }
+    .arena-status  { grid-area: status; justify-self: center; font-size: .85rem; padding: 6px 16px; }
+
+    .arena-meja {
+        flex: 0; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto auto auto;
+        grid-template-areas: "kiri atas kanan" "papan papan papan" "bawah bawah bawah";
+        gap: 10px 6px;
+    }
+    .kursi { align-self: center !important; }
+    .papan-wadah { padding: 6px; border-width: 3px; border-radius: 16px; }
+    .papan { --ukuran: min(calc(100vw - 32px), calc(100dvh - 290px), 640px); gap: 3px; }
+
+    .pemain { width: 104px; gap: 3px; }
+    .pemain__foto { width: 58px; height: 58px; }
+    .pemain__foto img { inset: 5px; width: calc(100% - 10px); height: calc(100% - 10px); border-width: 2px; }
+    .pemain__nama { font-size: .72rem; padding: 2px 8px; }
+    .pemain__skor { font-size: .72rem; }
+    /* profilmu mendatar di bawah papan */
+    .pemain--kamu { flex-direction: row; width: auto; padding: 6px 16px 6px 6px; border-radius: 999px; gap: 10px; }
+    .pemain--kamu .pemain__foto { width: 62px; height: 62px; }
+    .pemain--kamu .pemain__info { align-items: flex-start; }
+    .pemain--kamu .pemain__nama { font-size: .85rem; }
+
+    .kartu__muka { box-shadow: 0 2px 0 var(--g-ink); }
+    .sorotan { top: 96px; }
+    .tombol-musik { right: 12px; bottom: 12px; width: 44px; height: 44px; }
+}

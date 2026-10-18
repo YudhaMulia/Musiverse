@@ -1,36 +1,56 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\CagarBudayaController;
-use App\Http\Controllers\AudioTourController;
 use App\Http\Controllers\Admin\CagarBudayaAdminController;
 use App\Http\Controllers\Api\CagarBudayaApiController;
+use App\Http\Controllers\AudioTourController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CagarBudayaController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('welcome'); // Landing page
 Route::get('/home', [HomeController::class, 'index'])->name('home'); // Halaman home asli
 
 // Authentication Routes
-Route::get('/login', function () {
-    return view('auth.login'); // Assuming you have a login view
-})->name('login');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
 
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+    Route::get('/forgot-password', [PasswordResetController::class, 'showForgot'])->name('password.request');
+    Route::post('/forgot-password', [PasswordResetController::class, 'sendLink'])->middleware('throttle:6,1')->name('password.email');
+    Route::get('/reset-password/{token}', [PasswordResetController::class, 'showReset'])->name('password.reset');
+    Route::post('/reset-password', [PasswordResetController::class, 'reset'])->name('password.update');
+});
+
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
+
+// Profil (wajib login)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])
+        ->middleware('throttle:6,1')->name('profile.password');
+});
 
 Route::prefix('cagar-budaya')->group(function () {
     Route::get('/', [CagarBudayaController::class, 'index'])->name('cagar-budaya.index');
     Route::get('/{slug}', [CagarBudayaController::class, 'show'])->name('cagar-budaya.show');
 });
 
-// Games (versi tampilan; route ruangan & permainan menyusul)
-Route::view('/games', 'games.index')->name('games.index');
-
 Route::prefix('audio-tour')->group(function () {
     Route::get('/{cagarBudaya}', [AudioTourController::class, 'show'])->name('audio-tour.show');
     Route::get('/play/{id}', [AudioTourController::class, 'play'])->name('audio-tour.play');
 });
+
+// Games: semua route games ada di routes/games.php
+require __DIR__.'/games.php';
 
 // Musik latar lewat Laravel, supaya browser bisa melompat ke detik tertentu
 Route::get('/musik-latar', function () {

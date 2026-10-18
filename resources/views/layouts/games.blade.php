@@ -17,8 +17,9 @@
     {{-- CSS halaman Games, lalu CSS navbar (dipakai bersama semua halaman) --}}
     <link rel="stylesheet" href="{{ asset('css/musiverse.css') }}">
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+    @stack('styles')
 </head>
-<body>
+<body class="tema-games">
 
     {{-- Navbar yang sama dengan halaman lain --}}
     @include('components.header')

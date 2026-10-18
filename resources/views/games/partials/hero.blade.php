@@ -24,8 +24,16 @@
             lalu buktikan siapa yang paling kenal budaya Palembang!
         </p>
 
-        <button type="button" class="btn-outline" data-open="modal-gabung">
-            <span class="dot" aria-hidden="true"></span> Masuk Ruangan
-        </button>
+        @auth
+            <button type="button" class="btn-outline" data-open="modal-gabung">
+                <span class="dot" aria-hidden="true"></span> Masuk Ruangan
+            </button>
+        @else
+            {{-- Belum login: tampilkan popup ajakan masuk/daftar --}}
+            <button type="button" class="btn-outline" data-open="modal-login"
+                    data-kembali="{{ route('games.index', [], false) }}">
+                <span class="dot" aria-hidden="true"></span> Masuk Ruangan
+            </button>
+        @endauth
     </div>
 </section>

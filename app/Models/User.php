@@ -6,12 +6,13 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'avatar'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -29,6 +30,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Alamat gambar avatar (dipakai: $user->avatar_url). Null jika belum memilih.
+    protected function avatarUrl(): Attribute
+    {
+        return Attribute::get(function () {
+            $no = (int) $this->avatar;
+
+            return ($no >= 1 && $no <= 10)
+                ? asset("images/games/avatar/{$no}.svg")
+                : null;
+        });
     }
 
     public function reviews(): HasMany

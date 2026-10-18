@@ -1,0 +1,296 @@
+/* =========================================================
+   MUSIVERSE - RUANG TUNGGU (gaya panel game marun-emas)
+   Dipakai oleh: resources/views/games/ruang-tunggu.blade.php
+   Susunan:
+   - Laptop : kartu besar, daftar pemain di KIRI, info + tombol +
+              karakter di KANAN -> semua terlihat tanpa scroll.
+   - HP     : info -> pemain -> tombol -> karakter (atas ke bawah).
+   ========================================================= */
+.lobby {
+    --g-ink:    #160307;
+    --g-panel:  #2c0a14;
+    --g-panel2: #44101d;
+    --g-gold:   #c9a24a;
+    --g-gold-l: #ead39a;
+    --g-gold-d: #8a6424;
+    --g-red:    #c8243a;
+    --g-red-d:  #5c0f22;
+
+    min-height: 100vh;
+    padding: 118px 24px 48px;
+    display: flex; justify-content: center; align-items: flex-start;
+}
+
+/* ---------- Kartu besar (latar ruang tunggu) ---------- */
+.lobby-panel {
+    position: relative; width: min(1060px, 100%);
+    padding: 52px 30px 30px; border-radius: 28px;
+    /* sedikit tembus pandang agar motif latar halaman masih terasa */
+    background:
+        repeating-linear-gradient(45deg, rgba(201, 162, 74, .045) 0 2px, transparent 2px 18px),
+        repeating-linear-gradient(-45deg, rgba(201, 162, 74, .045) 0 2px, transparent 2px 18px),
+        linear-gradient(180deg, rgba(68, 16, 29, .92), rgba(29, 6, 12, .9));
+    -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+    border: 4px solid var(--g-gold);
+    box-shadow:
+        0 0 0 3px var(--g-ink),
+        inset 0 0 0 4px rgba(29, 6, 12, .9),
+        inset 0 0 0 5px rgba(201, 162, 74, .4),     /* bingkai ganda */
+        0 12px 0 var(--g-ink),                       /* bayangan balok */
+        0 30px 50px rgba(0, 0, 0, .45);
+    animation: lobbyMasuk .5s cubic-bezier(.3, 1.4, .5, 1) both;
+}
+@keyframes lobbyMasuk {
+    from { opacity: 0; transform: translateY(24px) scale(.96); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Logo: pita di tepi atas kartu ---------- */
+.lobby-logo {
+    position: absolute; top: -34px; left: 50%; translate: -50% 0;
+    display: flex; align-items: center; gap: 12px; white-space: nowrap;
+    padding: 10px 28px 10px 22px; border-radius: 18px;
+    background: linear-gradient(180deg, #7a1530, var(--g-red-d));
+    border: 3px solid var(--g-gold);
+    box-shadow: 0 0 0 3px var(--g-ink), inset 0 -5px 0 rgba(0, 0, 0, .3), 0 7px 0 var(--g-ink);
+}
+.lobby-logo__icon {
+    width: 38px; height: 38px; border-radius: 50%; position: relative; flex-shrink: 0;
+    background: linear-gradient(180deg, #5c1626 0 50%, #f6ecdc 50% 100%);
+    border: 3px solid var(--g-gold-l);
+}
+.lobby-logo__icon::before {
+    content: ""; position: absolute; left: -11px; top: 50%;
+    width: 40px; height: 4px; background: var(--g-red); transform: translateY(-50%);
+}
+.lobby-logo__text {
+    font-family: var(--font-title); font-weight: 800; font-size: clamp(1.6rem, 6vw, 2.1rem); line-height: 1;
+    background: linear-gradient(110deg, var(--g-gold-l) 40%, #fff8e1 48%, #fff8e1 52%, var(--g-gold-l) 60%);
+    background-size: 300% 100%; background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    -webkit-text-stroke: 1px var(--g-ink);
+    filter: drop-shadow(0 3px 0 var(--g-ink));
+    animation: kilauJudul 4s ease-in-out 1s infinite;   /* animasi dari musiverse.css */
+}
+
+/* ---------- Baris atas: tombol keluar + nama game ---------- */
+.lobby-atas {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    min-height: 34px; margin-bottom: 22px;
+}
+.lobby__keluar {
+    position: absolute; left: 0; top: 50%; translate: 0 -50%;
+    padding: 6px 14px; border-radius: 10px; font-weight: 800; font-size: .85rem;
+    color: var(--g-gold-l); background: var(--g-red-d);
+    border: 2px solid var(--g-gold-d); box-shadow: 0 0 0 2px var(--g-ink), 0 4px 0 var(--g-ink);
+    transition: transform .12s, box-shadow .12s;
+}
+.lobby__keluar:hover  { transform: translateY(-2px); }
+.lobby__keluar:active { transform: translateY(3px); box-shadow: 0 0 0 2px var(--g-ink), 0 1px 0 var(--g-ink); }
+.lobby__game {
+    font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+    font-size: .8rem; color: var(--g-gold); text-align: center;
+}
+
+/* ---------- Susunan isi kartu ---------- */
+.lobby-grid {
+    display: grid; gap: 22px 30px;
+    grid-template-columns: 290px 1fr;
+    grid-template-areas:
+        "pemain info"
+        "pemain aksi"
+        "pemain karakter";
+    align-items: start;
+}
+.lobby-pemain   { grid-area: pemain; }
+.lobby-info     { grid-area: info; }
+.lobby-aksi     { grid-area: aksi; }
+.lobby-karakter { grid-area: karakter; }
+
+/* ---------- Kolom pemain ---------- */
+.lobby-pemain {
+    padding: 16px; border-radius: 20px;
+    background: rgba(22, 3, 7, .55);
+    border: 3px solid var(--g-gold-d);
+    box-shadow: inset 0 4px 0 rgba(0, 0, 0, .35);
+}
+.lobby-jumlah {
+    display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px;
+    padding: 8px 16px; border-radius: 12px;
+    font-weight: 800; color: var(--g-gold-l);
+    background: var(--g-red-d); border: 2px solid var(--g-gold-d);
+    box-shadow: 0 0 0 2px var(--g-ink), 0 4px 0 var(--g-ink);
+}
+.lobby-jumlah svg { width: 22px; height: 22px; }
+.slot-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.slot {
+    position: relative; min-height: 76px; padding: 12px 14px; border-radius: 16px;
+    display: flex; align-items: center; gap: 12px; text-align: left;
+}
+.slot--isi {
+    background: linear-gradient(180deg, var(--g-panel2), var(--g-panel));
+    border: 3px solid var(--g-gold);
+    box-shadow: 0 0 0 3px var(--g-ink), 0 6px 0 var(--g-ink);
+    animation: slotMasuk .4s cubic-bezier(.3, 1.6, .5, 1) both;
+}
+.slot__avatar {
+    width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+    border: 3px solid var(--g-gold-l); box-shadow: 0 3px 0 var(--g-ink);
+}
+.slot__teks { min-width: 0; }
+.slot__nama {
+    font-weight: 800; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.slot__tag {
+    display: inline-block; margin-top: 2px; padding: 1px 10px; border-radius: 999px;
+    font-size: .7rem; font-weight: 800; color: var(--g-red-d); background: var(--g-gold);
+}
+.slot--bot .slot__tag { color: var(--g-gold-l); background: var(--g-red-d); border: 1px solid var(--g-gold-d); }
+.slot__hapus {
+    position: absolute; top: -10px; right: -8px;
+    width: 26px; height: 26px; border-radius: 50%; padding: 0 0 2px;
+    display: grid; place-items: center; font-weight: 800; line-height: 1;
+    color: #fff; background: var(--g-red); border: 2px solid var(--g-ink); box-shadow: 0 2px 0 var(--g-ink);
+}
+.slot--kosong {
+    border: 3px dashed rgba(201, 162, 74, .35); background: rgba(22, 3, 7, .4);
+}
+.slot__tanya {
+    width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0;
+    font-family: var(--font-title); font-weight: 800; color: rgba(234, 211, 154, .4);
+    border: 2px dashed rgba(201, 162, 74, .35);
+}
+.slot__tunggu { font-size: .85rem; color: rgba(217, 199, 176, .6); }
+.slot__tunggu span { animation: titik 1.4s infinite; }
+.slot__tunggu span:nth-child(2) { animation-delay: .2s; }
+.slot__tunggu span:nth-child(3) { animation-delay: .4s; }
+@keyframes titik { 0%, 60%, 100% { opacity: .2; } 30% { opacity: 1; } }
+@keyframes slotMasuk { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+
+/* ---------- Panel info (ajak teman) ---------- */
+.lobby-info {
+    padding: 18px 20px 20px; border-radius: 20px; text-align: center;
+    background: linear-gradient(180deg, var(--g-panel2), var(--g-panel) 60%);
+    border: 3px solid var(--g-gold);
+    box-shadow: 0 0 0 3px var(--g-ink), 0 7px 0 var(--g-ink);
+}
+.lobby-info__judul {
+    font-family: var(--font-title); font-weight: 800; font-size: 1.15rem; color: var(--g-gold-l);
+    margin-bottom: 12px;
+}
+.lobby-info__baris { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.lobby-info__langkah {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-weight: 700; font-size: .86rem; color: var(--text); margin-bottom: 8px;
+}
+.lobby-info__langkah span {
+    display: grid; place-items: center; flex-shrink: 0;
+    width: 22px; height: 22px; border-radius: 50%; font-size: .75rem; font-weight: 800;
+    color: var(--g-red-d); background: var(--g-gold); border: 2px solid var(--g-ink);
+}
+.lobby-kotak {
+    min-height: 58px; padding: 10px 12px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--g-ink); border: 3px solid var(--g-gold-d);
+    box-shadow: inset 0 5px 0 rgba(0, 0, 0, .5);
+    font-family: var(--font-title); font-weight: 800; color: var(--g-gold-l);
+    word-break: break-all;
+}
+.lobby-kotak--alamat { font-size: 1rem; }
+.lobby-kotak--kode {
+    position: relative; font-size: 1.7rem; letter-spacing: .25em; padding-right: 76px;
+}
+.lobby-salin {
+    position: absolute; right: 8px; top: 50%; translate: 0 -50%;
+    padding: 5px 10px; border-radius: 10px; letter-spacing: 0;
+    font: 800 .75rem var(--font-body); color: var(--g-red-d);
+    background: var(--g-gold); border: 2px solid var(--g-ink); box-shadow: 0 3px 0 var(--g-ink);
+}
+.lobby-salin:active { translate: 0 calc(-50% + 2px); box-shadow: 0 1px 0 var(--g-ink); }
+
+/* ---------- Tombol game tebal ---------- */
+.lobby-aksi { text-align: center; }
+.lobby-aksi__tombol { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.lobby-aksi__tombol[hidden] { display: none; }
+.g-btn {
+    flex: 1 1 170px; max-width: 240px; padding: 13px 22px; border-radius: 16px;
+    font-family: var(--font-title); font-weight: 800; font-size: 1rem;
+    letter-spacing: .06em; text-transform: uppercase;
+    border: 3px solid var(--g-ink);
+    transition: transform .12s, box-shadow .12s, filter .15s, opacity .2s;
+}
+.g-btn--emas {
+    color: var(--g-red-d);
+    background: linear-gradient(180deg, #e2bf6a, var(--g-gold));
+    box-shadow: inset 0 2px 0 rgba(255, 248, 225, .6), inset 0 -6px 0 var(--g-gold-d), 0 6px 0 var(--g-ink);
+}
+.g-btn--marun {
+    color: var(--g-gold-l);
+    background: linear-gradient(180deg, #7a1530, var(--g-red-d));
+    border-color: var(--g-gold-d);
+    box-shadow: 0 0 0 3px var(--g-ink), inset 0 -6px 0 rgba(0, 0, 0, .3), 0 6px 0 var(--g-ink);
+}
+.g-btn:not(:disabled):hover  { transform: translateY(-2px); filter: brightness(1.07); }
+.g-btn:not(:disabled):active { transform: translateY(5px); }
+.g-btn--emas:not(:disabled):active  { box-shadow: inset 0 2px 0 rgba(255, 248, 225, .6), inset 0 -3px 0 var(--g-gold-d), 0 1px 0 var(--g-ink); }
+.g-btn--marun:not(:disabled):active { box-shadow: 0 0 0 3px var(--g-ink), inset 0 -3px 0 rgba(0, 0, 0, .3), 0 1px 0 var(--g-ink); }
+.g-btn:disabled { opacity: .45; filter: grayscale(.6); cursor: not-allowed; }
+.lobby-aksi__info { margin-top: 12px; font-size: .86rem; color: var(--text-muted); }
+
+/* ---------- Pilih karakter (tanpa kartu) ---------- */
+.lobby-karakter { text-align: center; }
+.lobby-subjudul {
+    font-family: var(--font-title); font-weight: 800; font-size: .95rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--g-gold-l); margin-bottom: 12px;
+}
+.karakter-grid {
+    display: grid; grid-template-columns: repeat(10, 1fr); gap: 10px;
+    padding: 4px 6px 8px;
+}
+.karakter {
+    position: relative; aspect-ratio: 1; padding: 0; border-radius: 50%;
+    background: var(--g-ink); border: 3px solid var(--g-gold-d);
+    box-shadow: 0 4px 0 var(--g-ink);
+    transition: transform .15s, border-color .15s, box-shadow .15s;
+}
+.karakter img { width: 100%; height: 100%; border-radius: 50%; }
+.karakter:hover { transform: translateY(-3px); border-color: var(--g-gold); }
+.karakter[aria-pressed="true"] {
+    border-color: var(--g-gold-l); transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 0 0 3px var(--g-ink), 0 0 0 6px var(--g-gold), 0 6px 0 var(--g-ink);
+}
+.karakter[aria-pressed="true"]::after {
+    content: "\2713"; position: absolute; right: -6px; bottom: -4px;
+    width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center;
+    font-size: .7rem; font-weight: 800; color: var(--g-red-d);
+    background: var(--g-gold); border: 2px solid var(--g-ink);
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 960px) {
+    .lobby-grid { grid-template-columns: 240px 1fr; gap: 20px; }
+    .lobby-info__baris { grid-template-columns: 1fr; gap: 12px; }
+    .karakter-grid { grid-template-columns: repeat(5, 1fr); max-width: 380px; margin: 0 auto; }
+}
+
+/* ---------- HP: info -> pemain -> tombol -> karakter ---------- */
+@media (max-width: 700px) {
+    .lobby { padding: 116px 12px 32px; }
+    .lobby-panel { padding: 46px 16px 22px; border-radius: 22px; }
+    .lobby-atas { flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .lobby__keluar { position: static; translate: none; align-self: flex-start; }
+    .lobby-grid {
+        grid-template-columns: 1fr; gap: 18px;
+        grid-template-areas: "info" "pemain" "aksi" "karakter";
+    }
+    .lobby-pemain { padding: 12px; }
+    .slot-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .slot { min-height: 64px; padding: 10px; gap: 8px; }
+    .slot__avatar { width: 38px; height: 38px; }
+    .slot__tanya { width: 34px; height: 34px; }
+    .slot__nama { font-size: .85rem; }
+    .slot__tunggu { font-size: .72rem; }
+    .lobby-kotak--kode { font-size: 1.5rem; letter-spacing: .18em; }
+    .g-btn { flex: 1 1 0; max-width: none; padding: 12px 8px; font-size: .85rem; }
+}

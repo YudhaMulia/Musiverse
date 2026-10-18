@@ -753,3 +753,497 @@ main { overflow-x: clip; }   /* cegah scroll ke samping karena Quiz selebar laya
 @media (max-width: 960px) {
     .game-card--art-left .game-card__art { background-position: center 40%; }
 }
+
+/* =========================================================
+   V7 - MODAL GABUNG RUANGAN (panel game marun-emas)
+   Hanya berlaku untuk #modal-gabung (class .modal--gabung)
+   Warna sama dengan halaman Games (marun + emas), tetapi bentuknya
+   gaya game: garis tepi tebal, emas DATAR (bukan metalik berkilau),
+   dan bayangan "balok" di bawah.
+   ========================================================= */
+.modal--gabung {
+    --g-ink:    #160307;   /* garis paling luar (hampir hitam) */
+    --g-panel:  #2c0a14;   /* isi panel marun */
+    --g-panel2: #44101d;
+    --g-gold:   #c9a24a;   /* emas datar */
+    --g-gold-l: #ead39a;
+    --g-gold-d: #8a6424;
+    --g-red:    #a3203f;
+    --g-red-d:  #5c0f22;
+    width: min(420px, calc(100% - 32px)); overflow: visible; padding: 46px 0 20px;
+}
+.modal--gabung::backdrop { background: rgba(14, 3, 6, .8); backdrop-filter: blur(5px); }
+
+/* Panel marun: bingkai emas datar + garis gelap luar + bayangan balok */
+.modal--gabung .modal__box {
+    position: relative; justify-items: center; text-align: center; gap: 14px;
+    padding: 62px 28px 30px; border-radius: 24px;
+    background:
+        repeating-linear-gradient(45deg, rgba(201, 162, 74, .05) 0 2px, transparent 2px 16px),
+        repeating-linear-gradient(-45deg, rgba(201, 162, 74, .05) 0 2px, transparent 2px 16px),
+        linear-gradient(180deg, var(--g-panel2), var(--g-panel) 45%);
+    border: 4px solid var(--g-gold);
+    box-shadow:
+        0 0 0 3px var(--g-ink),                       /* garis gelap di luar bingkai emas */
+        inset 0 0 0 3px var(--g-panel),               /* jarak */
+        inset 0 0 0 4px rgba(201, 162, 74, .45),      /* garis emas tipis di dalam (bingkai ganda) */
+        0 12px 0 var(--g-ink),                        /* bayangan balok */
+        0 28px 40px rgba(0, 0, 0, .5);
+    animation: munculModal .45s cubic-bezier(.3, 1.5, .5, 1) both, mengambang 4s ease-in-out .6s infinite;
+}
+@keyframes munculModal {
+    from { opacity: 0; transform: translateY(40px) scale(.85); }
+    to   { opacity: 1; transform: none; }
+}
+@keyframes mengambang {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+}
+
+/* Pita judul berisi logo, menonjol keluar di atas panel */
+.modal-logo {
+    position: absolute; top: -40px; left: 50%; translate: -50% 0;
+    display: flex; align-items: center; gap: 12px; white-space: nowrap;
+    padding: 12px 28px 12px 22px; border-radius: 18px;
+    background: linear-gradient(180deg, #7a1530, var(--g-red-d));
+    border: 3px solid var(--g-gold);
+    box-shadow: 0 0 0 3px var(--g-ink), inset 0 -5px 0 rgba(0, 0, 0, .3), 0 7px 0 var(--g-ink);
+}
+.modal-logo__icon {
+    width: 40px; height: 40px; border-radius: 50%; position: relative; flex-shrink: 0;
+    background: linear-gradient(180deg, #5c1626 0 50%, #f6ecdc 50% 100%);
+    border: 3px solid var(--g-gold-l);
+}
+.modal-logo__icon::before {
+    content: ""; position: absolute; left: -12px; top: 50%;
+    width: 42px; height: 4px; background: #c8243a; transform: translateY(-50%);
+}
+/* Teks logo: emas datar + garis gelap + kilau yang lewat sesekali */
+.modal-logo__text {
+    font-family: var(--font-title); font-weight: 800; font-size: clamp(1.7rem, 7vw, 2.2rem); line-height: 1;
+    background: linear-gradient(110deg, var(--g-gold-l) 40%, #fff8e1 48%, #fff8e1 52%, var(--g-gold-l) 60%);
+    background-size: 300% 100%; background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    -webkit-text-stroke: 1px var(--g-ink);
+    filter: drop-shadow(0 3px 0 var(--g-ink));
+    animation: kilauJudul 4s ease-in-out 1s infinite;
+}
+
+/* Tombol tutup: bulat marun bergaris emas di pojok */
+.modal--gabung .modal__close {
+    position: absolute; top: -16px; right: -16px; z-index: 3;
+    width: 42px; height: 42px; border-radius: 50%; cursor: pointer;
+    display: grid; place-items: center; padding: 0 0 3px;
+    color: var(--g-gold-l); font-size: 1.6rem; font-weight: 800; line-height: 1;
+    background: var(--g-red-d); border: 3px solid var(--g-gold);
+    box-shadow: 0 0 0 3px var(--g-ink), 0 5px 0 var(--g-ink);
+    transition: transform .15s;
+}
+.modal--gabung .modal__close:hover  { transform: scale(1.08) rotate(90deg); }
+.modal--gabung .modal__close:active { transform: translateY(3px); box-shadow: 0 0 0 3px var(--g-ink), 0 1px 0 var(--g-ink); }
+
+/* Teks */
+.modal--gabung .modal__label {
+    display: block; width: 100%; text-align: center;
+    font-weight: 800; font-size: 1.05rem; color: var(--text);
+}
+.modal--gabung .modal__hint { width: 100%; text-align: center; margin-top: -4px; font-size: .88rem; color: var(--text-muted); }
+
+/* Kolom kode: lubang gelap bergaris emas */
+.modal--gabung .input-kode {
+    padding: 14px 12px; border-radius: 14px; font-size: 1.7rem; font-weight: 800;
+    background: var(--g-ink); color: var(--g-gold-l);
+    border: 3px solid var(--g-gold-d);
+    box-shadow: inset 0 5px 0 rgba(0, 0, 0, .5);
+    transition: border-color .15s, box-shadow .15s;
+}
+.modal--gabung .input-kode::placeholder { color: rgba(234, 211, 154, .22); }
+.modal--gabung .input-kode:focus {
+    outline: none; border-color: var(--g-gold);
+    box-shadow: inset 0 5px 0 rgba(0, 0, 0, .5), 0 0 0 4px rgba(201, 162, 74, .2);
+}
+
+/* Tombol "Gabung Sekarang": tombol game tebal emas yang bisa "ditekan" */
+.modal--gabung .btn-play--block {
+    width: 100%; justify-content: center; padding: 15px 20px; margin-top: 4px; cursor: pointer;
+    font-size: 1rem; font-style: normal; letter-spacing: .06em;
+    background: linear-gradient(180deg, #e2bf6a, var(--g-gold));
+    border: 3px solid var(--g-ink); border-radius: 16px;
+    box-shadow: inset 0 2px 0 rgba(255, 248, 225, .6), inset 0 -6px 0 var(--g-gold-d), 0 6px 0 var(--g-ink);
+    transition: transform .12s, box-shadow .12s, filter .15s;
+}
+.modal--gabung .btn-play--block .btn-play__text { background: none; color: var(--g-red-d); }
+.modal--gabung .btn-play--block .btn-play__arrow path { fill: var(--g-red-d); }
+.modal--gabung .btn-play--block:hover,
+.modal--gabung .btn-play--block:focus-visible {
+    transform: translateY(-2px); filter: brightness(1.06);
+    background: linear-gradient(180deg, #e2bf6a, var(--g-gold));
+    box-shadow: inset 0 2px 0 rgba(255, 248, 225, .6), inset 0 -6px 0 var(--g-gold-d), 0 8px 0 var(--g-ink);
+}
+.modal--gabung .btn-play--block:active {
+    transform: translateY(5px);
+    box-shadow: inset 0 2px 0 rgba(255, 248, 225, .6), inset 0 -3px 0 var(--g-gold-d), 0 1px 0 var(--g-ink);
+}
+@keyframes warnaPanahGame { 0%, 100% { fill: var(--g-red-d); } 50% { fill: #c8243a; } }
+.modal--gabung .btn-play--block:hover .btn-play__arrow .three,
+.modal--gabung .btn-play--block:hover .btn-play__arrow .two,
+.modal--gabung .btn-play--block:hover .btn-play__arrow .one { animation-name: warnaPanahGame; }
+
+/* =========================================================
+   TEMA TERANG HALAMAN GAMES  -  "Putih & Emas Palembang"
+   Hanya MENGGANTI WARNA. Semua desain & efek asli Musiverse
+   (hero memudar, zoom sinematik, debu emas, kilau judul, aura,
+   quiz 3 panel miring, bingkai emas 3D, efek miring kartu, dst.)
+   tetap dipakai dari musiverse.css.
+
+   Palet:
+     Putih Gading  #F9F6F0  -> latar halaman
+     Emas Redup    #D4AF37  -> aksen emas
+     Emas Tua      #B38B2D  -> emas di atas latar terang
+     Merah Songket #7A1C1C  -> judul, tombol, panel
+     Hitam Arang   #2B2B2B  -> teks isi
+   Cara kerja: variabel warna lama (--bg, --text, --gold, ...) dialihkan
+   di bawah ini, jadi semua aturan lama otomatis ikut berganti warna.
+   ========================================================= */
+
+.tema-games {
+    --bg:          #F9F6F0;
+    --maroon-950:  #3A0C0C;
+    --maroon-900:  #5A1313;
+    --maroon-800:  #6B1717;
+    --maroon-700:  #7A1C1C;
+    --maroon-600:  #8B2323;
+    --gold:        #B38B2D;
+    --gold-light:  #D4AF37;
+    --gold-dark:   #8F6B1C;
+    --rose:        #7A1C1C;
+    --red:         #7A1C1C;
+    --text:        #2B2B2B;
+    --text-muted:  #5B514A;
+
+    background:
+        radial-gradient(1100px 700px at 10% 35%, rgba(212, 175, 55, .13), transparent 60%),
+        radial-gradient(900px 600px at 90% 75%, rgba(122, 28, 28, .06), transparent 60%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23B38B2D' stroke-opacity='.14'%3E%3Cpath d='M28 3 53 28 28 53 3 28Z'/%3E%3Cpath d='M28 17 39 28 28 39 17 28Z'/%3E%3C/g%3E%3Ccircle cx='28' cy='28' r='2' fill='%23B38B2D' fill-opacity='.16'/%3E%3C/svg%3E"),
+        var(--bg);
+    color: var(--text);
+}
+
+/* Benda yang berdiri di atas panel marun gelap memakai teks terang & emas muda */
+.tema-games .game-card,
+.tema-games .badges,
+.tema-games .btn-play,
+.tema-games .modal,
+.tema-games .lobby-panel,
+.tema-games .papan-wadah,
+.tema-games .g-dialog {
+    --text:        #F9F6F0;
+    --text-muted:  #E6D9BE;
+    --gold:        #D4AF37;
+    --gold-light:  #F0DFA0;
+    --gold-dark:   #B38B2D;
+    --red:         #C0384A;
+    --maroon-950:  #3A0C0C;
+    --maroon-900:  #5A1313;
+    --maroon-800:  #4D1010;
+}
+
+/* ---------------------------------------------------------
+   NAVBAR
+   --------------------------------------------------------- */
+.tema-games .navbar {
+    --nav-text:  #2B2B2B;
+    --nav-muted: #4A4038;
+    --nav-red:   #7A1C1C;
+    --nav-gold:  #D4AF37;
+    background: transparent;   /* di puncak halaman navbar menyatu dengan hero */
+    background-origin: border-box;   /* cegah garis tipis di bawah navbar */
+}
+.tema-games .navbar .logo__icon::before { background: var(--nav-gold); }
+/* Di puncak halaman, menu berada di atas gambar hero yang gelap: teks terang + bayangan marun
+   (seperti desain awal). Setelah di-scroll, navbar jadi gading dan teks kembali gelap. */
+@media (min-width: 961px) {
+    .tema-games .navbar:not(.is-scrolled) .navbar__menu a {
+        color: #F9F6F0; text-shadow: 0 1px 8px rgba(58, 12, 12, .85);
+    }
+    .tema-games .navbar:not(.is-scrolled) .navbar__menu a:hover,
+    .tema-games .navbar:not(.is-scrolled) .navbar__menu a.is-active { color: #F0DFA0; }
+}
+.tema-games .navbar.is-scrolled,
+.tema-games .navbar.menu-open {
+    background: rgba(249, 246, 240, .95);
+    border-bottom-color: rgba(179, 139, 45, .35);
+    box-shadow: 0 6px 20px rgba(90, 19, 19, .08);
+}
+.tema-games .navbar__menu a { text-shadow: none; }
+.tema-games .navbar__menu a:hover,
+.tema-games .navbar__menu a.is-active { color: var(--maroon-700); }
+.tema-games .navbar__menu a.is-active::after { background: var(--gold-light); }
+.tema-games .logo__icon {
+    background: linear-gradient(180deg, var(--maroon-700) 0 50%, #F9F6F0 50% 100%);
+    border-color: var(--maroon-700);
+}
+.tema-games .logo__icon::before { background: var(--gold-light); }
+.tema-games .logo__text { color: var(--maroon-700); }
+.tema-games .btn-login {
+    background: var(--maroon-700); color: #F9F6F0;
+    border: 1px solid var(--gold-light);
+}
+.tema-games .btn-login:hover { background: var(--maroon-900); }
+.tema-games .nav-profile summary { background: #F9F6F0; border-color: var(--gold); color: var(--text); }
+.tema-games .nav-profile__menu { background: #F9F6F0; border-color: var(--gold); box-shadow: 0 10px 24px rgba(90, 19, 19, .15); }
+.tema-games .nav-profile__menu button { color: var(--text); }
+.tema-games .nav-profile__menu button:hover { background: rgba(212, 175, 55, .2); }
+.tema-games .navbar__toggle span { background: var(--text); }
+@media (max-width: 960px) {
+    .tema-games .navbar__menu { background: rgba(249, 246, 240, .98); border-bottom: 1px solid rgba(179, 139, 45, .3); }
+}
+
+/* ---------------------------------------------------------
+   HERO  (gambar tetap memudar ke latar, zoom, paralaks, aura,
+          debu emas & kilau judul tetap jalan - hanya warnanya)
+   --------------------------------------------------------- */
+.tema-games .hero {
+    background: radial-gradient(ellipse 60% 70% at 20% 45%, rgba(212, 175, 55, .16), transparent 70%);
+}
+/* aura emas: pada latar terang "screen" tidak terlihat, jadi pakai campuran biasa */
+.tema-games .hero::before {
+    mix-blend-mode: normal;
+    background: radial-gradient(circle, rgba(212, 175, 55, .30) 0%, rgba(122, 28, 28, .10) 42%, transparent 70%);
+}
+.tema-games .hero__quote   { color: var(--maroon-700); }
+.tema-games .hero__tagline { color: var(--text-muted); }
+.tema-games .hero__title {
+    background: linear-gradient(110deg, #7A1C1C 38%, #D4AF37 46%, #F6E6A6 50%, #D4AF37 54%, #7A1C1C 62%);
+    background-size: 260% 100%; background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 4px 14px rgba(122, 28, 28, .22));
+}
+.tema-games .divider { color: var(--gold-dark); }
+.tema-games .divider::before,
+.tema-games .divider::after {
+    background: linear-gradient(90deg, #B38B2D, #F3DC8A, #B38B2D);
+    background-size: 200% 100%;
+}
+/* debu emas: lebih pekat supaya terlihat di latar terang */
+.tema-games .hero__sparkles span {
+    background: radial-gradient(circle, #FFF6D0 0%, #D4AF37 55%, transparent 74%);
+    box-shadow: 0 0 10px 2px rgba(179, 139, 45, .65);
+}
+/* tombol Masuk Ruangan: marun + garis emas, tetap berpendar */
+.tema-games .btn-outline {
+    background: var(--maroon-700); color: #F9F6F0;
+    border-color: var(--gold-light);
+}
+.tema-games .btn-outline:hover { background: var(--maroon-900); }
+.tema-games .btn-outline .dot { background: #F9F6F0; }
+@keyframes pendarTombol {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+    50%      { box-shadow: 0 0 22px 2px rgba(212, 175, 55, .55); }
+}
+
+/* Pinggiran gambar hero: tidak lagi lurus. Sisi kiri memudar MELENGKUNG (bentuk elips) dengan
+   banyak tahap, dan sisi bawah memudar lebih panjang & halus, jadi tidak ada garis batas tegas. */
+@media (min-width: 961px) {
+    .tema-games .hero__art {
+        width: 68%;
+        background-position: right top;
+        -webkit-mask-image:
+            radial-gradient(ellipse 100% 135% at 100% 32%,
+                #000 0%, #000 40%, rgba(0,0,0,.93) 50%, rgba(0,0,0,.74) 60%,
+                rgba(0,0,0,.48) 70%, rgba(0,0,0,.24) 81%, rgba(0,0,0,.08) 91%, transparent 100%),
+            linear-gradient(0deg, transparent 0%, rgba(0,0,0,.2) 7%, rgba(0,0,0,.5) 15%,
+                rgba(0,0,0,.8) 25%, rgba(0,0,0,.95) 34%, #000 42%);
+        -webkit-mask-composite: source-in;
+                mask-image:
+            radial-gradient(ellipse 100% 135% at 100% 32%,
+                #000 0%, #000 40%, rgba(0,0,0,.93) 50%, rgba(0,0,0,.74) 60%,
+                rgba(0,0,0,.48) 70%, rgba(0,0,0,.24) 81%, rgba(0,0,0,.08) 91%, transparent 100%),
+            linear-gradient(0deg, transparent 0%, rgba(0,0,0,.2) 7%, rgba(0,0,0,.5) 15%,
+                rgba(0,0,0,.8) 25%, rgba(0,0,0,.95) 34%, #000 42%);
+                mask-composite: intersect;
+    }
+}
+
+/* HP: gambar hero dipudarkan agar teks gelap tetap terbaca di latar terang */
+@media (max-width: 960px) {
+    .tema-games .hero__art { opacity: .2; animation: sinematik 22s ease-in-out infinite alternate; }
+}
+
+/* ---------------------------------------------------------
+   JUDUL BAGIAN
+   --------------------------------------------------------- */
+.tema-games .section-head__eyebrow { color: var(--maroon-700); }
+.tema-games .section-head__title   { color: var(--maroon-700); }
+.tema-games .ornament::before,
+.tema-games .ornament::after { background: linear-gradient(90deg, transparent, var(--gold)); }
+.tema-games .ornament span { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(212, 175, 55, .18); }
+
+/* ---------------------------------------------------------
+   CARD GAME  (bingkai emas 3D, kilau hologram & efek miring tetap)
+   Hanya bayangan hitam diganti bayangan marun lembut supaya
+   kartu duduk menyatu di latar gading.
+   --------------------------------------------------------- */
+.tema-games .game-card {
+    box-shadow:
+        0 0 0 1px rgba(90, 19, 19, .45),
+        0 18px 40px rgba(90, 19, 19, .26),
+        0 0 36px rgba(212, 175, 55, .22);
+}
+.tema-games .game-card:hover {
+    box-shadow:
+        0 0 0 1px rgba(90, 19, 19, .45),
+        0 26px 54px rgba(90, 19, 19, .34),
+        0 0 46px rgba(212, 175, 55, .38);
+}
+.tema-games .game-card--art-right .game-card__art::after {
+    background: linear-gradient(90deg, #5A1313 0%, rgba(90, 19, 19, .75) 22%, rgba(90, 19, 19, 0) 55%);
+}
+.tema-games .game-card--art-left .game-card__art::after {
+    background: linear-gradient(270deg, #5A1313 0%, rgba(90, 19, 19, .75) 20%, rgba(90, 19, 19, 0) 50%);
+}
+@media (max-width: 960px) {
+    .tema-games .game-card__art::after { background: linear-gradient(0deg, #5A1313, transparent 60%) !important; }
+}
+.tema-games .btn-play:hover,
+.tema-games .btn-play:focus-visible {
+    background:
+        linear-gradient(#6B1717, #6B1717) padding-box,
+        linear-gradient(90deg, #f3dc9a, var(--gold) 45%, var(--red)) border-box;
+    box-shadow: 6px 6px 0 rgba(212, 175, 55, .55), 0 0 22px rgba(212, 175, 55, .3);
+}
+.tema-games .btn-play { box-shadow: 0 6px 14px rgba(90, 19, 19, .35); }
+
+/* ---------------------------------------------------------
+   QUIZ  (3 panel miring, memudar ke latar, animasi tetap)
+   --------------------------------------------------------- */
+.tema-games .quiz__panel--center {
+    background: radial-gradient(ellipse at 50% 30%, #8B2A2A 0%, #5A1313 75%);
+}
+.tema-games .quiz__panel--center::before {
+    background: radial-gradient(ellipse 45% 40% at 50% 38%, rgba(240, 196, 110, .5), transparent 70%);
+}
+.tema-games .quiz .game-title,
+.tema-games .quiz .game-title--light {
+    background: linear-gradient(180deg, #8B2323, #5A1313);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: none;
+    filter: drop-shadow(0 2px 10px rgba(249, 246, 240, .95));
+}
+.tema-games .quiz__title::before,
+.tema-games .quiz__title::after { background: linear-gradient(90deg, transparent, var(--gold)); opacity: 1; }
+.tema-games .quiz__title::after { transform: scaleX(-1); }
+.tema-games .quiz__more p { color: var(--text); }
+
+/* ---------------------------------------------------------
+   FOOTER
+   --------------------------------------------------------- */
+.tema-games .footer { background: #F1EADB; border-top: 1px solid rgba(179, 139, 45, .4); }
+.tema-games .footer__inner { color: var(--text-muted); }
+
+/* ---------------------------------------------------------
+   PANEL GAME (modal gabung, ruang tunggu, arena Match, popup)
+   Bentuk tetap, warna diganti: garis luar marun gelap (bukan hitam),
+   emas datar #D4AF37, tanpa bayangan balok yang terlalu pekat.
+   --------------------------------------------------------- */
+.tema-games .modal--gabung,
+.tema-games .arena,
+.tema-games .g-dialog,
+.tema-games .lobby {
+    --g-ink:    #3A0C0C;
+    --g-panel:  #5A1313;
+    --g-panel2: #7A1C1C;
+    --g-gold:   #D4AF37;
+    --g-gold-l: #F0DFA0;
+    --g-gold-d: #B38B2D;
+    --g-red:    #A33030;
+    --g-red-d:  #4D1010;
+}
+.tema-games .modal--gabung::backdrop,
+.tema-games .g-dialog::backdrop { background: rgba(58, 12, 12, .55); }
+
+/* pita logo & tombol-tombol yang masih memakai warna lama */
+.tema-games .modal-logo,
+.tema-games .lobby-logo,
+.tema-games .tombol-keluar,
+.tema-games .g-btn--marun {
+    background: linear-gradient(180deg, #8B2323, var(--g-red-d));
+}
+.tema-games .modal-logo__icon,
+.tema-games .lobby-logo__icon { background: linear-gradient(180deg, #7A1C1C 0 50%, #F9F6F0 50% 100%); }
+.tema-games .modal-logo__icon::before,
+.tema-games .lobby-logo__icon::before { background: var(--g-gold); }
+.tema-games .btn-play--block,
+.tema-games .g-btn--emas {
+    background: linear-gradient(180deg, #E6CB70, var(--g-gold));
+}
+.tema-games .modal--gabung .btn-play--block { background: linear-gradient(180deg, #E6CB70, var(--g-gold)); }
+.tema-games .modal--gabung .btn-play--block .btn-play__text { color: var(--g-red-d); }
+.tema-games .modal--gabung .btn-play--block .btn-play__arrow path { fill: var(--g-red-d); }
+
+/* Ruang tunggu */
+.tema-games .lobby-panel {
+    background:
+        repeating-linear-gradient(45deg, rgba(212, 175, 55, .05) 0 2px, transparent 2px 18px),
+        repeating-linear-gradient(-45deg, rgba(212, 175, 55, .05) 0 2px, transparent 2px 18px),
+        linear-gradient(180deg, #7A1C1C, #5A1313);
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    box-shadow: 0 0 0 3px var(--g-ink), inset 0 0 0 4px #5A1313, inset 0 0 0 5px rgba(212, 175, 55, .45),
+                0 10px 0 var(--g-ink), 0 24px 40px rgba(90, 19, 19, .3);
+}
+.tema-games .lobby-pemain { background: rgba(58, 12, 12, .5); }
+.tema-games .slot--kosong { background: rgba(58, 12, 12, .35); }
+.tema-games .lobby-kotak,
+.tema-games .karakter { background: #3A0C0C; }
+
+/* Arena Match (layar penuh, tanpa navbar) */
+.tema-games .papan-wadah {
+    background:
+        repeating-linear-gradient(45deg, rgba(212, 175, 55, .05) 0 2px, transparent 2px 16px),
+        repeating-linear-gradient(-45deg, rgba(212, 175, 55, .05) 0 2px, transparent 2px 16px),
+        linear-gradient(180deg, #7A1C1C, #5A1313);
+    box-shadow: 0 0 0 3px var(--g-ink), inset 0 0 0 3px #5A1313, inset 0 0 0 4px rgba(212, 175, 55, .4),
+                0 8px 0 var(--g-ink), 0 22px 36px rgba(90, 19, 19, .3);
+}
+.tema-games .pemain--kamu { background: var(--g-panel); }
+.tema-games .pemain__skor { color: var(--arang-muda); }
+.tema-games .pemain--kamu .pemain__skor { color: #F9F6F0; }
+.tema-games .pemain__skor b {            /* angka skor tetap terbaca di latar terang */
+    display: inline-block; padding: 0 8px; border-radius: 999px; background: var(--g-panel);
+}
+.tema-games .pemain__nama { color: #F9F6F0; }
+.tema-games .pemain__cincin-latar { stroke: rgba(122, 28, 28, .25); }
+.tema-games .peringkat__baris { background: rgba(58, 12, 12, .5); }
+
+/* Tombol "Masuk Ruangan" versi link (untuk tamu yang belum login) */
+a.btn-outline { width: fit-content; text-decoration: none; }
+
+/* =========================================================
+   V8 - MODAL AJAK MASUK (tamu yang belum login)
+   Warna & bingkai mengikuti .modal--gabung
+   ========================================================= */
+.modal--ajak .modal__judul {
+    font-family: var(--font-title); font-weight: 800; font-size: 1.45rem; line-height: 1.2;
+    color: var(--g-gold-l);
+}
+.modal--ajak .modal__teks { color: var(--text); font-size: .98rem; line-height: 1.55; }
+.modal--ajak .modal__aksi { display: grid; gap: 14px; width: 100%; margin-top: 6px; }
+
+/* tombol Masuk berupa link: hilangkan garis bawah */
+.modal--ajak a.btn-play--block { text-decoration: none; box-sizing: border-box; }
+
+/* tombol Daftar: kosong bergaris emas (pendamping tombol Masuk yang emas penuh) */
+.modal--ajak .btn-daftar {
+    display: block; width: 100%; box-sizing: border-box; text-align: center; text-decoration: none;
+    padding: 13px 20px; border-radius: 16px;
+    font-weight: 800; font-size: .98rem; letter-spacing: .06em;
+    color: var(--g-gold-l); background: transparent;
+    border: 3px solid var(--g-gold);
+    box-shadow: 0 5px 0 var(--g-ink);
+    transition: transform .12s, box-shadow .12s, background .15s;
+}
+.modal--ajak .btn-daftar:hover,
+.modal--ajak .btn-daftar:focus-visible {
+    background: rgba(212, 175, 55, .14); transform: translateY(-2px); box-shadow: 0 7px 0 var(--g-ink);
+}
+.modal--ajak .btn-daftar:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--g-ink); }

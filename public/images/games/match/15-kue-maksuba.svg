@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Kue Maksuba</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7ead2"/><ellipse cx="100" cy="134" rx="74" ry="16" fill="#d9c9a8"/><ellipse cx="100" cy="130" rx="74" ry="16" fill="#ffffff" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="100" cy="130" rx="60" ry="10" fill="none" stroke="#e6dcc8" stroke-width="2"/>
+<path d="M40 70 L150 58 L150 122 L40 134Z" fill="#c98a3a"/><path d="M40 70 L150 58 L150 66 L40 78Z" fill="#c98a3a"/><path d="M40 78 L150 66 L150 74 L40 86Z" fill="#f3d58a"/><path d="M40 86 L150 74 L150 82 L40 94Z" fill="#c98a3a"/><path d="M40 94 L150 82 L150 90 L40 102Z" fill="#f3d58a"/><path d="M40 102 L150 90 L150 98 L40 110Z" fill="#c98a3a"/><path d="M40 110 L150 98 L150 106 L40 118Z" fill="#f3d58a"/><path d="M40 118 L150 106 L150 114 L40 126Z" fill="#c98a3a"/><path d="M40 126 L150 114 L150 122 L40 134Z" fill="#f3d58a"/>
+<path d="M40 70 L150 58 L150 122 L40 134Z" fill="none" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M40 70 L70 50 L176 40 L150 58Z" fill="#8a4a1c" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M150 58 L176 40 L176 104 L150 122Z" fill="#b5762e" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="21">Kue Maksuba</text></g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Tanjak</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7e6cf"/>
+<path d="M40 128 L52 82 L100 40 L148 82 L160 128 Q100 112 40 128Z" fill="#a3203f" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M100 40 L100 118" stroke="#5c0f22" stroke-width="3"/>
+<path d="M52 82 L100 60 L148 82" fill="none" stroke="#e9c349" stroke-width="4"/>
+<path d="M46 106 Q100 92 154 106" fill="none" stroke="#e9c349" stroke-width="4"/>
+<path d="M148 82 L170 66 L160 96Z" fill="#7a1530" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<g fill="#e9c349"><circle cx="78" cy="94" r="3"/><circle cx="100" cy="88" r="3"/><circle cx="122" cy="94" r="3"/></g></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="25">Tanjak</text></g>
+</svg>

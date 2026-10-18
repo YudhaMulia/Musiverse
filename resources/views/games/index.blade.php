@@ -31,10 +31,13 @@
 
     {{-- Form mengambang (modal) --}}
     @include('games.partials.modal-gabung')
-    @include('games.partials.modal-buat-ruangan')
+    @guest
+        @include('games.partials.modal-login')
+    @endguest
 
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('js/suara.js') }}"></script>
     <script src="{{ asset('js/games.js') }}"></script>
 @endpush

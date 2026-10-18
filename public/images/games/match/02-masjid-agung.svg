@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Masjid Agung</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect x="0" y="0" width="200" height="200" fill="#e9f1e4"/>
+<rect x="0" y="140" width="200" height="30" fill="#b9c99a"/>
+<rect x="150" y="40" width="16" height="100" fill="#f7efdc" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M146 42 L158 14 L170 42Z" fill="#2f6b47" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><rect x="146" y="70" width="24" height="5" fill="#c9a24a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="36" y="96" width="106" height="44" fill="#f7efdc" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M30 98 L148 98 L130 80 L48 80Z" fill="#2f6b47" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M50 80 L128 80 L114 64 L64 64Z" fill="#3c8158" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M66 64 L112 64 L100 50 L78 50Z" fill="#2f6b47" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M84 50 L89 34 L94 50Z" fill="#c9a24a" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M80 140 V118 a9 9 0 0 1 18 0 V140Z" fill="#7a4a24" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M48 126 V112 a6 6 0 0 1 12 0 V126Z M118 126 V112 a6 6 0 0 1 12 0 V126Z" fill="#7a4a24" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="21">Masjid Agung</text></g>
+</svg>

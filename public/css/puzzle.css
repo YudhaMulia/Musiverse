@@ -1,0 +1,201 @@
+/* =========================================================
+   MUSIVERSE PUZZLE - halaman permainan tebak gambar (panel marun-emas)
+   Dipakai oleh: resources/views/games/puzzle.blade.php
+   Memakai variabel --g-* dari match.css, jadi match.css harus dimuat dulu.
+   ========================================================= */
+.arena--puzzle {
+    --pz-teks: #f9f6f0;   /* teks terang di atas panel marun */
+}
+
+/* ---------- Nomor soal (pojok kanan atas) ---------- */
+.pz-nomor {
+    justify-self: end;
+    padding: 8px 20px; border-radius: 999px;
+    font-family: var(--font-title); font-weight: 800; font-size: 1rem; color: var(--g-gold-l);
+    background: var(--g-panel); border: 2px solid var(--g-gold-d);
+    box-shadow: 0 0 0 2px var(--g-ink), 0 4px 0 var(--g-ink);
+    font-variant-numeric: tabular-nums;
+}
+.pz-nomor b { color: #fff; font-size: 1.15rem; }
+
+/* ---------- Susunan tengah ---------- */
+.pz-tengah {
+    flex: 1; width: min(820px, 100%); margin-inline: auto;
+    display: flex; flex-direction: column; justify-content: center; gap: 16px;
+    padding-block: 6px 18px;
+}
+
+/* ---------- Papan skor pemain ---------- */
+.pz-skor { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px; }
+.pz-pemain {
+    position: relative; display: flex; align-items: center; gap: 8px;
+    padding: 5px 24px 5px 5px; border-radius: 999px; color: var(--pz-teks);
+    background: var(--g-panel); border: 2px solid var(--g-gold-d);
+    box-shadow: 0 0 0 2px var(--g-ink), 0 4px 0 var(--g-ink);
+    transition: border-color .2s, transform .2s, opacity .2s, filter .2s;
+}
+.pz-pemain img {
+    width: 38px; height: 38px; border-radius: 50%; max-width: none;
+    border: 2px solid var(--warna); background: var(--g-ink);
+}
+.pz-pemain__nama {
+    max-width: 120px; font-weight: 800; font-size: .85rem; line-height: 1.1;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pz-pemain__poin { display: block; font-size: .75rem; color: var(--g-gold-l); }
+.pz-pemain__poin b { font-family: var(--font-title); font-size: 1rem; color: var(--warna); }
+.pz-pemain--kamu { border-color: var(--g-gold-l); }
+
+/* pemain yang sedang menjawab (menekan tombol duluan) */
+.pz-pemain.is-pegang { border-color: var(--warna); transform: translateY(-3px); }
+.pz-pemain.is-pegang::after {
+    content: "\270E"; position: absolute; top: -8px; right: -4px;
+    width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%;
+    font-size: .8rem; font-weight: 800; color: var(--g-red-d);
+    background: var(--warna); border: 2px solid var(--g-ink);
+}
+/* pemain yang kesempatannya hangus di soal ini */
+.pz-pemain.is-hangus { opacity: .55; filter: grayscale(.6); }
+.pz-pemain.is-hangus::after {
+    content: "\2717"; position: absolute; top: -8px; right: -4px;
+    width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%;
+    font-size: .8rem; font-weight: 800; color: #fff;
+    background: var(--g-red); border: 2px solid var(--g-ink);
+}
+/* poin yang baru didapat melayang naik */
+.pz-pemain__tambah {
+    position: absolute; left: 50%; top: -6px; translate: -50% 0; pointer-events: none;
+    font: 800 1rem var(--font-title); color: var(--warna); text-shadow: 0 2px 0 var(--g-ink);
+    animation: pzPoinNaik 1.6s ease-out both;
+}
+@keyframes pzPoinNaik {
+    0%   { opacity: 0; transform: translateY(6px); }
+    20%  { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-34px); }
+}
+
+/* ---------- Kartu gambar ---------- */
+.pz-kartu {
+    position: relative; padding: 18px 20px 20px; border-radius: 22px; color: var(--pz-teks);
+    background:
+        repeating-linear-gradient(45deg, rgba(201, 162, 74, .05) 0 2px, transparent 2px 16px),
+        repeating-linear-gradient(-45deg, rgba(201, 162, 74, .05) 0 2px, transparent 2px 16px),
+        linear-gradient(180deg, var(--g-panel2), var(--g-panel));
+    border: 4px solid var(--g-gold);
+    box-shadow: 0 0 0 3px var(--g-ink), inset 0 0 0 2px var(--g-gold-d), 0 8px 0 var(--g-ink);
+}
+
+/* ---------- Bar waktu ---------- */
+.pz-waktu { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.pz-waktu__fase {
+    min-width: 128px; font-family: var(--font-title); font-weight: 800; font-size: .8rem;
+    letter-spacing: .04em; text-transform: uppercase; color: var(--g-gold-l);
+}
+.pz-waktu__jalur {
+    flex: 1; height: 14px; border-radius: 999px; overflow: hidden;
+    background: var(--g-ink); border: 2px solid var(--g-gold-d);
+}
+.pz-waktu__isi {
+    display: block; width: 100%; height: 100%; transform-origin: left; transform: scaleX(1);
+    background: linear-gradient(90deg, var(--g-gold-d), var(--g-gold-l));
+    transition: transform .1s linear;
+}
+.pz-waktu__angka {
+    min-width: 40px; padding: 2px 8px; border-radius: 10px; text-align: center;
+    font: 800 1.1rem var(--font-title); color: var(--g-gold-l);
+    background: var(--g-ink); border: 2px solid var(--g-gold-d);
+    font-variant-numeric: tabular-nums;
+}
+.pz-waktu.is-mepet .pz-waktu__isi { background: linear-gradient(90deg, #8f1d2f, var(--g-red)); }
+.pz-waktu.is-mepet .pz-waktu__angka { color: #fff; background: var(--g-red); animation: pzGetar .3s linear infinite; }
+@keyframes pzGetar { 25% { translate: -1px 0; } 75% { translate: 1px 0; } }
+
+/* ---------- Gambar tebakan ---------- */
+/* Tinggi mengikuti tinggi layar, supaya gambar + tombol selalu muat dalam satu layar.
+   Gambar ditampilkan UTUH (object-fit: contain), tidak dipotong. */
+.pz-gambar {
+    position: relative; display: grid; place-items: center; overflow: hidden;
+    width: 100%; height: clamp(200px, calc(100dvh - 400px), 560px); margin-inline: auto;
+    border-radius: 14px; background: var(--g-ink); border: 3px solid var(--g-gold-d);
+}
+.pz-gambar img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; }
+
+/* angka besar hitung mundur 5 detik di atas gambar */
+.pz-hitung {
+    position: absolute; right: 12px; top: 10px;
+    width: 58px; height: 58px; display: grid; place-items: center; border-radius: 50%;
+    font: 800 1.9rem var(--font-title); color: var(--g-red-d);
+    background: linear-gradient(180deg, #e2bf6a, var(--g-gold));
+    border: 3px solid var(--g-ink); box-shadow: 0 4px 0 var(--g-ink);
+    font-variant-numeric: tabular-nums;
+}
+.pz-hitung[hidden] { display: none; }
+
+/* ---------- Area aksi di bawah gambar ----------
+   Satu tempat tetap yang berisi SALAH SATU dari: tombol merah, kolom ketik, atau jawaban benar.
+   Tingginya tetap, jadi tata letak tidak bergeser. */
+.pz-aksi { display: flex; flex-direction: column; justify-content: center; min-height: 80px; margin-top: 14px; }
+/* sembunyikan tombol saat kolom ketik atau jawaban benar sedang tampil */
+.pz-aksi:has(.pz-form:not([hidden]), .pz-ungkap:not([hidden])) > .pz-tombol { display: none; }
+
+/* Tombol merah rebutan (bilah lebar) */
+.pz-tombol {
+    display: block; width: 100%; height: 72px; border-radius: 16px; cursor: pointer;
+    font: 800 1.3rem var(--font-title); letter-spacing: .08em; text-transform: uppercase;
+    color: rgba(255, 255, 255, .5);
+    background: linear-gradient(180deg, #5a1a26, #3a0d17);
+    border: 4px solid var(--g-ink);
+    box-shadow: 0 0 0 3px var(--g-gold-d), inset 0 -8px 0 rgba(0, 0, 0, .3), 0 6px 0 var(--g-ink);
+    transition: transform .08s, box-shadow .08s, filter .15s;
+}
+.pz-tombol:disabled { cursor: not-allowed; }
+.pz-tombol.is-siap {
+    color: #fff;
+    background: linear-gradient(180deg, #ff6a7e, var(--g-red) 55%, #8f1d2f);
+    box-shadow: 0 0 0 3px var(--g-gold-l), inset 0 -8px 0 rgba(0, 0, 0, .22), 0 6px 0 var(--g-ink), 0 0 30px rgba(255, 60, 90, .55);
+    animation: pzDenyut .8s ease-in-out infinite;
+}
+.pz-tombol.is-siap:hover { filter: brightness(1.1); }
+.pz-tombol.is-siap:active { transform: translateY(5px); box-shadow: 0 0 0 3px var(--g-gold-l), inset 0 -3px 0 rgba(0, 0, 0, .22), 0 1px 0 var(--g-ink); animation: none; }
+@keyframes pzDenyut { 50% { transform: scale(1.015); } }
+
+/* Kolom mengetik jawaban */
+.pz-form { display: flex; gap: 10px; }
+.pz-form[hidden] { display: none; }
+.pz-input {
+    flex: 1; min-width: 0; padding: 14px 16px; border-radius: 14px;
+    font: 700 1.1rem var(--font-body); color: #fff;
+    background: var(--g-ink); border: 3px solid var(--g-gold-l); outline: none;
+    box-shadow: 0 0 0 3px rgba(233, 195, 73, .25);
+}
+.pz-input::placeholder { color: rgba(234, 211, 154, .55); }
+.pz-form .g-btn { min-width: 100px; }
+
+/* Jawaban yang benar */
+.pz-ungkap {
+    padding: 8px 14px; border-radius: 14px; text-align: center;
+    background: rgba(201, 162, 74, .14); border: 2px solid var(--g-gold-d);
+}
+.pz-ungkap[hidden] { display: none; }
+.pz-ungkap__judul { font-weight: 800; font-size: .9rem; color: var(--g-gold-l); }
+.pz-ungkap__jawab { font: 800 1.5rem var(--font-title); color: #fff; letter-spacing: .02em; line-height: 1.2; }
+
+.pz-petunjuk { margin-top: 10px; text-align: center; font-size: .82rem; color: var(--g-gold-l); opacity: .85; }
+.pz-petunjuk b { color: #fff; }
+
+/* ---------- Layar kecil ---------- */
+@media (max-width: 560px) {
+    .pz-waktu__fase { display: none; }
+    .pz-gambar { height: clamp(180px, calc(100dvh - 430px), 420px); }
+    .pz-tombol { height: 64px; font-size: 1.1rem; }
+    .pz-form { flex-direction: column; }
+    .pz-form .g-btn { width: 100%; }
+    .pz-ungkap__jawab { font-size: 1.2rem; }
+}
+/* layar pendek (laptop kecil): sembunyikan tip supaya muat */
+@media (max-height: 720px) {
+    .pz-petunjuk { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .pz-tombol.is-siap, .pz-waktu.is-mepet .pz-waktu__angka { animation: none; }
+}

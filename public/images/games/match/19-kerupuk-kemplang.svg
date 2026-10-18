@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Kerupuk Kemplang</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7ead2"/>
+<g stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><ellipse cx="74" cy="118" rx="44" ry="20" fill="#efe1bd"/><ellipse cx="128" cy="108" rx="44" ry="20" fill="#f3e7c8"/><ellipse cx="96" cy="78" rx="44" ry="20" fill="#efe1bd"/></g>
+<g fill="#b9864a"><circle cx="80" cy="74" r="4"/><circle cx="108" cy="82" r="3"/><circle cx="96" cy="70" r="2"/><circle cx="140" cy="104" r="4"/><circle cx="120" cy="112" r="3"/><circle cx="62" cy="118" r="3"/><circle cx="84" cy="124" r="4"/></g>
+<g fill="#7a4a24"><circle cx="88" cy="80" r="2"/><circle cx="132" cy="110" r="2"/><circle cx="70" cy="114" r="2"/></g></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="170" text-anchor="middle" font-size="18">Kerupuk</text><text x="100" y="189" text-anchor="middle" font-size="18">Kemplang</text></g>
+</svg>

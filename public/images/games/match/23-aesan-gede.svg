@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Aesan Gede</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7e6cf"/>
+<path d="M40 120 L44 70 L62 92 L74 52 L88 86 L100 36 L112 86 L126 52 L138 92 L156 70 L160 120Z" fill="#e9c349" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="36" y="114" width="128" height="22" rx="6" fill="#c9a24a" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<g stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><circle cx="100" cy="125" r="7" fill="#c8243a"/><circle cx="70" cy="125" r="5" fill="#c8243a"/><circle cx="130" cy="125" r="5" fill="#c8243a"/></g>
+<g fill="#fff6d0"><circle cx="100" cy="70" r="5"/><circle cx="74" cy="80" r="4"/><circle cx="126" cy="80" r="4"/></g>
+<path d="M44 136 L38 150 M156 136 L162 150 M60 136 L58 148 M140 136 L142 148" stroke="#c9a24a" stroke-width="4"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="25">Aesan Gede</text></g>
+</svg>

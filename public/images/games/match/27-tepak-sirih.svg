@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Tepak Sirih</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect width="200" height="200" fill="#f7ead2"/>
+<path d="M34 104 L166 104 L156 140 L44 140Z" fill="#7a1530" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M30 92 L170 92 L166 106 L34 106Z" fill="#c9a24a" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M44 120 h112" stroke="#e9c349" stroke-width="3" stroke-dasharray="6 4"/>
+<g stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="52" y="74" width="22" height="18" rx="4" fill="#e9c349"/><rect x="82" y="70" width="22" height="22" rx="4" fill="#e9c349"/><rect x="112" y="74" width="22" height="18" rx="4" fill="#e9c349"/></g>
+<path d="M136 92 Q150 54 172 62 Q166 86 136 92Z" fill="#4f9a3c" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M140 88 Q154 72 168 64" stroke="#2f6b26" stroke-width="2" fill="none"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="180" text-anchor="middle" font-size="21">Tepak Sirih</text></g>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+<title>Bukit Siguntang</title>
+<defs><radialGradient id="bg" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fbf0d6"/></radialGradient>
+<clipPath id="art"><rect x="8" y="8" width="184" height="146" rx="12"/></clipPath></defs>
+<rect x="2" y="2" width="196" height="196" rx="18" fill="url(#bg)" stroke="#c9a24a" stroke-width="4"/>
+<g clip-path="url(#art)"><g transform="translate(100 82) scale(.96) translate(-100 -82)"><rect x="0" y="0" width="200" height="200" fill="#e7f0f2"/>
+<path d="M0 150 Q50 70 100 66 Q150 70 200 150Z" fill="#6f9e4f" stroke="#3a0d17" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M0 150 Q40 110 70 112 Q30 140 0 150Z" fill="#5a8a3e"/>
+<rect x="84" y="46" width="32" height="22" fill="#f1e2bf" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><path d="M80 48 L100 30 L120 48Z" fill="#a3203f" stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="95" y="56" width="10" height="12" fill="#5a2d14"/>
+<g stroke="#3a0d17" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><rect x="40" y="96" width="5" height="16" fill="#6b3a1c"/><circle cx="42" cy="90" r="12" fill="#3f7a35"/>
+<rect x="152" y="94" width="5" height="16" fill="#6b3a1c"/><circle cx="154" cy="88" r="12" fill="#3f7a35"/></g>
+<path d="M92 68 L84 150 M108 68 L116 150" stroke="#e6d3a5" stroke-width="5"/></g></g>
+<rect x="7" y="148" width="186" height="45" rx="11" fill="#7a1530" stroke="#3a0d17" stroke-width="2.5"/>
+<g font-family="Montserrat, 'Nunito Sans', Arial, sans-serif" font-weight="800" fill="#fff4d6"><text x="100" y="170" text-anchor="middle" font-size="18">Bukit</text><text x="100" y="189" text-anchor="middle" font-size="18">Siguntang</text></g>
+</svg>
