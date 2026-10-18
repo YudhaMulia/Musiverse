@@ -10,10 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const modal = document.getElementById(tombol.dataset.open);
             if (!modal) return;
 
-            // isi nama game di judul modal "Buat Ruangan ..."
-            const namaGame = modal.querySelector('[data-game-name]');
-            if (namaGame && tombol.dataset.game) namaGame.textContent = tombol.dataset.game;
-
             // modal ajak masuk: titipkan tujuan semula ke link Masuk & Daftar
             if (tombol.dataset.kembali) {
                 modal.querySelectorAll('[data-link-auth]').forEach((a) => {
@@ -39,14 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inputKode.value = inputKode.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
     });
 
-    // 4. Tombol Single Player (sementara hanya pemberitahuan)
-    document.querySelectorAll('[data-solo]').forEach((tombol) => {
-        tombol.addEventListener('click', () => {
-            alert(`Mode Single Player ${tombol.dataset.solo} akan dibuat di tahap berikutnya.`);
-        });
-    });
-
-    // 5. Efek miring 3D mengikuti kursor (hanya di perangkat dengan mouse)
+    // 4. Efek miring 3D mengikuti kursor (hanya di perangkat dengan mouse)
     const bisaHover = window.matchMedia('(hover: hover)').matches;
     const kurangiGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -70,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Paralaks hero: gambar penari bergeser sedikit mengikuti kursor
+    // 5. Paralaks hero: gambar penari bergeser sedikit mengikuti kursor
     const hero = document.querySelector('[data-parallax]');
     const gambarHero = hero?.querySelector('.hero__art');
 
