@@ -343,3 +343,6 @@
     color: var(--nav-text); text-decoration: none;
 }
 .nav-profile__menu a:hover { background: rgba(201, 162, 74, .15); }
+
+/* Halaman layout terang (bukan landing/games): navbar langsung gelap supaya menu terbaca */
+body:has(main.bg-surface) .navbar:not(.is-scrolled) { background: rgba(14, 3, 7, .94); }

@@ -18,10 +18,10 @@
 
         <!-- Main Content -->
         <div class="w-full max-w-2xl mx-auto">
-            <div class="bg-surface-container-low rounded-lg p-space-md border border-outline-variant/30">
+            <div class="bg-surface-container-lowest rounded-xl p-space-md border border-secondary/40 shadow-sm">
                 <div class="flex items-center gap-space-sm mb-space-md">
-                    <span class="material-symbols-outlined text-secondary text-[24px]">edit</span>
-                    <h1 class="font-headline-sm text-headline-sm text-on-surface">Edit Review</h1>
+                    <span class="material-symbols-outlined text-primary text-[24px]">edit</span>
+                    <h1 class="font-headline-sm text-headline-sm text-primary font-bold">Edit Review</h1>
                 </div>
 
                 <form action="{{ route('review.update', $review) }}" method="POST" enctype="multipart/form-data" class="space-y-space-md">
@@ -51,7 +51,7 @@
                             id="content"
                             name="content"
                             rows="6"
-                            class="w-full px-space-md py-space-sm rounded-lg bg-surface-container border border-outline-variant/30 text-on-surface placeholder-on-surface-variant focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary/50 font-body-md text-body-md"
+                            class="w-full px-space-md py-space-sm rounded-lg bg-surface-container border border-secondary/35 text-primary placeholder-on-surface-variant/60 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary/50 font-body-md text-body-md"
                             required
                             minlength="10"
                             maxlength="1000"
@@ -111,13 +111,13 @@
                     </div>
 
                     <!-- Submit Buttons -->
-                    <div class="flex gap-space-sm pt-space-md border-t border-outline-variant/30">
-                        <a href="{{ route('cagar-budaya.show', $review->cagarBudaya->slug) }}" class="flex-1 py-3 px-4 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface border border-secondary/30 font-label-md text-label-md tracking-wider uppercase flex items-center justify-center gap-2 transition-colors">
+                    <div class="flex gap-space-sm pt-space-md border-t border-secondary/20">
+                        <a href="{{ route('cagar-budaya.show', $review->cagarBudaya->slug) }}" class="flex-1 py-3 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-bold border border-secondary/40 font-label-md text-label-md tracking-wider uppercase flex items-center justify-center gap-2 transition-colors">
                             <span class="material-symbols-outlined text-[18px]">close</span>
                             <span>Batal</span>
                         </a>
-                        <button type="submit" class="flex-1 py-3 px-4 rounded-lg bg-gradient-to-r from-primary-container via-[#540818] to-secondary-container text-secondary font-label-lg text-label-lg tracking-wider uppercase font-bold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(114,9,33,0.6)] hover:shadow-secondary/25 hover:scale-[1.01] transition-all border border-secondary/50">
-                            <span class="material-symbols-outlined text-[18px]">save</span>
+                        <button type="submit" class="flex-1 py-3 px-4 rounded-lg bg-primary hover:bg-[#5A1414] text-[#F9F6F0] font-label-lg text-label-lg tracking-wider uppercase font-bold flex items-center justify-center gap-2 shadow-md hover:scale-[1.01] transition-all border border-secondary/50">
+                            <span class="material-symbols-outlined text-secondary text-[18px]">save</span>
                             <span>Simpan Perubahan</span>
                         </button>
                     </div>

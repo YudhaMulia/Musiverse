@@ -4,8 +4,9 @@
 @source '../../storage/framework/views/*.php';
 
 /* ============================================================
-   CAGAR BUDAYA PALEMBANG — Sriwijaya Heritage Design System
-   Tailwind CSS v4 Theme Configuration
+   CAGAR BUDAYA PALEMBANG — Palembang White & Gold Design System
+   Pure Tri-Color Harmony: Maroon (#7A1C1C), Broken White (#F9F6F0), Pale Gold (#D4AF37)
+   ZERO BLACK DESIGN
    ============================================================ */
 
 @theme {
@@ -16,68 +17,68 @@
     --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Noto Serif', ui-serif, Georgia, serif;
 
-    /* ── Color Palette: Sriwijaya Heritage (Dark Maroon + Gold Songket) ── */
+    /* ── Color Palette: Pure Palembang White & Gold ── */
 
-    /* Primary (Maroon / Rose Heritage) */
-    --color-primary: #ffb2b6;
-    --color-primary-container: #720921;
-    --color-primary-fixed: #ffdadb;
-    --color-primary-fixed-dim: #ffb2b6;
-    --color-on-primary: #67001b;
-    --color-on-primary-container: #fd7683;
-    --color-on-primary-fixed: #40000d;
-    --color-on-primary-fixed-variant: #871c2f;
-    --color-inverse-primary: #a83545;
+    /* Primary (Merah Songket / Maroon) */
+    --color-primary: #7A1C1C;
+    --color-primary-container: #7A1C1C;
+    --color-primary-fixed: #942626;
+    --color-primary-fixed-dim: #7A1C1C;
+    --color-on-primary: #F9F6F0;
+    --color-on-primary-container: #F9F6F0;
+    --color-on-primary-fixed: #F9F6F0;
+    --color-on-primary-fixed-variant: #D4AF37;
+    --color-inverse-primary: #B38B2D;
 
-    /* Secondary (Gold Songket) */
-    --color-secondary: #e9c349;
-    --color-secondary-container: #af8d11;
-    --color-secondary-fixed: #ffe088;
-    --color-secondary-fixed-dim: #e9c349;
-    --color-on-secondary: #3c2f00;
-    --color-on-secondary-container: #342800;
-    --color-on-secondary-fixed: #241a00;
-    --color-on-secondary-fixed-variant: #574500;
+    /* Secondary (Emas Redup / Pale Gold & Palembang Brass) */
+    --color-secondary: #D4AF37;
+    --color-secondary-container: #B38B2D;
+    --color-secondary-fixed: #E8CC6E;
+    --color-secondary-fixed-dim: #D4AF37;
+    --color-on-secondary: #4A1010;
+    --color-on-secondary-container: #F9F6F0;
+    --color-on-secondary-fixed: #4A1010;
+    --color-on-secondary-fixed-variant: #4A1010;
 
-    /* Tertiary (Warm Coral) */
-    --color-tertiary: #ffb3af;
-    --color-tertiary-container: #760010;
-    --color-tertiary-fixed: #ffdad7;
-    --color-tertiary-fixed-dim: #ffb3af;
-    --color-on-tertiary: #68000d;
-    --color-on-tertiary-container: #ff7672;
-    --color-on-tertiary-fixed: #410005;
-    --color-on-tertiary-fixed-variant: #910618;
+    /* Tertiary (Warm Gold / Brass) */
+    --color-tertiary: #B38B2D;
+    --color-tertiary-container: #F6F1E7;
+    --color-tertiary-fixed: #E8CC6E;
+    --color-tertiary-fixed-dim: #B38B2D;
+    --color-on-tertiary: #4A1010;
+    --color-on-tertiary-container: #7A1C1C;
+    --color-on-tertiary-fixed: #4A1010;
+    --color-on-tertiary-fixed-variant: #7A1C1C;
 
-    /* Surface (Deep Maroon Darks) */
-    --color-surface: #1c1013;
-    --color-surface-dim: #1c1013;
-    --color-surface-bright: #443539;
-    --color-surface-container-lowest: #160b0e;
-    --color-surface-container-low: #25181b;
-    --color-surface-container: #291c1f;
-    --color-surface-container-high: #34262a;
-    --color-surface-container-highest: #3f3134;
-    --color-surface-variant: #3f3134;
-    --color-surface-tint: #ffb2b6;
-    --color-on-surface: #f4dde1;
-    --color-on-surface-variant: #debfc0;
-    --color-inverse-surface: #f4dde1;
-    --color-inverse-on-surface: #3b2d30;
+    /* Surface & Background (Putih Gading / Broken White Harmony — NO BLACK) */
+    --color-surface: #F9F6F0;
+    --color-surface-dim: #F0EADB;
+    --color-surface-bright: #FFFFFF;
+    --color-surface-container-lowest: #FFFFFF;
+    --color-surface-container-low: #FDFBF7;
+    --color-surface-container: #F5EFE4;
+    --color-surface-container-high: #EFE7D8;
+    --color-surface-container-highest: #E5DBC7;
+    --color-surface-variant: #EFE6D6;
+    --color-surface-tint: #D4AF37;
+    --color-on-surface: #4A1010;
+    --color-on-surface-variant: #783838;
+    --color-inverse-surface: #7A1C1C;
+    --color-inverse-on-surface: #F9F6F0;
 
     /* Background */
-    --color-background: #1c1013;
-    --color-on-background: #f4dde1;
+    --color-background: #F9F6F0;
+    --color-on-background: #4A1010;
 
-    /* Error */
-    --color-error: #ffb4ab;
-    --color-error-container: #93000a;
-    --color-on-error: #690005;
-    --color-on-error-container: #ffdad6;
+    /* Error (Harmonious with Maroon) */
+    --color-error: #B02020;
+    --color-error-container: #FDE8E8;
+    --color-on-error: #FFFFFF;
+    --color-on-error-container: #680A0A;
 
-    /* Outline */
-    --color-outline: #a58a8b;
-    --color-outline-variant: #574142;
+    /* Outline (Pale Gold & Warm Ivory Borders) */
+    --color-outline: #D4AF37;
+    --color-outline-variant: #D9CEBA;
 
     /* ── Spacing ── */
     --spacing-space-xs: 0.25rem;
@@ -98,8 +99,8 @@
 }
 
 @keyframes glow-pulse {
-    0%, 100% { box-shadow: 0 0 12px rgba(233, 195, 73, 0.3); }
-    50% { box-shadow: 0 0 28px rgba(233, 195, 73, 0.7); }
+    0%, 100% { box-shadow: 0 0 12px rgba(212, 175, 55, 0.35); }
+    50% { box-shadow: 0 0 28px rgba(212, 175, 55, 0.7); }
 }
 
 @keyframes shimmer {
@@ -112,7 +113,7 @@
     50% { height: 12px; }
 }
 
-/* ── Utility Layer ── */
+/* ── Utility Layer (Pure Maroon, Broken White, Pale Gold — ZERO BLACK) ── */
 @layer utilities {
     .animate-float-ember {
         animation: float-ember 4s ease-in-out infinite;
@@ -128,34 +129,34 @@
         animation: wave-bar 1.2s ease-in-out infinite;
     }
     .text-gradient-gold {
-        background: linear-gradient(135deg, #ffd700 0%, #d4af37 38%, #b32d3e 78%, #9b111e 100%);
+        background: linear-gradient(135deg, #B38B2D 0%, #D4AF37 40%, #7A1C1C 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
     .text-shadow-gold {
-        text-shadow: 0 0 18px rgba(233, 195, 73, 0.4);
+        text-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
     }
     .border-gold {
-        border-color: rgba(233, 195, 73, 0.45);
+        border-color: rgba(212, 175, 55, 0.55);
     }
     .glow-gold {
-        box-shadow: 0 0 20px rgba(233, 195, 73, 0.45);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.35);
     }
     .glow-maroon {
-        box-shadow: 0 0 20px rgba(114, 9, 33, 0.45);
+        box-shadow: 0 0 20px rgba(122, 28, 28, 0.35);
     }
     .bg-heritage-radial {
-        background: radial-gradient(circle at 50% 15%, #291c1f 0%, #1c1013 55%, #160b0e 100%);
+        background: radial-gradient(circle at 50% 15%, #FFFFFF 0%, #F9F6F0 60%, #EFE5D3 100%);
     }
     .bg-card-dark {
-        background: linear-gradient(180deg, rgba(37, 24, 27, 0.85) 0%, rgba(22, 11, 14, 0.95) 100%);
+        background: linear-gradient(180deg, #FFFFFF 0%, #FBF8F2 100%);
     }
     .bg-glass-dark {
-        background: rgba(37, 24, 27, 0.88);
+        background: rgba(255, 255, 255, 0.92);
     }
     .bg-footer-gradient {
-        background: linear-gradient(180deg, #1c1013 0%, #160b0e 100%);
+        background: linear-gradient(180deg, #7A1C1C 0%, #5A1414 100%);
     }
 }
 
@@ -164,6 +165,8 @@
     html, body {
         margin: 0;
         padding: 0;
+        background-color: #F9F6F0;
+        color: #4A1010;
     }
     body {
         overscroll-behavior: none;
@@ -174,13 +177,13 @@
         width: 6px;
     }
     ::-webkit-scrollbar-track {
-        background: #160b0e;
+        background: #F9F6F0;
     }
     ::-webkit-scrollbar-thumb {
-        background: #574142;
+        background: #D4AF37;
         border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
-        background: #a58a8b;
+        background: #B38B2D;
     }
 }

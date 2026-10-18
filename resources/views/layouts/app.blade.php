@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="id">
+<html lang="id">
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -18,57 +18,62 @@
 
     <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "inverse-primary": "#a83545",
-                        "error": "#ffb4ab",
-                        "inverse-surface": "#f4dde1",
-                        "on-primary": "#ffffff",
-                        "secondary-container": "#af8d11",
-                        "primary-container": "#720921",
-                        "tertiary": "#ffb3af",
-                        "surface-container": "#291c1f",
-                        "surface-variant": "#3f3134",
-                        "primary-fixed-dim": "#ffb2b6",
-                        "outline-variant": "#574142",
-                        "surface-bright": "#443539",
-                        "primary-fixed": "#ffdadb",
-                        "primary": "#ffb2b6",
-                        "on-secondary-container": "#342800",
-                        "on-tertiary-fixed-variant": "#910618",
-                        "on-error-container": "#ffdad6",
-                        "on-primary-fixed": "#40000d",
-                        "surface-container-lowest": "#160b0e",
-                        "surface-tint": "#ffb2b6",
-                        "surface-container-low": "#25181b",
-                        "on-tertiary-fixed": "#410005",
-                        "on-primary-container": "#ffebee",
-                        "on-surface-variant": "#debfc0",
-                        "on-error": "#690005",
-                        "on-secondary-fixed": "#241a00",
-                        "error-container": "#93000a",
-                        "tertiary-fixed": "#ffdad7",
-                        "surface-container-high": "#34262a",
-                        "surface": "#1c1013",
-                        "on-primary-fixed-variant": "#871c2f",
-                        "tertiary-fixed-dim": "#ffb3af",
-                        "on-tertiary-container": "#ff7672",
-                        "on-background": "#f4dde1",
-                        "on-surface": "#f4dde1",
-                        "surface-container-highest": "#3f3134",
-                        "background": "#1c1013",
-                        "secondary": "#e9c349",
-                        "outline": "#a58a8b",
-                        "on-tertiary": "#68000d",
-                        "secondary-fixed": "#ffe088",
-                        "inverse-on-surface": "#3b2d30",
-                        "on-secondary": "#3c2f00",
-                        "on-secondary-fixed-variant": "#574500",
-                        "surface-dim": "#1c1013",
-                        "tertiary-container": "#760010",
-                        "secondary-fixed-dim": "#e9c349"
+                        "primary": "#7A1C1C",
+                        "primary-container": "#7A1C1C",
+                        "primary-fixed": "#942626",
+                        "primary-fixed-dim": "#7A1C1C",
+                        "on-primary": "#F9F6F0",
+                        "on-primary-container": "#F9F6F0",
+                        "on-primary-fixed": "#F9F6F0",
+                        "on-primary-fixed-variant": "#D4AF37",
+                        "inverse-primary": "#B38B2D",
+
+                        "secondary": "#D4AF37",
+                        "secondary-container": "#B38B2D",
+                        "secondary-fixed": "#E8CC6E",
+                        "secondary-fixed-dim": "#D4AF37",
+                        "on-secondary": "#4A1010",
+                        "on-secondary-container": "#F9F6F0",
+                        "on-secondary-fixed": "#4A1010",
+                        "on-secondary-fixed-variant": "#4A1010",
+
+                        "tertiary": "#B38B2D",
+                        "tertiary-container": "#F6F1E7",
+                        "tertiary-fixed": "#E8CC6E",
+                        "tertiary-fixed-dim": "#B38B2D",
+                        "on-tertiary": "#4A1010",
+                        "on-tertiary-container": "#7A1C1C",
+                        "on-tertiary-fixed": "#4A1010",
+                        "on-tertiary-fixed-variant": "#7A1C1C",
+
+                        "surface": "#F9F6F0",
+                        "surface-dim": "#F0EADB",
+                        "surface-bright": "#FFFFFF",
+                        "surface-container-lowest": "#FFFFFF",
+                        "surface-container-low": "#FDFBF7",
+                        "surface-container": "#F5EFE4",
+                        "surface-container-high": "#EFE7D8",
+                        "surface-container-highest": "#E5DBC7",
+                        "surface-variant": "#EFE6D6",
+                        "surface-tint": "#D4AF37",
+                        "on-surface": "#4A1010",
+                        "on-surface-variant": "#783838",
+                        "inverse-surface": "#7A1C1C",
+                        "inverse-on-surface": "#F9F6F0",
+
+                        "background": "#F9F6F0",
+                        "on-background": "#4A1010",
+
+                        "error": "#B02020",
+                        "error-container": "#FDE8E8",
+                        "on-error": "#FFFFFF",
+                        "on-error-container": "#680A0A",
+
+                        "outline": "#D4AF37",
+                        "outline-variant": "#D9CEBA"
                     },
                     borderRadius: {
                         DEFAULT: "0.125rem",
@@ -129,6 +134,8 @@
             html, body {
                 margin: 0;
                 padding: 0;
+                background-color: #F9F6F0;
+                color: #4A1010;
             }
             body {
                 overscroll-behavior: none;
@@ -141,21 +148,29 @@
             }
         }
         ::-webkit-scrollbar {
-            display: none;
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9F6F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B38B2D;
         }
     </style>
 </head>
 
-<body class="bg-surface font-body-md text-on-surface min-h-screen selection:bg-primary-container selection:text-secondary">
+<body class="bg-surface font-body-md text-on-surface min-h-screen selection:bg-primary selection:text-on-primary">
     @include('components.header')
 
-    <main class="w-full @yield('jarak_atas', 'pt-20') bg-gradient-to-b from-[#160b0e] via-[#1c1013] to-[#160b0e]">
+    <main class="w-full @yield('jarak_atas', 'pt-20') @yield('latar_main', 'bg-surface')">
         @yield('content')
     </main>
 
     @include('components.footer')
-
-    
 
     {{-- Musik latar Gending Sriwijaya (lanjut terus saat pindah halaman) --}}
     @include('components.musik')
