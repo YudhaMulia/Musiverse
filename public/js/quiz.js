@@ -318,6 +318,7 @@
         if (s.nomor !== nomorTampil) {
             nomor = s.nomor;
             nomorTampil = s.nomor;
+            tampilSoal(s.soal);   // gambar soal dan pilihan jawaban (jangan dihapus)
             // Habis refresh: kunci lagi jawabanku di soal ini kalau sebelumnya sudah menjawab
             if (pilihanku && pilihanku.soal === nomor) jawabkan(kamu, pilihanku.pilih, berlaluMs / 1000);
         }
@@ -414,7 +415,16 @@
     });
 
     const sambung = () => {
-        muatPusher().then(sambungKe).catch(() => {
+        muatPusher().then(() => {
+            // Error di dalam sambungKe dicatat di Console, TIDAK diam-diam jadi mode solo
+            try {
+                sambungKe();
+            } catch (err) {
+                console.error('Quiz: gagal menyambung ke ruangan', err);
+                tampilStatus('Gagal tersambung ke ruangan. Muat ulang halaman.');
+            }
+        }, () => {
+            // Hanya kalau file Pusher gagal diunduh
             if (mode === 'host') {
                 mode = 'solo';
                 pemain.forEach((p) => { if (!p.kamu) p.bot = true; });

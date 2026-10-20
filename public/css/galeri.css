@@ -438,3 +438,33 @@
 /* Hero tidak bergerak saat sudah tergulir keluar layar */
 .gb-hero:not(.is-di-layar) * { animation-play-state: paused !important; }
 
+/* =========================================================
+   GALERI HP: tiga card kecil tampil berjajar (tanpa geser)
+   ========================================================= */
+@media (max-width: 720px) {
+    .gb-slide__baris { padding-bottom: 72px; }
+
+    .gb-pilih {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        overflow: visible;
+        margin-top: -28px;
+        padding-bottom: 6px;
+    }
+    .gb-thumb { flex: none; min-width: 0; gap: 6px; }
+
+    .gb-thumb__foto { border-radius: 12px; }
+    .gb-thumb img { aspect-ratio: 4 / 3; }
+
+    .gb-thumb__teks { padding: 0 2px; }
+    .gb-thumb__nama {
+        font-size: .72rem; line-height: 1.25;
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .gb-thumb__info { display: none; }
+
+    /* card aktif tidak melayang/zoom di HP supaya tidak terpotong dan lebih ringan */
+    .gb-thumb.is-aktif .gb-thumb__foto { animation: none; }
+    .gb-thumb.is-aktif img { animation: none; }
+}

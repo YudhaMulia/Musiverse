@@ -453,3 +453,27 @@ body:not(:has(.hero, [data-navbar-gelap])) .navbar:not(.is-scrolled) .navbar__me
     .tema-games .modal-logo,
     .tema-games .lobby-logo { padding-left: 16px; padding-right: 20px; gap: 8px; }
 }
+
+/* =========================================================
+   NAVBAR LAYAR HP: hanya tombol Masuk, logo dirapatkan
+   ========================================================= */
+@media (max-width: 640px) {
+    .navbar .btn-daftar { display: none; }   /* Daftar bisa dibuka dari halaman Masuk */
+
+    .navbar__inner,
+    .navbar.is-scrolled .navbar__inner { gap: 8px; padding: 10px 14px; }
+
+    .navbar .logo { min-width: 0; gap: 8px; }
+    .logo__img { height: 32px; }
+    .navbar .logo__text { font-size: 1.25rem; }
+
+    .navbar .btn-masuk { padding: 7px 16px; font-size: .88rem; }
+    .navbar__toggle { margin-left: 0; }
+}
+
+/* HP sangat kecil (lebar 360px ke bawah) */
+@media (max-width: 360px) {
+    .logo__img { height: 28px; }
+    .navbar .logo__text { font-size: 1.1rem; }
+    .navbar .btn-masuk { padding: 6px 12px; font-size: .82rem; }
+}

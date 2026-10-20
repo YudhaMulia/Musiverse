@@ -127,6 +127,13 @@
         p.detik = el.querySelector('[data-detik]');
     });
 
+    // ---------- Simpanan (supaya refresh tidak mengulang permainan) ----------
+    const KUNCI_SIMPAN = `musiverse_match_${KODE_RUANG || 'solo'}_${RONDE}`;
+    const simpan = (isi) => { try { sessionStorage.setItem(KUNCI_SIMPAN, JSON.stringify(isi)); } catch (e) { /* abaikan */ } };
+    const hapusSimpanan = () => { try { sessionStorage.removeItem(KUNCI_SIMPAN); } catch (e) { /* abaikan */ } };
+    let simpanan = null;
+    try { simpanan = JSON.parse(sessionStorage.getItem(KUNCI_SIMPAN)); } catch (e) { simpanan = null; }
+
     // ---------- 2. Kartu ----------
     // Solo/host: 18 pasang dipilih acak dari 32, lalu diacak posisinya.
     // Tamu: menunggu susunan kartu dari tuan rumah (supaya semua orang melihat susunan yang sama).
@@ -155,9 +162,17 @@
         });
     };
 
+    let dipulihkan = false;   // true kalau halaman di-refresh dan permainan dilanjutkan
     if (mode !== 'tamu') {
-        const dipilih = acak([...KARTU]).slice(0, JUMLAH_PASANG);
-        bangunPapan(acak([...dipilih, ...dipilih].map((k) => ({ ...k }))));
+        const lama = (mode === 'host' && simpanan && simpanan.host && !simpanan.selesai
+            && Array.isArray(simpanan.dek) && simpanan.dek.every((id) => kartuDariId(id))) ? simpanan : null;
+        if (lama) {
+            bangunPapan(lama.dek.map((id) => ({ ...kartuDariId(id) })));
+            dipulihkan = true;
+        } else {
+            const dipilih = acak([...KARTU]).slice(0, JUMLAH_PASANG);
+            bangunPapan(acak([...dipilih, ...dipilih].map((k) => ({ ...k }))));
+        }
     }
 
     // ---------- 3. Keadaan permainan ----------
@@ -222,7 +237,7 @@
     // ---------- 5. Pusher: tuan rumah mengirim keadaan, tamu menerima ----------
     let kanal = null;            // channel Pusher ruangan ini
     let kanalSiap = false;       // true setelah berhasil masuk channel
-    let versi = 0;               // nomor urut keadaan (tuan rumah menaikkan, tamu membuang yang lama)
+    let versi = Date.now();      // nomor urut keadaan (berbasis waktu, jadi setelah refresh tetap lebih baru)
     let terakhirKirim = 0;
 
     // Foto seluruh permainan saat ini (ukurannya kecil, jauh di bawah batas 10 KB Pusher)
@@ -240,9 +255,12 @@
     });
 
     const siarkan = () => {
-        if (mode !== 'host' || !kanalSiap) return;
+        if (mode !== 'host') return;
+        const keadaan = ambilKeadaan();
+        simpan({ ...keadaan, host: true });   // cadangan kalau tuan rumah refresh
+        if (!kanalSiap) return;
         terakhirKirim = performance.now();
-        try { kanal.trigger('client-keadaan', ambilKeadaan()); } catch (e) { /* abaikan */ }
+        try { kanal.trigger('client-keadaan', keadaan); } catch (e) { /* abaikan */ }
     };
 
     // --- sisi tamu: pasang keadaan dari tuan rumah ke layar ---
@@ -253,10 +271,15 @@
 
     const terapkan = (s) => {
         if (mode !== 'tamu' || !s || s.v <= versiTerakhir) return;   // pesan lama dibuang
-        if (!dek.length) {
-            if (!Array.isArray(s.dek) || !s.dek.every((id) => kartuDariId(id))) return;
+        if (!Array.isArray(s.dek) || !s.dek.every((id) => kartuDariId(id))) return;
+
+        // Bangun ulang papan kalau belum ada ATAU susunannya beda dari tuan rumah
+        const beda = dek.length !== s.dek.length || dek.some((k, i) => k.id !== s.dek[i]);
+        if (beda) {
             bangunPapan(s.dek.map((id) => ({ ...kartuDariId(id) })));
+            urutanTemuTampil = s.urutanTemu || 0;   // jangan munculkan pemberitahuan pasangan lama
         }
+        simpan(s);   // cadangan supaya refresh langsung bisa menggambar layar
         versiTerakhir = s.v;
         sudahTerima = true;
         terakhirTerima = performance.now();
@@ -379,18 +402,21 @@
         if (mode === 'host') {
             kanal.bind('pusher:subscription_succeeded', () => {
                 kanalSiap = true;
-                teksStatus.textContent = 'Menunggu pemain lain siap...';
-                timerTunggu = setTimeout(mulaiPermainan, TUNGGU_TAMU);
+                if (!dipulihkan) {
+                    teksStatus.textContent = 'Menunggu pemain lain siap...';
+                    timerTunggu = setTimeout(mulaiPermainan, TUNGGU_TAMU);
+                }
                 siarkan();
             });
 
             pasangPenangkap();
         } else {
             teksStatus.textContent = 'Menunggu tuan rumah...';
-            kanal.bind('client-keadaan', terapkan);
+            let sudahLive = false;   // true setelah menerima keadaan langsung dari tuan rumah (bukan dari simpanan)
+            kanal.bind('client-keadaan', (s) => { sudahLive = true; terapkan(s); });
 
             const kirimSiap = () => {
-                    if (token > 0) return;
+                    if (token > 0 && sudahLive) return;
                 try { kanal.trigger('client-siap', { dari: saya }); } catch (e) { /* abaikan */ }
             };
             kanal.bind('pusher:subscription_succeeded', () => {
@@ -694,9 +720,38 @@
     }
 
     // ---------- Mulai ----------
+    // Tuan rumah yang di-refresh: kembalikan skor, kartu yang cocok, dan giliran
+    const pulihkanTuanRumah = (s) => {
+        urutanTemu = s.urutanTemu || 0;
+        Object.assign(penemu, s.penemu);
+        s.pemain.forEach((a, i) => {
+            const p = pemain[i];
+            if (p) [p.skor, p.tebakan, p.meleset, p.totalDetik, p.rangkaian, p.rangkaianTerbaik] = a;
+        });
+        s.cocok.forEach((i) => {
+            const el = kartuEl[i];
+            if (!el) return;
+            cocok.add(i);
+            el.classList.add('is-terbuka', 'is-cocok');
+            el.disabled = true;
+            el.setAttribute('aria-label', dek[i].nama);
+            const f = penemu[dek[i].id];
+            if (f && pemain[f.pemain]) el.style.setProperty('--warna', pemain[f.pemain].warna);
+        });
+        giliran = pemain[s.giliran] ? s.giliran : 0;
+        sisaTotal = s.sisaTotal;
+        sisaGiliran = WAKTU_GILIRAN;   // kartu yang sedang terbuka ditutup, waktu giliran diulang
+        sudahMulai = true;             // tidak perlu menunggu tamu lagi
+    };
+    if (dipulihkan) pulihkanTuanRumah(simpanan);
+
+    // Tamu yang di-refresh: tampilkan keadaan terakhir dulu, yang terbaru menyusul lewat Pusher
+    if (mode === 'tamu' && simpanan && !simpanan.host && !simpanan.selesai) terapkan(simpanan);
+
     tampilSkor();
     tampilGiliran();
-    teksStatus.textContent = 'Bersiap...';
+    if (!dipulihkan && !sudahTerima) teksStatus.textContent = 'Bersiap...';
     if (mode === 'solo') mulaiPermainan();
     else sambung();
+    if (dipulihkan) setTimeout(lanjut, 900);   // lanjutkan giliran setelah kartu selesai muncul
 })();
