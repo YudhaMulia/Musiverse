@@ -74,6 +74,30 @@ class VisitController extends Controller
         return response()->json(['ok' => true]);
     }
 
+        /** 3 ulasan terbaru (hanya yang punya foto) dari semua pengguna untuk satu lokasi. */
+    public function reviews(string $slug)
+    {
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+        $disk = Storage::disk(self::DISK);
+
+        $list = Visit::with(['user', 'photos'])
+            ->where('site_slug', $slug)
+            ->whereHas('photos')
+            ->latest('updated_at')
+            ->limit(3)
+            ->get()
+            ->map(fn ($v) => [
+                'name'   => $v->user->name ?? 'Pengunjung',
+                'story'  => $v->story ?? '',
+                'rating' => (int) ($v->rating ?? 0),
+                'photo'  => $disk->url($v->photos->first()->path),
+                'at'     => $v->updated_at->getTimestamp() * 1000,
+            ])
+            ->all();
+
+        return response()->json($list);
+    }
+
     /**
      * $items berisi: URL foto lama (dipertahankan) atau data URL base64 (foto baru).
      * Foto lama yang tidak ada di daftar akan dihapus.
