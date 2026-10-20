@@ -90,4 +90,5 @@ Route::prefix('api')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/visits/{slug}', [VisitController::class, 'store']);
     Route::patch('/visits/{slug}/decor', [VisitController::class, 'decor']);
+    Route::get('/visits/{slug}/reviews', [VisitController::class, 'reviews']);
 });

@@ -334,6 +334,26 @@
         70%  { opacity:1; transform:translateX(-100px) rotate(-12deg); }
         100% { opacity:0; transform:translateX(-120px) rotate(-12deg); }
     }
+        /* Area teks sejarah yang bisa di-scroll */
+    .bk-scroll { position:absolute; left:28px; right:22px; top:74px; bottom:70px; overflow-y:auto; overflow-x:hidden;
+    padding-right:8px; overscroll-behavior:contain; scrollbar-width:thin; scrollbar-color:#c9a77a transparent; }
+    .bk-scroll::-webkit-scrollbar { width:6px; }
+    .bk-scroll::-webkit-scrollbar-thumb { background:#c9a77a; border-radius:6px; }
+    .bk-scroll::-webkit-scrollbar-track { background:transparent; }
+    .bk-scroll .hm-desc { margin-top:0; }
+
+    /* Ulasan pengunjung */
+    .rv-title { font-family:Georgia,serif; font-size:15px; margin:14px 0 8px; color:#4a2a18; border-top:1px dashed #d8c5a0; padding-top:10px; }
+    .rv-list { display:flex; flex-direction:column; gap:8px; }
+    .rv-item { display:flex; gap:10px; align-items:flex-start; background:#fffdf5; border:1px solid #eadfce; border-radius:10px; padding:8px 10px; }
+    .rv-item img { width:46px; height:46px; object-fit:cover; border-radius:8px; flex:none; }
+    .rv-body { min-width:0; flex:1; }
+    .rv-top { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+    .rv-top b { font-size:13px; color:#3a2a20; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .rv-stars { color:#f5a623; font-size:13px; flex:none; }
+    .rv-text { margin:3px 0 0; font-size:12.5px; line-height:1.45; color:#5a4636; display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .rv-empty { font-size:12.5px; color:#8a7a6a; }
+
     @media (max-width: 1023px) {
         .hm-grid, .hm-grid.has-panel { grid-template-columns:1fr; }
         .hm-mapbox { height:460px; }
@@ -720,7 +740,11 @@
         <div class="bk-sheet" data-sheet="1">
             <div class="bk-face front">
                 <h3 class="bk-h bk-hand">📜 Kisah Tempat Ini</h3>
-                <p class="hm-desc" style="max-height:none;overflow:visible;font-size:${fs}px;line-height:1.7;font-family:Georgia,serif">${esc(s.desc)}</p>
+                    <div class="bk-scroll">
+                    <p class="hm-desc" style="max-height:none;overflow:visible;font-size:15px;line-height:1.7;font-family:Georgia,serif">${esc(s.desc)}</p>
+                    <div class="rv-title">💬 Ulasan Pengunjung</div>
+                    <div class="rv-list" data-reviews><div class="rv-empty">Memuat ulasan…</div></div>
+                </div>
                 <button type="button" class="bk-nav n" data-go="2">Lanjut ›</button>
             </div>
             <div class="bk-face back bk-gal" data-gallery-page></div>
@@ -734,6 +758,46 @@
         <div class="bk-sheet" data-sheet="3">
             <div class="bk-face front" data-deco-page></div>
         </div>`;
+    }
+
+        /* ---------- Ulasan pengunjung (3 terbaru, hanya yang punya foto) ---------- */
+    const reviewCache = {};
+
+    function renderReviews(list) {
+        const box = document.querySelector('[data-reviews]');
+        if (!box) return;
+        if (!list || !list.length) {
+            box.innerHTML = '<div class="rv-empty">Belum ada ulasan dengan foto. Jadilah yang pertama!</div>';
+            return;
+        }
+        box.innerHTML = list.map((r) => `
+            <div class="rv-item">
+                <img src="${esc(r.photo)}" alt="" onerror="this.style.display='none'">
+                <div class="rv-body">
+                    <div class="rv-top">
+                        <b>${esc(r.name)}</b>
+                        ${r.rating ? `<span class="rv-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>` : ''}
+                    </div>
+                    ${r.story ? `<p class="rv-text">${esc(r.story)}</p>` : ''}
+                </div>
+            </div>`).join('');
+    }
+
+    async function loadReviews(i) {
+        const slug = sites[i].slug;
+        if (reviewCache[slug]) renderReviews(reviewCache[slug]);
+        try {
+            const res = await fetch(`/visits/${slug}/reviews`, { headers: { 'Accept': 'application/json' } });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            reviewCache[slug] = await res.json();
+            if (BOOK.idx === i) renderReviews(reviewCache[slug]);
+        } catch (e) {
+            console.error('Ulasan gagal dimuat:', e);
+            if (BOOK.idx === i && !reviewCache[slug]) {
+                const box = document.querySelector('[data-reviews]');
+                if (box) box.innerHTML = '<div class="rv-empty">Ulasan belum bisa dimuat.</div>';
+            }
+        }
     }
 
     function openBook(i) {
@@ -754,6 +818,7 @@
         fitBook();
         renderFormPage(); renderJournal(); renderDeco();
         applyPos();
+        loadReviews(i);
 
         const sw = $('bk-swing');
         sw.classList.remove('swing'); void sw.offsetWidth; sw.classList.add('swing');
@@ -861,6 +926,8 @@
                 };
                 d.photos = [...(saved.photos || d.photos)];
                 updateScore();
+                delete reviewCache[s.slug];
+                loadReviews(BOOK.idx);
                 if (saved.points != null && saved.points !== entry.points) { renderJournal(); renderDeco(); }
             } catch (e) {
                 console.error('Simpan gagal:', e);
