@@ -162,10 +162,22 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #B38B2D;
         }
+
+        /* Hero content smooth transition */
+        #hero-content {
+            transition: opacity 300ms ease, transform 300ms ease;
+        }
     </style>
+    @stack('styles')
 </head>
 
-<body class="bg-surface font-body-md text-on-surface min-h-screen selection:bg-primary selection:text-on-primary">
+<body class="font-body-md text-on-surface min-h-screen selection:bg-primary selection:text-on-primary" style="
+    background:
+        radial-gradient(1100px 700px at 10% 35%, rgba(212, 175, 55, .13), transparent 60%),
+        radial-gradient(900px 600px at 90% 75%, rgba(122, 28, 28, .06), transparent 60%),
+        url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2756%27 height=%2756%27 viewBox=%270 0 56 56%27%3E%3Cg fill=%27none%27 stroke=%27%23B38B2D%27 stroke-opacity=%27.14%27%3E%3Cpath d=%27M28 3 53 28 28 53 3 28Z%27/%3E%3Cpath d=%27M28 17 39 28 28 39 17 28Z%27/%3E%3C/g%3E%3Ccircle cx=%2728%27 cy=%2728%27 r=%272%27 fill=%27%23B38B2D%27 fill-opacity=%27.16%27/%3E%3C/svg%3E'),
+        #F9F6F0;
+">
     @include('components.header')
 
     <main class="w-full @yield('jarak_atas', 'pt-20') @yield('latar_main', 'bg-surface')">
@@ -186,9 +198,26 @@
                 this.prevBtn = document.querySelector('.carousel-prev');
                 this.nextBtn = document.querySelector('.carousel-next');
 
+                // Content elements (single elements that get updated)
+                this.heroBadge = document.getElementById('hero-badge');
+                this.heroTitle = document.getElementById('hero-title');
+                this.heroDescription = document.getElementById('hero-description');
+
+                // Slide data from hidden JSON element
+                this.slideData = [];
+                const dataEl = document.getElementById('carousel-data');
+                if (dataEl && dataEl.dataset.slides) {
+                    try {
+                        this.slideData = JSON.parse(dataEl.dataset.slides);
+                    } catch (e) {
+                        console.warn('Carousel data parse error:', e);
+                    }
+                }
+
                 this.currentIndex = 0;
                 this.autoPlayInterval = null;
                 this.autoPlayDelay = 5000; // 5 seconds
+                this.isInitialLoad = true;
 
                 if (this.slides.length > 0) {
                     this.init();
@@ -196,14 +225,6 @@
             }
 
             init() {
-                // Bind button events
-                if (this.prevBtn) {
-                    this.prevBtn.addEventListener('click', () => this.goToPrevious());
-                }
-                if (this.nextBtn) {
-                    this.nextBtn.addEventListener('click', () => this.goToNext());
-                }
-
                 // Bind indicator events
                 this.indicators.forEach((indicator, index) => {
                     indicator.addEventListener('click', () => this.goToSlide(index));
@@ -239,7 +260,7 @@
             }
 
             updateCarousel() {
-                // Update slides
+                // Update slides (background images)
                 this.slides.forEach((slide, index) => {
                     slide.classList.remove('opacity-100');
                     slide.classList.add('opacity-0');
@@ -248,6 +269,47 @@
                         slide.classList.add('opacity-100');
                     }
                 });
+
+                // Update content text (with smooth transition)
+                if (this.slideData[this.currentIndex]) {
+                    const data = this.slideData[this.currentIndex];
+
+                    // Fade out
+                    const contentEl = document.getElementById('hero-content');
+                    if (contentEl) {
+                        contentEl.style.opacity = '0';
+                        // On initial load, don't translate - just fade
+                        if (this.isInitialLoad) {
+                            contentEl.style.transform = 'translateY(0)';
+                        } else {
+                            contentEl.style.transform = 'translateY(10px)';
+                        }
+                    }
+
+                    // Update after brief delay for smooth transition
+                    setTimeout(() => {
+                        if (this.heroBadge && data.badge_text) {
+                            this.heroBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span> ${data.badge_text}`;
+                        }
+                        if (this.heroTitle && data.hero_title) {
+                            this.heroTitle.textContent = data.hero_title;
+                        }
+                        if (this.heroDescription && data.hero_description) {
+                            this.heroDescription.textContent = data.hero_description;
+                        }
+
+                        // Fade in
+                        if (contentEl) {
+                            contentEl.style.opacity = '1';
+                            contentEl.style.transform = 'translateY(0)';
+                        }
+
+                        // Mark initial load as complete
+                        if (this.isInitialLoad) {
+                            this.isInitialLoad = false;
+                        }
+                    }, 150);
+                }
 
                 // Update indicators
                 this.indicators.forEach((indicator, index) => {

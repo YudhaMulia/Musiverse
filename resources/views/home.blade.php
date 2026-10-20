@@ -219,7 +219,7 @@
                 </a>
             </div>
 
-            {{-- Heritage Sites Cards Grid (Foto Asli, Jernih, Alami) --}}
+            {{-- Heritage Sites Cards (gaya thumbnail galeri, teks muncul saat hover) --}}
             @php
                 $sites = [
                     [
@@ -257,28 +257,76 @@
                 ];
             @endphp
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <style>
+                .ws-card {
+                    position: relative;
+                    margin: 0;
+                    aspect-ratio: 3 / 4;
+                    overflow: hidden;
+                    border-radius: 22px;
+                    border: 2px solid rgba(212, 175, 55, 0.55);
+                    box-shadow: 0 12px 24px rgba(122, 28, 28, 0.14);
+                    cursor: pointer;
+                    transition: transform .3s, box-shadow .3s, border-color .3s;
+                }
+                .ws-card:hover,
+                .ws-card:focus {
+                    transform: translateY(-6px);
+                    border-color: #D4AF37;
+                    box-shadow: 0 0 0 1px #D4AF37, 0 20px 36px rgba(122, 28, 28, 0.22);
+                    outline: none;
+                }
+                .ws-card img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    transition: transform .6s ease;
+                }
+                .ws-card:hover img,
+                .ws-card:focus img {
+                    transform: scale(1.05);
+                }
+                .ws-card__info {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    padding: 64px 18px 18px;
+                    background: linear-gradient(0deg, rgba(58, 12, 12, 0.96) 0%, rgba(58, 12, 12, 0.65) 60%, transparent 100%);
+                    opacity: 0;
+                    transform: translateY(16px);
+                    transition: opacity .35s ease, transform .35s ease;
+                }
+                .ws-card:hover .ws-card__info,
+                .ws-card:focus .ws-card__info {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                @media (max-width: 520px) {
+                    .ws-card { aspect-ratio: 4 / 3; }
+                }
+                @media (prefers-reduced-motion: reduce) {
+                    .ws-card, .ws-card img, .ws-card__info { transition: none; }
+                }
+            </style>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 @foreach($sites as $site)
-                    <div class="group rounded-xl transition-all duration-300 overflow-hidden flex flex-col justify-between bg-surface-container-lowest hover:-translate-y-1 shadow-sm hover:shadow-md"
-                         style="border: 1.5px solid rgba(212, 175, 55, 0.45);">
+                    <figure class="ws-card" tabindex="0">
+                        <img src="{{ $site['image'] }}" alt="{{ $site['alt'] }}" loading="lazy" />
 
-                        {{-- Natural Image (Foto Asli Jernih Tanpa Overlay Warna) --}}
-                        <div class="relative w-full h-44 overflow-hidden bg-surface-container">
-                            <img class="w-full h-full object-cover object-center group-hover:scale-105 transition-all duration-500"
-                                 src="{{ $site['image'] }}"
-                                 alt="{{ $site['alt'] }}" />
-                            <div class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded bg-surface/95 backdrop-blur-md text-primary border border-secondary/50 font-label text-[11px] leading-[14px] uppercase font-bold shadow-sm">
+                        {{-- Teks tersembunyi saat awal, muncul saat hover / fokus / disentuh --}}
+                        <figcaption class="ws-card__info">
+                            <span class="inline-block px-2.5 py-0.5 rounded-full bg-surface/95 text-primary border border-secondary/50 font-label text-[11px] leading-[14px] uppercase font-bold">
                                 {{ $site['era'] }}
-                            </div>
-                        </div>
-
-                        {{-- Card Content --}}
-                        <div class="p-4 flex flex-col gap-1">
-                            <span class="font-label text-[11px] leading-[14px] tracking-[0.06em] text-secondary-container uppercase tracking-widest font-mono font-bold">{{ $site['category'] }}</span>
-                            <h4 class="font-serif text-[18px] leading-[24px] font-bold text-primary group-hover:text-secondary-container transition-colors">{{ $site['title'] }}</h4>
-                            <p class="font-body text-[13px] leading-[18px] text-on-surface-variant line-clamp-2 mt-1">{{ $site['description'] }}</p>
-                        </div>
-                    </div>
+                            </span>
+                            <span class="block mt-2 font-label text-[11px] leading-[14px] tracking-widest uppercase font-bold" style="color: #E8CC6E;">{{ $site['category'] }}</span>
+                            <h4 class="font-serif text-[20px] leading-[26px] font-bold text-white mt-1">{{ $site['title'] }}</h4>
+                            <p class="font-body text-[13px] leading-[19px] mt-1.5" style="color: #F3E9D2;">{{ $site['description'] }}</p>
+                        </figcaption>
+                    </figure>
                 @endforeach
             </div>
         </div>
