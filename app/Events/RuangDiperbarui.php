@@ -11,9 +11,7 @@ class RuangDiperbarui implements ShouldBroadcastNow
 {
     use Dispatchable;
 
-    public function __construct(public string $kode)
-    {
-    }
+    public function __construct(public string $kode) {}
 
     public function broadcastOn(): array
     {

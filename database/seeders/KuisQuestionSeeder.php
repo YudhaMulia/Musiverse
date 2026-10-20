@@ -80,14 +80,14 @@ class KuisQuestionSeeder extends Seeder
 
         foreach ($soal as [$tanya, $a, $b, $c, $d, $benar, $penjelasan, $kategori]) {
             KuisQuestion::create([
-                'pertanyaan'    => $tanya,
-                'opsi_a'        => $a,
-                'opsi_b'        => $b,
-                'opsi_c'        => $c,
-                'opsi_d'        => $d,
+                'pertanyaan' => $tanya,
+                'opsi_a' => $a,
+                'opsi_b' => $b,
+                'opsi_c' => $c,
+                'opsi_d' => $d,
                 'jawaban_benar' => $benar,
-                'penjelasan'    => $penjelasan,
-                'kategori'      => $kategori,
+                'penjelasan' => $penjelasan,
+                'kategori' => $kategori,
             ]);
         }
     }

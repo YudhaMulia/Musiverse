@@ -30,4 +30,3 @@ class Review extends Model
         return $this->hasMany(ReviewPhoto::class);
     }
 }
-

@@ -9,14 +9,14 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class RoomController extends Controller
 {
     private const NAMA_GAME = [
-        'match'  => 'Musiverse Match',
-        'quiz'   => 'Musiverse Quiz',
+        'match' => 'Musiverse Match',
+        'quiz' => 'Musiverse Quiz',
         'puzzle' => 'Musiverse Puzzle',
     ];
 
@@ -36,17 +36,17 @@ class RoomController extends Controller
         if (! $room) {
             $room = DB::transaction(function () use ($user, $game) {
                 $room = Room::create([
-                    'code'    => Room::buatKode(),
-                    'game'    => $game,
+                    'code' => Room::buatKode(),
+                    'game' => $game,
                     'host_id' => $user->id,
-                    'status'  => 'waiting',
+                    'status' => 'waiting',
                 ]);
 
                 // Avatar pemain diambil dari profil (kalau belum memilih, pakai karakter 1)
                 $room->players()->create([
                     'user_id' => $user->id,
-                    'name'    => $user->name,
-                    'avatar'  => $user->avatar ?: 1,
+                    'name' => $user->name,
+                    'avatar' => $user->avatar ?: 1,
                     'is_host' => true,
                 ]);
 
@@ -54,6 +54,7 @@ class RoomController extends Controller
             });
         }
         $this->siarkan($room);
+
         return redirect()->route('rooms.show', $room);
     }
 
@@ -67,7 +68,7 @@ class RoomController extends Controller
             ['code' => ['required', 'string', 'size:6']],
             [
                 'code.required' => 'Kode ruangan wajib diisi.',
-                'code.size'     => 'Kode ruangan harus 6 karakter.',
+                'code.size' => 'Kode ruangan harus 6 karakter.',
             ]
         );
 
@@ -104,8 +105,8 @@ class RoomController extends Controller
 
             $room->players()->create([
                 'user_id' => $user->id,
-                'name'    => $user->name,
-                'avatar'  => $avatar,
+                'name' => $user->name,
+                'avatar' => $avatar,
             ]);
 
             return $room;
@@ -124,13 +125,13 @@ class RoomController extends Controller
         }
 
         return view('games.ruang-tunggu', [
-            'room'     => $room,
+            'room' => $room,
             'namaGame' => self::NAMA_GAME[$room->game],
-            'state'    => $this->state($room, $request->user()->id),
+            'state' => $this->state($room, $request->user()->id),
             'karakter' => self::NAMA_KARAKTER,
-            'urlMain'  => $this->urlMain($room),
+            'urlMain' => $this->urlMain($room),
             // alamat halaman Games tanpa "http://", misal 127.0.0.1:8000/games
-            'alamat'   => preg_replace('#^https?://#', '', route('games.index')),
+            'alamat' => preg_replace('#^https?://#', '', route('games.index')),
         ]);
     }
 
@@ -167,13 +168,14 @@ class RoomController extends Controller
             $pemain = $room->players()->get();
             abort_if($pemain->count() >= Room::MAKS_PEMAIN, 422, 'Ruangan sudah penuh.');
 
-            $nama   = collect(self::NAMA_BOT)->first(fn ($n) => ! $pemain->contains('name', $n)) ?? 'Bot '.random_int(10, 99);
-            $bebas  = collect(range(1, 10))->diff($pemain->pluck('avatar'))->values();
+            $nama = collect(self::NAMA_BOT)->first(fn ($n) => ! $pemain->contains('name', $n)) ?? 'Bot '.random_int(10, 99);
+            $bebas = collect(range(1, 10))->diff($pemain->pluck('avatar'))->values();
             $avatar = $bebas->isNotEmpty() ? $bebas->random() : random_int(1, 10);
 
             $room->players()->create(['name' => $nama, 'avatar' => $avatar, 'is_bot' => true]);
         });
         $this->siarkan($room);
+
         return response()->json($this->state($room, $request->user()->id));
     }
 
@@ -296,8 +298,8 @@ class RoomController extends Controller
         }
 
         return match ($room->game) {
-            'match'  => route('games.match.play', $param),
-            'quiz'   => route('games.quiz.play', $param),
+            'match' => route('games.match.play', $param),
+            'quiz' => route('games.quiz.play', $param),
             'puzzle' => route('games.puzzle.play', $param),
         };
     }
@@ -312,18 +314,18 @@ class RoomController extends Controller
             ->values();
 
         return [
-            'kode'   => $room->code,
+            'kode' => $room->code,
             'status' => $room->status,
-            'maks'   => Room::MAKS_PEMAIN,
-            'url'    => $this->urlMain($room),
+            'maks' => Room::MAKS_PEMAIN,
+            'url' => $this->urlMain($room),
             'tuanRumah' => (bool) $pemain->firstWhere('user_id', $userId)?->is_host,
             'pemain' => $pemain->map(fn (RoomPlayer $p) => [
-                'id'     => $p->id,
-                'nama'   => $p->name,
+                'id' => $p->id,
+                'nama' => $p->name,
                 'avatar' => $p->avatar,
-                'bot'    => $p->is_bot,
-                'host'   => $p->is_host,
-                'kamu'   => $p->user_id === $userId,
+                'bot' => $p->is_bot,
+                'host' => $p->is_host,
+                'kamu' => $p->user_id === $userId,
             ])->values()->all(),
         ];
     }

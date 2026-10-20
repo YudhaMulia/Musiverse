@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\CagarBudaya;
 use App\Models\Era;
-use Illuminate\Http\Request;
 
 class CagarBudayaController extends Controller
 {

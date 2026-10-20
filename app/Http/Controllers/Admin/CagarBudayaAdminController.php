@@ -42,7 +42,7 @@ class CagarBudayaAdminController extends Controller
 
         // Store new image
         $file = $request->file('image');
-        $filename = Str::slug($cagarBudaya->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $filename = Str::slug($cagarBudaya->name).'_'.time().'.'.$file->getClientOriginalExtension();
         $path = $file->storeAs('cagar-budaya', $filename, 'public');
 
         // Update model with local path
@@ -51,7 +51,7 @@ class CagarBudayaAdminController extends Controller
             'image_url' => Storage::url($path), // Generate public URL
         ]);
 
-        return redirect()->route('admin.cagar-budaya.index')->with('success', 'Gambar berhasil diupload: ' . $cagarBudaya->name);
+        return redirect()->route('admin.cagar-budaya.index')->with('success', 'Gambar berhasil diupload: '.$cagarBudaya->name);
     }
 
     public function destroy(CagarBudaya $cagarBudaya)

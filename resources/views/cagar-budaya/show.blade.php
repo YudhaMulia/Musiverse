@@ -143,24 +143,66 @@
                 <!-- Audio Tour -->
                 @if($cagarBudaya->audioTours->count() > 0)
                 <div class="w-full rounded-xl bg-surface-container-lowest p-space-md shadow-md border-2 border-secondary/40 flex flex-col gap-space-md">
-                    <h3 class="font-title-md text-title-md text-primary font-bold">Audio Tour</h3>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-[24px]">headphones</span>
+                            <h3 class="font-title-md text-title-md text-primary font-bold">Audio Tour & Pemandu</h3>
+                        </div>
+                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-secondary/15 text-primary border border-secondary/40 font-semibold">Resmi</span>
+                    </div>
 
                     @foreach($cagarBudaya->audioTours as $audio)
-                    <div class="w-full p-space-sm bg-surface-container rounded-lg flex items-center justify-between gap-space-sm border border-secondary/30">
-                        <div class="flex items-center gap-space-sm">
-                            <button class="w-10 h-10 rounded-full bg-primary text-secondary flex items-center justify-center hover:scale-105 transition-transform shadow-sm">
-                                <span class="material-symbols-outlined text-[22px] font-bold">play_arrow</span>
-                            </button>
-                            <div class="flex flex-col">
-                                <span class="font-body-sm text-body-sm text-primary font-bold">{{ $audio->title }}</span>
-                                <span class="font-label-md text-label-md text-secondary-container font-semibold">{{ floor($audio->duration_seconds / 60) }}:{{ str_pad($audio->duration_seconds % 60, 2, '0', STR_PAD_LEFT) }} min</span>
+                    <div class="w-full p-4 bg-surface-container rounded-xl flex flex-col gap-3 border border-secondary/30" id="audio-card-{{ $audio->id }}">
+                        <audio id="audio-element-{{ $audio->id }}" src="{{ $audio->audio_file_url }}" preload="metadata"></audio>
+                        
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <button type="button" 
+                                        onclick="toggleAudioTour({{ $audio->id }})" 
+                                        id="play-btn-{{ $audio->id }}"
+                                        class="w-11 h-11 rounded-full bg-primary text-secondary flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-md cursor-pointer flex-shrink-0"
+                                        title="Putar Audio Tour">
+                                    <span class="material-symbols-outlined text-[26px] font-bold" id="play-icon-{{ $audio->id }}">play_arrow</span>
+                                </button>
+                                <div class="flex flex-col">
+                                    <span class="font-body-sm text-body-sm text-primary font-bold line-clamp-1">{{ $audio->title }}</span>
+                                    <div class="flex items-center gap-2 text-xs text-on-surface-variant">
+                                        <span>{{ $audio->narrator ?? 'Pemandu Budaya' }}</span>
+                                        <span>•</span>
+                                        <span id="time-display-{{ $audio->id }}">0:00 / {{ floor($audio->duration_seconds / 60) }}:{{ str_pad($audio->duration_seconds % 60, 2, '0', STR_PAD_LEFT) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {{-- Visualizer Wave Bars --}}
+                            <div class="flex items-end gap-1 h-6 pr-2 flex-shrink-0" id="wave-bars-{{ $audio->id }}">
+                                <span class="w-1 h-3 bg-secondary rounded-full transition-all"></span>
+                                <span class="w-1 h-5 bg-primary rounded-full transition-all"></span>
+                                <span class="w-1 h-2 bg-secondary rounded-full transition-all"></span>
+                                <span class="w-1 h-4 bg-primary rounded-full transition-all"></span>
                             </div>
                         </div>
-                        <div class="flex items-end gap-1 h-6 pr-2">
-                            <span class="w-1 h-3 bg-secondary animate-pulse"></span>
-                            <span class="w-1 h-5 bg-primary animate-pulse" style="animation-delay: 0.15s;"></span>
-                            <span class="w-1 h-2 bg-secondary animate-pulse" style="animation-delay: 0.3s;"></span>
+
+                        {{-- Progress Bar --}}
+                        <div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden cursor-pointer" onclick="seekAudioTour(event, {{ $audio->id }})">
+                            <div id="progress-bar-{{ $audio->id }}" class="bg-secondary h-full rounded-full transition-all duration-100" style="width: 0%;"></div>
                         </div>
+
+                        {{-- Transcript Narration Collapsible --}}
+                        @if($audio->narration)
+                        <details class="text-xs group border-t border-secondary/20 pt-2 mt-1">
+                            <summary class="cursor-pointer text-primary/80 hover:text-primary font-semibold flex items-center justify-between select-none py-1">
+                                <span class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-[16px] text-secondary">article</span>
+                                    <span>Tampilkan Naskah Narasi</span>
+                                </span>
+                                <span class="material-symbols-outlined text-[18px] transition-transform group-open:rotate-180">expand_more</span>
+                            </summary>
+                            <p class="mt-2 text-on-surface-variant leading-relaxed bg-surface-container-lowest p-3 rounded-lg border border-secondary/20 italic">
+                                "{{ $audio->narration }}"
+                            </p>
+                        </details>
+                        @endif
                     </div>
                     @endforeach
                 </div>
@@ -222,3 +264,95 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+let bgMusicWasPlaying = false;
+
+function toggleAudioTour(id) {
+    const audio = document.getElementById('audio-element-' + id);
+    const playIcon = document.getElementById('play-icon-' + id);
+    const waveBars = document.getElementById('wave-bars-' + id);
+    const timeDisplay = document.getElementById('time-display-' + id);
+    const progressBar = document.getElementById('progress-bar-' + id);
+    const bgMusic = document.getElementById('musikLatar');
+
+    if (!audio) return;
+
+    // Pause all other audio tour elements
+    document.querySelectorAll('audio[id^="audio-element-"]').forEach(a => {
+        if (a !== audio && !a.paused) {
+            a.pause();
+            const otherId = a.id.replace('audio-element-', '');
+            const otherIcon = document.getElementById('play-icon-' + otherId);
+            const otherWave = document.getElementById('wave-bars-' + otherId);
+            if (otherIcon) otherIcon.textContent = 'play_arrow';
+            if (otherWave) otherWave.querySelectorAll('span').forEach(s => s.classList.remove('animate-pulse'));
+        }
+    });
+
+    if (audio.paused) {
+        // Softly duck or pause background music
+        if (bgMusic && !bgMusic.paused) {
+            bgMusicWasPlaying = true;
+            bgMusic.pause();
+        }
+
+        audio.play().then(() => {
+            playIcon.textContent = 'pause';
+            if (waveBars) {
+                waveBars.querySelectorAll('span').forEach(s => s.classList.add('animate-pulse'));
+            }
+        }).catch(err => {
+            console.error('Audio playback failed:', err);
+        });
+    } else {
+        audio.pause();
+        playIcon.textContent = 'play_arrow';
+        if (waveBars) {
+            waveBars.querySelectorAll('span').forEach(s => s.classList.remove('animate-pulse'));
+        }
+
+        // Resume bg music if it was playing before
+        if (bgMusic && bgMusicWasPlaying) {
+            bgMusic.play().catch(() => {});
+        }
+    }
+
+    audio.ontimeupdate = function() {
+        if (audio.duration) {
+            const pct = (audio.currentTime / audio.duration) * 100;
+            if (progressBar) progressBar.style.width = pct + '%';
+
+            const curMins = Math.floor(audio.currentTime / 60);
+            const curSecs = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
+            const durMins = Math.floor(audio.duration / 60);
+            const durSecs = Math.floor(audio.duration % 60).toString().padStart(2, '0');
+            if (timeDisplay) timeDisplay.textContent = `${curMins}:${curSecs} / ${durMins}:${durSecs}`;
+        }
+    };
+
+    audio.onended = function() {
+        playIcon.textContent = 'play_arrow';
+        if (waveBars) {
+            waveBars.querySelectorAll('span').forEach(s => s.classList.remove('animate-pulse'));
+        }
+        if (progressBar) progressBar.style.width = '0%';
+        audio.currentTime = 0;
+
+        if (bgMusic && bgMusicWasPlaying) {
+            bgMusic.play().catch(() => {});
+        }
+    };
+}
+
+function seekAudioTour(e, id) {
+    const audio = document.getElementById('audio-element-' + id);
+    if (!audio || !audio.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    audio.currentTime = (clickX / width) * audio.duration;
+}
+</script>
+@endpush

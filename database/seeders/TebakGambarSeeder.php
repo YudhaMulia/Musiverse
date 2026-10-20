@@ -65,7 +65,7 @@ class TebakGambarSeeder extends Seeder
             TebakGambar::updateOrCreate(
                 ['gambar' => $file->getFilename()],
                 [
-                    'jawaban'    => Str::title($kata),
+                    'jawaban' => Str::title($kata),
                     'penjelasan' => $penjelasan[$nama] ?? null,
                 ]
             );

@@ -29,7 +29,7 @@ class CagarBudayaSeeder extends Seeder
             'original_function' => 'Waterleiding (Penyaluran Air Bersih)',
             'current_function' => 'Kantor Walikota Palembang',
             'status' => 'active',
-            'image_url' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuAgRugzlAGjPrJl5cZwfs4evo6yVF_7tGU9dM1E_NyJZGHN2js_AWx_0MtkPNUUcav9QooTeCjwYqJ7HdxKtBm-6ImU0Hf-uPVBCPx3N2JZdCDLBT4CHnGszJ9PMxLfTuOVjgHsI7vvHPQ1jzr772CX9H4Ui4StTmMuy4odXlxNgCpFK_7U07iOH7HC48L0gG_zzpGNG5S8UTetZkDqN2ly6ojERPkMaVyv4PG_hc1cIJxm8zMU0LWC',
+            'image_url' => 'images/cagar-budaya/menara-air-palembang.jpg',
             'ai_reconstruction_url' => null,
             'is_featured' => true,
         ]);
@@ -48,7 +48,7 @@ class CagarBudayaSeeder extends Seeder
             'original_function' => 'Benteng Pertahanan Istana',
             'current_function' => 'Monumen Bersejarah & Wisata Budaya',
             'status' => 'active',
-            'image_url' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuAuaS5hXVxARqJrkHVKnzYuaKM_naP-OcvFaoRqJeuNnO_YBPcqGxyY20ha1heO5OqaAlKsZjf9zMVwc5UPkFfEuy6PD8efN7_3kwLNDnyvMsoHww6nFEhSVjgGFqJu82UkEB5u4xskIlMIEdmadU8xDTWN5gM9lAaP1sQZt_ih4kGop66EN_7alVtSwOjXI85yNPMMSqafNKVdbYlhlC1eI6FD1j9Z4pY48WH4_4o2q3nrNFlb4KbY',
+            'image_url' => 'images/cagar-budaya/benteng-kuto-besak.jpg',
             'ai_reconstruction_url' => null,
             'is_featured' => true,
         ]);
@@ -67,7 +67,7 @@ class CagarBudayaSeeder extends Seeder
             'original_function' => 'Rumah Tinggal Residen Belanda',
             'current_function' => 'Museum Budaya',
             'status' => 'active',
-            'image_url' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuAizcjQ9vkbBxY3qs-44C4G4NC9mWDA4u_i1T12MFzBQdwhUwk0rgB0pZ__PTb3NxlE_SarLYDq8qr6R_daPejmeJCKusvBMHDXSLjHr7-bXuyAtz3tcH-l9GRE0dWf7VGqtKUjm5GDzLMAdaYMTW7SBlZfukAOwpmD3ws19SEQT6j1qVTVMSfzyyhrYyskC9j4nOHphYnVCSSr4v2h9p0pwUKHZCGVa-qy5gnTw5ElnujLDGjYc56W',
+            'image_url' => 'images/cagar-budaya/museum-smb-ii.jpeg',
             'ai_reconstruction_url' => null,
             'is_featured' => true,
         ]);
@@ -85,7 +85,7 @@ class CagarBudayaSeeder extends Seeder
             'original_function' => 'Masjid Agung Kesultanan',
             'current_function' => 'Masjid Aktif & Monumen Bersejarah',
             'status' => 'active',
-            'image_url' => null,
+            'image_url' => 'images/cagar-budaya/masjid-agung-palembang.png',
             'ai_reconstruction_url' => null,
             'is_featured' => false,
         ]);
@@ -103,7 +103,7 @@ class CagarBudayaSeeder extends Seeder
             'original_function' => 'Situs Spiritual & Pemakaman Bangsawan Sriwijaya',
             'current_function' => 'Situs Arkeologi & Pariwisata Budaya',
             'status' => 'active',
-            'image_url' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuDijGvZ4vcxUC3Cs2FzMIH5RGpD06rHpy_PQYwlwT6-44iox0sg3g0kZ8QcwA6JMIkeq2z2FiKS2-y47j6Z3MkcKH-k6nIuH_G56D1yQwEAonXTDOaWOg7pAwj8Ahj6pd0QROZpiHh6pSfvqTtwcvwpz88V7f6pzxaCDXeaYrbDSxFrd4JgiCmTMnBDHokpE3nCHeCxgmfLb3_tWgR2YIYAWWRCP7R42TCaC6QZns73QcjhyUVcuwhc',
+            'image_url' => 'images/cagar-budaya/bukit-siguntang.jpg',
             'ai_reconstruction_url' => null,
             'is_featured' => true,
         ]);
@@ -121,7 +121,7 @@ class CagarBudayaSeeder extends Seeder
             'original_function' => 'Pemukiman Etnis Arab-Palembang',
             'current_function' => 'Kampung Wisata Budaya',
             'status' => 'active',
-            'image_url' => null,
+            'image_url' => 'images/cagar-budaya/kampung-kapitan.jpg',
             'ai_reconstruction_url' => null,
             'is_featured' => false,
         ]);

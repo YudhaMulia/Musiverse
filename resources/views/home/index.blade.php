@@ -56,7 +56,7 @@
                     <span class="material-symbols-outlined text-secondary text-[20px]">explore</span>
                     <span>Mulai Jelajah Peta</span>
                 </a>
-                <a href="#" class="px-8 py-4 rounded-full bg-[#F9F6F0]/90 hover:bg-[#F9F6F0] text-primary border-2 border-secondary font-label-lg text-label-lg tracking-wider uppercase flex items-center gap-2 transition-all shadow-md font-bold hover:scale-105">
+                <a href="{{ route('games.index') }}" class="px-8 py-4 rounded-full bg-[#F9F6F0]/90 hover:bg-[#F9F6F0] text-primary border-2 border-secondary font-label-lg text-label-lg tracking-wider uppercase flex items-center gap-2 transition-all shadow-md font-bold hover:scale-105">
                     <span class="material-symbols-outlined text-secondary text-[20px]">games</span>
                     <span>Coba Main Game</span>
                 </a>
@@ -88,7 +88,7 @@
                     <span class="material-symbols-outlined text-[28px]">{{ $stat['icon'] }}</span>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <span class="font-display-lg text-display-lg text-primary font-bold">{{ $stat['number'] }}+</span>
+                    <span class="font-display-lg text-display-lg text-primary font-bold">{{ $stat['number'] }}{{ $stat['suffix'] ?? '+' }}</span>
                     <span class="font-label-lg text-label-lg text-secondary-container uppercase tracking-widest font-bold">{{ $stat['label'] }}</span>
                     <p class="font-body-sm text-body-sm text-on-surface-variant font-medium">{{ $stat['description'] }}</p>
                 </div>
@@ -104,15 +104,15 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
-            <!-- Feature 1: Map & Exploration -->
-            <div class="rounded-xl bg-surface-container-lowest p-space-md border border-secondary/35 hover:border-secondary hover:bg-surface-container-low transition-all flex flex-col gap-space-md shadow-sm hover:shadow-md group">
+            <!-- Feature 1: Peta & Eksplorasi Cagar Budaya -->
+            <a href="{{ route('cagar-budaya.index') }}" class="rounded-xl bg-surface-container-lowest p-space-md border border-secondary/35 hover:border-secondary hover:bg-surface-container-low transition-all flex flex-col gap-space-md shadow-sm hover:shadow-md group no-underline">
                 <div class="w-12 h-12 rounded-lg bg-primary border border-secondary/40 flex items-center justify-center text-secondary shadow-sm">
                     <span class="material-symbols-outlined text-[28px]">map</span>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="font-title-lg text-title-lg text-primary font-bold">Peta &amp; Rute Eksplorasi</h3>
+                    <h3 class="font-title-lg text-title-lg text-primary font-bold">Peta &amp; Eksplorasi Cagar Budaya</h3>
                     <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                        Temukan lokasi situs cagar budaya terbengkalai di Palembang beserta rute perjalanan terdekat melalui peta interaktif.
+                        Temukan lokasi situs cagar budaya di Palembang beserta rute perjalanan terdekat melalui peta interaktif dengan foto dokumentasi asli.
                     </p>
                 </div>
                 <div class="mt-auto pt-space-md border-t border-secondary/20">
@@ -121,17 +121,17 @@
                         <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform text-secondary">arrow_forward</span>
                     </span>
                 </div>
-            </div>
+            </a>
 
-            <!-- Feature 2: AI Storyteller -->
-            <div class="rounded-xl bg-surface-container-lowest p-space-md border border-secondary/35 hover:border-secondary hover:bg-surface-container-low transition-all flex flex-col gap-space-md shadow-sm hover:shadow-md group">
+            <!-- Feature 2: Audio Tour Sejarah -->
+            <a href="{{ route('cagar-budaya.index') }}" class="rounded-xl bg-surface-container-lowest p-space-md border border-secondary/35 hover:border-secondary hover:bg-surface-container-low transition-all flex flex-col gap-space-md shadow-sm hover:shadow-md group no-underline">
                 <div class="w-12 h-12 rounded-lg bg-primary border border-secondary/40 flex items-center justify-center text-secondary shadow-sm">
-                    <span class="material-symbols-outlined text-[28px]">auto_stories</span>
+                    <span class="material-symbols-outlined text-[28px]">headphones</span>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="font-title-lg text-title-lg text-primary font-bold">AI Storyteller &amp; Rekonstruksi Visual</h3>
+                    <h3 class="font-title-lg text-title-lg text-primary font-bold">Audio Tour &amp; Narasi Sejarah</h3>
                     <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                        Pelajari cerita sejarah dengan bahasa yang mudah dicerna serta bayangan bentuk megah bangunan di masa lalu melalui AI.
+                        Dengarkan narasi sejarah setiap cagar budaya melalui audio tour yang menghidupkan kisah di balik bangunan bersejarah Palembang.
                     </p>
                 </div>
                 <div class="mt-auto pt-space-md border-t border-secondary/20">
@@ -140,17 +140,17 @@
                         <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform text-secondary">arrow_forward</span>
                     </span>
                 </div>
-            </div>
+            </a>
 
-            <!-- Feature 3: Gamification -->
-            <div class="rounded-xl bg-surface-container-lowest p-space-md border border-secondary/35 hover:border-secondary hover:bg-surface-container-low transition-all flex flex-col gap-space-md shadow-sm hover:shadow-md group">
+            <!-- Feature 3: Musiverse Games -->
+            <a href="{{ route('games.index') }}" class="rounded-xl bg-surface-container-lowest p-space-md border border-secondary/35 hover:border-secondary hover:bg-surface-container-low transition-all flex flex-col gap-space-md shadow-sm hover:shadow-md group no-underline">
                 <div class="w-12 h-12 rounded-lg bg-primary border border-secondary/40 flex items-center justify-center text-secondary shadow-sm">
-                    <span class="material-symbols-outlined text-[28px]">gamepad</span>
+                    <span class="material-symbols-outlined text-[28px]">sports_esports</span>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h3 class="font-title-lg text-title-lg text-primary font-bold">Match Card Gamification</h3>
+                    <h3 class="font-title-lg text-title-lg text-primary font-bold">Musiverse Games Edukatif</h3>
                     <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                        Uji pengetahuan sejarah melalui permainan mencocokkan kartu yang seru dan kumpulkan poin serta lencana digital.
+                        Uji pengetahuan budaya Palembang lewat 3 mini game seru: Kuis Budaya, Tebak Gambar Puzzle, dan Cocokkan Kartu Match.
                     </p>
                 </div>
                 <div class="mt-auto pt-space-md border-t border-secondary/20">
@@ -159,7 +159,7 @@
                         <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform text-secondary">arrow_forward</span>
                     </span>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 
@@ -232,9 +232,9 @@
                     <div class="w-16 h-16 rounded-full bg-primary shadow-md flex items-center justify-center text-[#F9F6F0] font-headline-lg font-bold mb-space-md border-4 border-surface">
                         2
                     </div>
-                    <h3 class="font-title-lg text-title-lg text-primary font-bold mb-2">Baca Ceritanya</h3>
+                    <h3 class="font-title-lg text-title-lg text-primary font-bold mb-2">Dengarkan Ceritanya</h3>
                     <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                        Pahami sejarahnya lewat penjelasan santai dan menarik buatan AI kami.
+                        Pahami sejarahnya lewat narasi audio tour yang menarik dan informatif.
                     </p>
                     <div class="hidden md:block absolute top-1/4 -right-1/2 w-1/2 h-1 bg-gradient-to-r from-secondary to-transparent"></div>
                 </div>
@@ -246,7 +246,7 @@
                     </div>
                     <h3 class="font-title-lg text-title-lg text-primary font-bold mb-2">Mainkan Gamenya</h3>
                     <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                        Uji ingatanmu di Match Card Game dan klaim lencana digital kamu!
+                        Uji pengetahuanmu lewat Kuis, Puzzle, dan Match Card Game!
                     </p>
                 </div>
             </div>
@@ -268,9 +268,9 @@
                     <span class="material-symbols-outlined text-secondary text-[20px]">map</span>
                     <span>Mulai Eksplorasi</span>
                 </a>
-                <a href="#" class="px-8 py-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary hover:text-primary border border-secondary/40 font-label-lg text-label-lg tracking-wider uppercase flex items-center gap-2 transition-colors font-bold shadow-sm">
-                    <span class="material-symbols-outlined text-secondary text-[20px]">info</span>
-                    <span>Pelajari Lebih</span>
+                <a href="{{ route('games.index') }}" class="px-8 py-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary hover:text-primary border border-secondary/40 font-label-lg text-label-lg tracking-wider uppercase flex items-center gap-2 transition-colors font-bold shadow-sm">
+                    <span class="material-symbols-outlined text-secondary text-[20px]">sports_esports</span>
+                    <span>Main Game Edukatif</span>
                 </a>
             </div>
         </div>

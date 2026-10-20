@@ -19,8 +19,8 @@ class PuzzleController extends Controller
             ->limit(self::JUMLAH_SOAL)
             ->get()
             ->map(fn ($t) => [
-                'gambar'     => asset(self::FOLDER . '/' . rawurlencode($t->gambar)),
-                'jawaban'    => $t->jawaban,
+                'gambar' => asset(self::FOLDER.'/'.rawurlencode($t->gambar)),
+                'jawaban' => $t->jawaban,
                 'penjelasan' => $t->penjelasan,   // dipakai halaman rekap
             ])
             ->values();

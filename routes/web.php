@@ -10,6 +10,7 @@ use App\Http\Controllers\CagarBudayaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('welcome'); // Landing page
@@ -61,12 +62,12 @@ Route::get('/musik-latar', function () {
 
 // Review Routes
 Route::prefix('review')->middleware('auth')->group(function () {
-    Route::get('/create/{cagarBudaya}', [\App\Http\Controllers\ReviewController::class, 'create'])->name('review.create');
-    Route::post('/store/{cagarBudaya}', [\App\Http\Controllers\ReviewController::class, 'store'])->name('review.store');
-    Route::get('/{review}/edit', [\App\Http\Controllers\ReviewController::class, 'edit'])->name('review.edit');
-    Route::put('/{review}', [\App\Http\Controllers\ReviewController::class, 'update'])->name('review.update');
-    Route::delete('/{review}', [\App\Http\Controllers\ReviewController::class, 'destroy'])->name('review.destroy');
-    Route::delete('/photo/{photoId}', [\App\Http\Controllers\ReviewController::class, 'deletePhoto'])->name('review.deletePhoto');
+    Route::get('/create/{cagarBudaya}', [ReviewController::class, 'create'])->name('review.create');
+    Route::post('/store/{cagarBudaya}', [ReviewController::class, 'store'])->name('review.store');
+    Route::get('/{review}/edit', [ReviewController::class, 'edit'])->name('review.edit');
+    Route::put('/{review}', [ReviewController::class, 'update'])->name('review.update');
+    Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
+    Route::delete('/photo/{photoId}', [ReviewController::class, 'deletePhoto'])->name('review.deletePhoto');
 });
 
 // Admin Routes

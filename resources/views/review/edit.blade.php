@@ -1,224 +1,430 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Review - ' . $review->cagarBudaya->name)
+@section('title', 'Edit Ulasan - ' . $review->cagarBudaya->name)
 
 @section('content')
-<div class="flex flex-col w-full">
-    <div class="w-full px-margin py-space-md flex flex-col gap-space-md">
+<div class="flex flex-col w-full bg-surface min-h-[calc(100vh-160px)]">
+    <div class="w-full px-margin py-space-md flex flex-col gap-space-md max-w-4xl mx-auto">
         <!-- Breadcrumb -->
-        <div class="flex items-center gap-2 text-on-surface-variant text-body-sm">
-            <a href="{{ route('home') }}" class="hover:text-secondary transition-colors">Home</a>
-            <span>›</span>
-            <a href="{{ route('cagar-budaya.index') }}" class="hover:text-secondary transition-colors">Cagar Budaya</a>
-            <span>›</span>
-            <a href="{{ route('cagar-budaya.show', $review->cagarBudaya->slug) }}" class="hover:text-secondary transition-colors">{{ $review->cagarBudaya->name }}</a>
-            <span>›</span>
-            <span class="text-secondary">Edit Review</span>
+        <div class="flex items-center gap-2 text-on-surface-variant text-body-sm font-medium">
+            <a href="{{ route('home') }}" class="hover:text-primary transition-colors">Home</a>
+            <span class="text-secondary">›</span>
+            <a href="{{ route('cagar-budaya.index') }}" class="hover:text-primary transition-colors">Cagar Budaya</a>
+            <span class="text-secondary">›</span>
+            <a href="{{ route('cagar-budaya.show', $review->cagarBudaya->slug) }}" class="hover:text-primary transition-colors">{{ $review->cagarBudaya->name }}</a>
+            <span class="text-secondary">›</span>
+            <span class="text-primary font-bold">Edit Ulasan</span>
         </div>
 
-        <!-- Main Content -->
-        <div class="w-full max-w-2xl mx-auto">
-            <div class="bg-surface-container-lowest rounded-xl p-space-md border border-secondary/40 shadow-sm">
-                <div class="flex items-center gap-space-sm mb-space-md">
-                    <span class="material-symbols-outlined text-primary text-[24px]">edit</span>
-                    <h1 class="font-headline-sm text-headline-sm text-primary font-bold">Edit Review</h1>
+        <!-- Form Card Container -->
+        <div class="w-full bg-surface-container-lowest rounded-2xl p-6 sm:p-8 border border-secondary/40 shadow-md flex flex-col gap-6">
+            <!-- Header -->
+            <div class="flex items-start justify-between gap-4 pb-4 border-b border-secondary/25">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-primary text-secondary flex items-center justify-center border border-secondary/50 shadow-sm shrink-0">
+                        <span class="material-symbols-outlined text-[28px]">edit_note</span>
+                    </div>
+                    <div>
+                        <h1 class="font-headline-sm text-headline-sm text-primary font-bold">Perbarui Ulasan Anda</h1>
+                        <p class="text-xs sm:text-sm text-on-surface-variant">Ulasan untuk: <span class="font-bold text-primary">{{ $review->cagarBudaya->name }}</span></p>
+                    </div>
                 </div>
 
-                <form action="{{ route('review.update', $review) }}" method="POST" enctype="multipart/form-data" class="space-y-space-md">
-                    @csrf
-                    @method('PUT')
+                @if($review->cagarBudaya->image_url)
+                <img src="{{ $review->cagarBudaya->image_url }}" alt="{{ $review->cagarBudaya->name }}" class="w-14 h-14 rounded-lg object-cover border border-secondary/40 hidden sm:block shrink-0 shadow-sm" />
+                @endif
+            </div>
 
-                    <!-- Rating Section -->
-                    <div class="flex flex-col gap-space-sm">
-                        <label class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Rating <span class="text-error">*</span></label>
-                        <div class="flex items-center gap-space-sm">
+            <!-- Flash Notifications -->
+            @if(session('success'))
+            <div class="p-4 rounded-xl bg-green-500/10 border border-green-600/40 text-green-800 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-green-600 text-[22px]">check_circle</span>
+                    <span class="font-body-md text-body-md font-semibold">{{ session('success') }}</span>
+                </div>
+                <button type="button" onclick="this.parentElement.remove()" class="text-green-700 hover:text-green-900">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+            </div>
+            @endif
+
+            <form action="{{ route('review.update', $review) }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-6" id="editReviewForm">
+                @csrf
+                @method('PUT')
+
+                <!-- Rating Selector -->
+                <div class="flex flex-col gap-2">
+                    <label class="font-label-md text-label-md text-primary font-bold uppercase tracking-wider flex items-center gap-1">
+                        <span>Rating Kunjungan</span>
+                        <span class="text-error">*</span>
+                    </label>
+
+                    <input type="hidden" name="rating" id="ratingInput" value="{{ old('rating', $review->rating) }}" required>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl bg-surface-container/40 border border-secondary/25">
+                        <div class="flex items-center gap-1" id="starContainer">
                             @for($i = 1; $i <= 5; $i++)
-                            <input type="radio" id="rating-{{ $i }}" name="rating" value="{{ $i }}" class="hidden peer/rating-{{ $i }}" {{ $review->rating == $i ? 'checked' : '' }} required>
-                            <label for="rating-{{ $i }}" class="cursor-pointer text-on-surface-variant hover:text-secondary transition-colors">
-                                <span class="material-symbols-outlined text-[32px] peer-checked/rating-{{ $i }}:text-secondary peer-checked/rating-{{ $i }}:fill-1">star</span>
-                            </label>
+                            <button type="button" 
+                                    class="star-btn cursor-pointer p-1 text-secondary/30 hover:scale-110 transition-transform focus:outline-none" 
+                                    data-rating="{{ $i }}" 
+                                    title="{{ $i }} Bintang">
+                                <span class="material-symbols-outlined text-[36px] transition-colors star-icon">star</span>
+                            </button>
                             @endfor
                         </div>
-                        @error('rating')
-                        <p class="font-label-md text-label-md text-error">{{ $message }}</p>
-                        @enderror
-                    </div>
 
-                    <!-- Review Content -->
-                    <div class="flex flex-col gap-space-sm">
-                        <label for="content" class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Cerita Anda <span class="text-error">*</span></label>
-                        <textarea
-                            id="content"
-                            name="content"
-                            rows="6"
-                            class="w-full px-space-md py-space-sm rounded-lg bg-surface-container border border-secondary/35 text-primary placeholder-on-surface-variant/60 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary/50 font-body-md text-body-md"
-                            required
-                            minlength="10"
-                            maxlength="1000"
-                        >{{ $review->content }}</textarea>
-                        <div class="flex justify-between">
-                            <span class="font-label-md text-label-md text-on-surface-variant">Min 10 karakter</span>
-                            <span class="font-label-md text-label-md text-on-surface-variant"><span id="char-count">{{ strlen($review->content) }}</span>/1000</span>
+                        <div class="flex items-center gap-2 border-t sm:border-t-0 sm:border-l border-secondary/25 pt-2 sm:pt-0 sm:pl-4">
+                            <span id="ratingScoreText" class="font-headline-sm text-headline-sm font-black text-primary">{{ number_format($review->rating, 1) }}</span>
+                            <span id="ratingLabelText" class="text-xs sm:text-sm font-semibold text-secondary-container px-2.5 py-1 rounded-md bg-secondary/15 border border-secondary/30">
+                                Sangat Baik
+                            </span>
                         </div>
-                        @error('content')
-                        <p class="font-label-md text-label-md text-error">{{ $message }}</p>
-                        @enderror
                     </div>
 
-                    <!-- Existing Photos -->
-                    @if($review->photos->count() > 0)
-                    <div class="flex flex-col gap-space-sm">
-                        <label class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Foto Saat Ini</label>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-space-sm">
-                            @foreach($review->photos as $photo)
-                            <div class="relative group">
-                                <img src="{{ Storage::url($photo->photo_path) }}" class="w-full h-32 object-cover rounded-lg border border-outline-variant/30" />
-                                <form action="{{ route('review.deletePhoto', $photo) }}" method="POST" class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="w-6 h-6 rounded-full bg-error flex items-center justify-center" onclick="return confirm('Hapus foto ini?')">
-                                        <span class="material-symbols-outlined text-on-error text-[16px]">close</span>
-                                    </button>
-                                </form>
+                    @error('rating')
+                    <p class="font-label-md text-label-md text-error flex items-center gap-1 mt-1">
+                        <span class="material-symbols-outlined text-[16px]">error</span>
+                        <span>{{ $message }}</span>
+                    </p>
+                    @enderror
+                </div>
+
+                <!-- Review Content -->
+                <div class="flex flex-col gap-2">
+                    <label for="content" class="font-label-md text-label-md text-primary font-bold uppercase tracking-wider flex items-center gap-1">
+                        <span>Cerita Pengalaman Anda</span>
+                        <span class="text-error">*</span>
+                    </label>
+                    <textarea
+                        id="content"
+                        name="content"
+                        rows="6"
+                        class="w-full px-4 py-3 rounded-xl bg-surface-container border border-secondary/35 text-primary placeholder-on-surface-variant/60 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30 font-body-md text-body-md transition-all resize-y"
+                        required
+                        minlength="10"
+                        maxlength="1000"
+                    >{{ old('content', $review->content) }}</textarea>
+
+                    <div class="flex items-center justify-between text-xs font-medium">
+                        <span class="text-on-surface-variant flex items-center gap-1" id="minCharHint">
+                            <span class="material-symbols-outlined text-[14px]">info</span>
+                            <span>Minimal 10 karakter</span>
+                        </span>
+                        <span class="text-on-surface-variant">
+                            <span id="char-count" class="font-bold text-primary">{{ strlen(old('content', $review->content)) }}</span> / 1000
+                        </span>
+                    </div>
+
+                    @error('content')
+                    <p class="font-label-md text-label-md text-error flex items-center gap-1 mt-1">
+                        <span class="material-symbols-outlined text-[16px]">error</span>
+                        <span>{{ $message }}</span>
+                    </p>
+                    @enderror
+                </div>
+
+                <!-- Existing Photos Section -->
+                @if($review->photos->count() > 0)
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <label class="font-label-md text-label-md text-primary font-bold uppercase tracking-wider">
+                            Foto Saat Ini ({{ $review->photos->count() }} / 5)
+                        </label>
+                        <span class="text-xs text-on-surface-variant">Klik tombol silang merah untuk menghapus foto</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                        @foreach($review->photos as $photo)
+                        <div class="relative group aspect-square rounded-xl overflow-hidden bg-surface-container border border-secondary/35 shadow-sm">
+                            <img src="{{ Storage::url($photo->photo_path) }}" alt="Foto ulasan" class="w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button type="button" 
+                                        onclick="deleteExistingPhoto({{ $photo->id }})" 
+                                        class="px-2.5 py-1 rounded-lg bg-red-600 hover:bg-red-700 text-white font-bold text-xs flex items-center gap-1 shadow-lg cursor-pointer transition-transform hover:scale-105" 
+                                        title="Hapus foto ini">
+                                    <span class="material-symbols-outlined text-[16px]">delete</span>
+                                    <span>Hapus</span>
+                                </button>
                             </div>
-                            @endforeach
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                <!-- Upload New Photos Section -->
+                @php
+                    $availableSlots = 5 - $review->photos->count();
+                @endphp
+
+                @if($availableSlots > 0)
+                <div class="flex flex-col gap-2">
+                    <div class="flex items-center justify-between">
+                        <label class="font-label-md text-label-md text-primary font-bold uppercase tracking-wider">
+                            Tambah Foto Baru (Tersisa {{ $availableSlots }} slot)
+                        </label>
+                        <span class="text-xs text-on-surface-variant font-medium">Max 3MB per foto</span>
+                    </div>
+
+                    <!-- Drop Zone -->
+                    <div class="border-2 border-dashed border-secondary/40 rounded-xl p-6 hover:border-secondary transition-all cursor-pointer bg-surface-container/30 hover:bg-surface-container/60 text-center flex flex-col items-center justify-center gap-2 group" id="photoDropZone">
+                        <input type="file" id="photosInput" name="photos[]" multiple accept="image/jpeg,image/png,image/jpg,image/webp,image/gif" class="hidden" />
+                        <div class="w-12 h-12 rounded-full bg-secondary/15 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-[28px]">add_a_photo</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="font-label-md text-label-md font-bold text-primary">Klik untuk memilih foto baru atau seret foto ke sini</span>
+                            <span class="text-xs text-on-surface-variant">Format didukung: JPG, PNG, WEBP, GIF</span>
                         </div>
                     </div>
-                    @endif
 
-                    <!-- Photo Upload -->
-                    <div class="flex flex-col gap-space-sm">
-                        <label class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Tambah Foto Baru (Maksimal 5 foto total)</label>
-                        <div class="border-2 border-dashed border-outline-variant/50 rounded-lg p-space-md hover:border-secondary/50 transition-colors cursor-pointer" id="photo-drop-zone">
-                            <input type="file" id="photos" name="photos[]" multiple accept="image/*" class="hidden" />
-                            <label for="photos" class="cursor-pointer flex flex-col items-center gap-space-sm">
-                                <span class="material-symbols-outlined text-secondary text-[40px]">add_a_photo</span>
-                                <div class="flex flex-col items-center gap-space-xs">
-                                    <span class="font-label-md text-label-md text-on-surface">Klik atau drag foto di sini</span>
-                                    <span class="font-body-sm text-body-sm text-on-surface-variant">JPG, PNG, GIF (Max 2MB per foto)</span>
-                                </div>
-                            </label>
-                        </div>
+                    <!-- Photo Previews Grid -->
+                    <div id="photoPreviewContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-2 hidden"></div>
 
-                        <!-- New Photo Preview -->
-                        <div id="photo-preview" class="grid grid-cols-2 md:grid-cols-3 gap-space-sm"></div>
-                        @error('photos')
-                        <p class="font-label-md text-label-md text-error">{{ $message }}</p>
-                        @enderror
-                        @error('photos.*')
-                        <p class="font-label-md text-label-md text-error">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    @error('photos')
+                    <p class="font-label-md text-label-md text-error flex items-center gap-1 mt-1">
+                        <span class="material-symbols-outlined text-[16px]">error</span>
+                        <span>{{ $message }}</span>
+                    </p>
+                    @enderror
+                    @error('photos.*')
+                    <p class="font-label-md text-label-md text-error flex items-center gap-1 mt-1">
+                        <span class="material-symbols-outlined text-[16px]">error</span>
+                        <span>{{ $message }}</span>
+                    </p>
+                    @enderror
+                </div>
+                @else
+                <div class="p-4 rounded-xl bg-surface-container/60 border border-secondary/25 text-xs text-on-surface-variant flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary text-[20px]">info</span>
+                    <span>Anda telah mencapai batas maksimal 5 foto untuk ulasan ini. Hapus foto yang ada terlebih dahulu jika ingin mengunggah foto baru.</span>
+                </div>
+                @endif
 
-                    <!-- Submit Buttons -->
-                    <div class="flex gap-space-sm pt-space-md border-t border-secondary/20">
-                        <a href="{{ route('cagar-budaya.show', $review->cagarBudaya->slug) }}" class="flex-1 py-3 px-4 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-bold border border-secondary/40 font-label-md text-label-md tracking-wider uppercase flex items-center justify-center gap-2 transition-colors">
-                            <span class="material-symbols-outlined text-[18px]">close</span>
-                            <span>Batal</span>
-                        </a>
-                        <button type="submit" class="flex-1 py-3 px-4 rounded-lg bg-primary hover:bg-[#5A1414] text-[#F9F6F0] font-label-lg text-label-lg tracking-wider uppercase font-bold flex items-center justify-center gap-2 shadow-md hover:scale-[1.01] transition-all border border-secondary/50">
-                            <span class="material-symbols-outlined text-secondary text-[18px]">save</span>
-                            <span>Simpan Perubahan</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <!-- Buttons Bar -->
+                <div class="flex flex-col-reverse sm:flex-row items-center gap-3 pt-4 border-t border-secondary/25">
+                    <a href="{{ route('cagar-budaya.show', $review->cagarBudaya->slug) }}" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-primary font-bold border border-secondary/40 font-label-md text-label-md tracking-wider uppercase flex items-center justify-center gap-2 transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                        <span>Batal</span>
+                    </a>
+                    <button type="submit" class="w-full sm:flex-1 py-3 px-6 rounded-xl bg-primary hover:bg-[#5A1414] text-[#F9F6F0] font-label-lg text-label-lg tracking-wider uppercase font-bold flex items-center justify-center gap-2 shadow-md hover:scale-[1.01] transition-all border border-secondary/50 cursor-pointer">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">save</span>
+                        <span>Simpan Perubahan</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Separate Hidden Delete Photo Form -->
+            <form id="deletePhotoForm" method="POST" style="display: none;">
+                @csrf
+                @method('DELETE')
+            </form>
         </div>
     </div>
 </div>
 
+@push('scripts')
 <script>
+function deleteExistingPhoto(photoId) {
+    if (confirm('Apakah Anda yakin ingin menghapus foto ulasan ini?')) {
+        const form = document.getElementById('deletePhotoForm');
+        form.action = '{{ url("review/photo") }}/' + photoId;
+        form.submit();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    const photoInput = document.getElementById('photos');
-    const photoDropZone = document.getElementById('photo-drop-zone');
-    const photoPreview = document.getElementById('photo-preview');
-    const contentTextarea = document.getElementById('content');
+    // Star Rating Logic
+    const starContainer = document.getElementById('starContainer');
+    const starButtons = starContainer.querySelectorAll('.star-btn');
+    const ratingInput = document.getElementById('ratingInput');
+    const ratingScoreText = document.getElementById('ratingScoreText');
+    const ratingLabelText = document.getElementById('ratingLabelText');
+
+    const ratingDescriptions = {
+        1: { label: 'Sangat Mengecewakan', score: '1.0' },
+        2: { label: 'Kurang Memuaskan', score: '2.0' },
+        3: { label: 'Cukup Baik', score: '3.0' },
+        4: { label: 'Sangat Baik', score: '4.0' },
+        5: { label: 'Luar Biasa / Sangat Direkomendasikan', score: '5.0' }
+    };
+
+    let currentRating = parseInt(ratingInput.value) || 5;
+
+    function renderStars(rating) {
+        starButtons.forEach(btn => {
+            const starVal = parseInt(btn.dataset.rating);
+            const icon = btn.querySelector('.star-icon');
+            if (starVal <= rating) {
+                btn.classList.remove('text-secondary/30');
+                btn.classList.add('text-secondary');
+                icon.classList.add('fill-1');
+            } else {
+                btn.classList.remove('text-secondary');
+                btn.classList.add('text-secondary/30');
+                icon.classList.remove('fill-1');
+            }
+        });
+
+        if (ratingDescriptions[rating]) {
+            ratingScoreText.textContent = ratingDescriptions[rating].score;
+            ratingLabelText.textContent = ratingDescriptions[rating].label;
+        }
+    }
+
+    renderStars(currentRating);
+
+    starButtons.forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+            const hoverVal = parseInt(this.dataset.rating);
+            renderStars(hoverVal);
+        });
+
+        btn.addEventListener('click', function() {
+            currentRating = parseInt(this.dataset.rating);
+            ratingInput.value = currentRating;
+            renderStars(currentRating);
+        });
+    });
+
+    starContainer.addEventListener('mouseleave', function() {
+        renderStars(currentRating);
+    });
+
+    // Content character counter
+    const textarea = document.getElementById('content');
     const charCount = document.getElementById('char-count');
-    let selectedFiles = new DataTransfer();
+    const minCharHint = document.getElementById('minCharHint');
 
-    // Update character count
-    contentTextarea.addEventListener('input', function() {
-        charCount.textContent = this.value.length;
-    });
+    function updateCharCount() {
+        const len = textarea.value.length;
+        charCount.textContent = len;
+        if (len < 10) {
+            charCount.classList.add('text-error');
+            charCount.classList.remove('text-primary');
+            minCharHint.classList.add('text-error');
+        } else {
+            charCount.classList.remove('text-error');
+            charCount.classList.add('text-primary');
+            minCharHint.classList.remove('text-error');
+        }
+    }
 
-    // Handle file selection
-    photoInput.addEventListener('change', function(e) {
-        handleFiles(e.target.files);
-    });
+    textarea.addEventListener('input', updateCharCount);
+    updateCharCount();
 
-    // Drag and drop
-    photoDropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        photoDropZone.classList.add('bg-surface-container-high', 'border-secondary');
-    });
+    // Photo Drop Zone & File Management
+    const dropZone = document.getElementById('photoDropZone');
+    const photosInput = document.getElementById('photosInput');
+    const previewContainer = document.getElementById('photoPreviewContainer');
+    const dataTransfer = new DataTransfer();
+    const availableSlots = {{ $availableSlots }};
 
-    photoDropZone.addEventListener('dragleave', () => {
-        photoDropZone.classList.remove('bg-surface-container-high', 'border-secondary');
-    });
+    if (dropZone && photosInput) {
+        dropZone.addEventListener('click', () => photosInput.click());
 
-    photoDropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        photoDropZone.classList.remove('bg-surface-container-high', 'border-secondary');
-        handleFiles(e.dataTransfer.files);
-    });
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-secondary', 'bg-secondary/10');
+        });
 
-    function handleFiles(files) {
-        const maxPhotos = 5;
-        const existingPhotos = {{ $review->photos->count() }};
+        ['dragleave', 'dragend'].forEach(type => {
+            dropZone.addEventListener(type, () => {
+                dropZone.classList.remove('border-secondary', 'bg-secondary/10');
+            });
+        });
 
-        if (existingPhotos + selectedFiles.items.length + files.length > maxPhotos) {
-            alert('Maksimal ' + maxPhotos + ' foto total (sudah ' + existingPhotos + ')');
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-secondary', 'bg-secondary/10');
+            if (e.dataTransfer.files) {
+                appendFiles(e.dataTransfer.files);
+            }
+        });
+
+        photosInput.addEventListener('change', (e) => {
+            if (e.target.files) {
+                appendFiles(e.target.files);
+            }
+        });
+    }
+
+    function appendFiles(files) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/gif'];
+        
+        for (let file of files) {
+            if (dataTransfer.items.length >= availableSlots) {
+                alert(`Maksimal ${availableSlots} foto baru dapat ditambahkan.`);
+                break;
+            }
+            if (!allowedTypes.includes(file.type)) {
+                alert(`File ${file.name} bukan format gambar yang didukung.`);
+                continue;
+            }
+            if (file.size > 3 * 1024 * 1024) {
+                alert(`File ${file.name} melebihi batas 3MB.`);
+                continue;
+            }
+            dataTransfer.items.add(file);
+        }
+
+        photosInput.files = dataTransfer.files;
+        renderPreviews();
+    }
+
+    function renderPreviews() {
+        if (!previewContainer) return;
+        previewContainer.innerHTML = '';
+        const files = dataTransfer.files;
+
+        if (files.length === 0) {
+            previewContainer.classList.add('hidden');
             return;
         }
 
-        for (let file of files) {
-            selectedFiles.items.add(file);
-        }
+        previewContainer.classList.remove('hidden');
 
-        photoInput.files = selectedFiles.files;
-        updatePreview();
+        Array.from(files).forEach((file, index) => {
+            const card = document.createElement('div');
+            card.className = 'relative group aspect-square rounded-xl overflow-hidden bg-surface-container border border-secondary/35 shadow-sm';
+
+            const img = document.createElement('img');
+            img.className = 'w-full h-full object-cover';
+            img.src = URL.createObjectURL(file);
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-md cursor-pointer transition-transform hover:scale-110';
+            removeBtn.title = 'Hapus Foto';
+            removeBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">close</span>';
+
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                removeFile(index);
+            });
+
+            card.appendChild(img);
+            card.appendChild(removeBtn);
+            previewContainer.appendChild(card);
+        });
     }
 
-    function updatePreview() {
-        photoPreview.innerHTML = '';
-
-        for (let i = 0; i < selectedFiles.files.length; i++) {
-            const file = selectedFiles.files[i];
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                const div = document.createElement('div');
-                div.className = 'relative group';
-                div.innerHTML = `
-                    <img src="${e.target.result}" class="w-full h-32 object-cover rounded-lg border border-outline-variant/30" />
-                    <button type="button" class="absolute top-1 right-1 w-6 h-6 rounded-full bg-error flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" onclick="removePhoto(${i})">
-                        <span class="material-symbols-outlined text-on-error text-[16px]">close</span>
-                    </button>
-                `;
-                photoPreview.appendChild(div);
-            };
-
-            reader.readAsDataURL(file);
+    function removeFile(index) {
+        const newDt = new DataTransfer();
+        const files = dataTransfer.files;
+        for (let i = 0; i < files.length; i++) {
+            if (i !== index) {
+                newDt.items.add(files[i]);
+            }
         }
+        dataTransfer.items.clear();
+        for (let file of newDt.files) {
+            dataTransfer.items.add(file);
+        }
+        photosInput.files = dataTransfer.files;
+        renderPreviews();
     }
 });
-
-window.removePhoto = function(index) {
-    const photoInput = document.getElementById('photos');
-    const dataTransfer = new DataTransfer();
-
-    for (let i = 0; i < photoInput.files.length; i++) {
-        if (i !== index) {
-            dataTransfer.items.add(photoInput.files[i]);
-        }
-    }
-
-    photoInput.files = dataTransfer.files;
-    document.getElementById('photo-preview').innerHTML = '';
-
-    // Re-trigger preview update
-    const event = new Event('change', { bubbles: true });
-    photoInput.dispatchEvent(event);
-};
 </script>
+@endpush
 @endsection

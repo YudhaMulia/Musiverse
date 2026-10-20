@@ -12,7 +12,7 @@ class RoomPlayer extends Model
     protected function casts(): array
     {
         return [
-            'is_bot'  => 'boolean',
+            'is_bot' => 'boolean',
             'is_host' => 'boolean',
         ];
     }

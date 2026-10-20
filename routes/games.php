@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\RoomController;
 use App\Http\Controllers\MatchController;
 use App\Http\Controllers\PuzzleController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Games (terbuka untuk semua)
@@ -11,7 +11,7 @@ Route::view('/games', 'games.index')->name('games.index');
 
 // Ruang tunggu multiplayer (WAJIB LOGIN)
 // Tombol "Main Bersama" -> /games/match/ruang-tunggu -> dialihkan ke /ruang/KODE
-    Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/games/{game}/ruang-tunggu', [RoomController::class, 'masuk'])
         ->whereIn('game', ['match', 'quiz', 'puzzle'])->name('games.room');
     Route::post('/ruang/gabung', [RoomController::class, 'gabung'])->name('rooms.gabung');

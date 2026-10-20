@@ -17,4 +17,3 @@ class ReviewPhoto extends Model
         return $this->belongsTo(Review::class);
     }
 }
-

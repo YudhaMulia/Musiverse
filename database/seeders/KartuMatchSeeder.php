@@ -86,9 +86,9 @@ class KartuMatchSeeder extends Seeder
             KartuMatch::updateOrCreate(
                 ['slug' => $slug],
                 [
-                    'nomor'      => $i + 1,
-                    'nama'       => $nama,
-                    'kategori'   => $kategori,
+                    'nomor' => $i + 1,
+                    'nama' => $nama,
+                    'kategori' => $kategori,
                     'penjelasan' => $penjelasan,
                 ]
             );

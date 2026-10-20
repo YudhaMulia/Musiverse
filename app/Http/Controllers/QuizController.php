@@ -37,11 +37,11 @@ class QuizController extends Controller
                 }
 
                 return [
-                    'id'         => $q->id,
-                    'kategori'   => $q->kategori,
+                    'id' => $q->id,
+                    'kategori' => $q->kategori,
                     'pertanyaan' => $q->pertanyaan,
-                    'opsi'       => $opsi,
-                    'benar'      => $benar,
+                    'opsi' => $opsi,
+                    'benar' => $benar,
                     'penjelasan' => $q->penjelasan,
                 ];
             })

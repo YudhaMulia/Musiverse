@@ -13,11 +13,11 @@ class MatchController extends Controller
         $kartu = KartuMatch::orderBy('nomor')
             ->get()
             ->map(fn ($k) => [
-                'id'         => $k->id,
-                'nama'       => $k->nama,
-                'kategori'   => $k->kategori,
+                'id' => $k->id,
+                'nama' => $k->nama,
+                'kategori' => $k->kategori,
                 'penjelasan' => $k->penjelasan,
-                'gambar'     => asset(sprintf('images/games/match/%02d-%s.svg', $k->nomor, $k->slug)),
+                'gambar' => asset(sprintf('images/games/match/%02d-%s.svg', $k->nomor, $k->slug)),
             ])
             ->values();
 
@@ -28,7 +28,7 @@ class MatchController extends Controller
         );
 
         return view('games.match', [
-            'kartu'      => $kartu,
+            'kartu' => $kartu,
             'namaPemain' => auth()->check() ? auth()->user()->name : 'Pemain 1',
         ]);
     }

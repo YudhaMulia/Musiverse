@@ -96,11 +96,11 @@
                     </a>
 
                     {{-- Tertiary: Game Sejarah (Maroon) --}}
-                    <button class="inline-flex items-center justify-center gap-2 px-5 py-4 rounded-lg font-label text-[14px] leading-[18px] tracking-[0.08em] font-bold uppercase tracking-wider transition-all duration-200 hover:bg-[#5A1414] cursor-pointer"
+                    <a href="{{ route('games.index') }}" class="inline-flex items-center justify-center gap-2 px-5 py-4 rounded-lg font-label text-[14px] leading-[18px] tracking-[0.08em] font-bold uppercase tracking-wider transition-all duration-200 hover:bg-[#5A1414] cursor-pointer"
                             style="background: #7A1C1C; color: #F9F6F0; border: 1px solid #942626; box-shadow: 0 2px 10px rgba(122, 28, 28, 0.2);">
                         <span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">sports_esports</span>
                         <span>Game Sejarah</span>
-                    </button>
+                    </a>
                 </div>
 
                 {{-- Quick Stats --}}
@@ -109,7 +109,7 @@
                         $stats = [
                             ['value' => '14', 'suffix' => '+', 'label' => 'Situs Terdata', 'color' => '#7A1C1C'],
                             ['value' => '1928', 'suffix' => '', 'label' => 'Titik Awal Ledeng', 'color' => '#B38B2D'],
-                            ['value' => '98.4', 'suffix' => '%', 'label' => 'Akurasi Visual AI', 'color' => '#7A1C1C'],
+                            ['value' => '3', 'suffix' => '', 'label' => 'Game Edukatif', 'color' => '#7A1C1C'],
                         ];
                     @endphp
                     @foreach($stats as $stat)
@@ -227,7 +227,7 @@
                         'category' => 'Benteng Keraton',
                         'title' => 'Benteng Kuto Besak',
                         'description' => 'Satu-satunya benteng di Nusantara berdinding batu karya pribumi kesultanan.',
-                        'image' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuCp4AQMyg2dfY9PvqzvOtDUqcxidhT0x10cPtoYYHO96iQFmCD_fMYWzN3qlyMP4bONYdAz0XwQwwOO57x82opCHlNoXj9a2LSrBHK9dPqZhn-VOLwycNpxUbHn1xbYplQ4Ep8686f59eqTOopT4lMb5hNTrnpL-LIRX-s_GUJXglQd3vnReGpQdSLWOMUWcIfQ3z_DPx7Ey1xXK7SQnBK8DHJg0DRx-EynqAoyCJi6DPuy67vMJp2J',
+                        'image' => asset('images/cagar-budaya/benteng-kuto-besak.jpg'),
                         'alt' => 'Benteng Kuto Besak di tepi Sungai Musi Palembang',
                     ],
                     [
@@ -243,7 +243,7 @@
                         'category' => 'Situs Sakral Maritim',
                         'title' => 'Bukit Siguntang',
                         'description' => 'Kompleks persemayaman raja-raja Melayu dan pusat peradaban Buddha Mahayana.',
-                        'image' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuAOqZF1ivFJUmGEFebWDmH9sd7CGqFZKn9r4tCUNbUMW8Kibsf2s4Kg2Ke02gbrTQ80Q1quotH1ofEGLntest1ELRThuZRBQM_VzAOnRqH31IQ90vK6nu4MkDmRP-vDcvmrq-Z8vqDwvTM925fcMv5mGbpn9y-nwjHwFGt5V0NNmA0_NXhfTigVP7LxzaQ-jiJKxr_ZiE4Ad7aMrVBNUXOZxDTf44VD0uOHx5TtpPYIviccccUIwugm',
+                        'image' => asset('images/cagar-budaya/bukit-siguntang.jpg'),
                         'alt' => 'Bukit Siguntang situs sakral peninggalan Sriwijaya',
                     ],
                     [
@@ -251,7 +251,7 @@
                         'category' => 'Limas Arsitektur',
                         'title' => 'Museum SMB II',
                         'description' => 'Penyimpan manuskrip kuno, mata uang kesultanan, dan pusaka Songket Emas.',
-                        'image' => 'https://lh3.googleusercontent.com/aida-public/AB6AXuAS4FCYjnaqNP4TKvKwYzYsqgXTiEkfHU27CZeyM-O_2oj8yp25hqhaaDjB0GcrJ1Y3iLnsUgEbUyBpGjegU4OV2cwlw1ZnMLwqFjE5K5gk-zEUBuHRz2Vxb-YUR-yz6VDc7PghlmpOwOGCDRGlIe0vtDN_dNHUnIvmvJOHYeEmgzB9Eove81a9KqTjI02LrjGNTzxNZystPv_OsTkkoEuMU2fIM4rifCAP94LcnRx-3aICAVywAN6F',
+                        'image' => asset('images/cagar-budaya/museum-smb-ii.jpeg'),
                         'alt' => 'Museum Sultan Mahmud Badaruddin II Palembang',
                     ],
                 ];

@@ -28,20 +28,23 @@ class HomeController extends Controller
             [
                 'icon' => 'account_balance',
                 'number' => $totalSites,
+                'suffix' => '+',
                 'label' => 'Situs Sejarah',
                 'description' => 'Cagar budaya terdata',
             ],
             [
-                'icon' => 'smart_toy',
-                'number' => 1,
-                'label' => 'AI Storyteller',
-                'description' => 'Narasi bahasa awam',
+                'icon' => 'headphones',
+                'number' => $totalSites,
+                'suffix' => '+',
+                'label' => 'Audio Tour',
+                'description' => 'Narasi sejarah lokasi',
             ],
             [
-                'icon' => 'games',
-                'number' => 1,
-                'label' => 'Mini Game Edukasi',
-                'description' => 'Match Card interaktif',
+                'icon' => 'sports_esports',
+                'number' => 3,
+                'suffix' => '',
+                'label' => 'Mini Game Edukatif',
+                'description' => 'Kuis, Puzzle & Match Card',
             ],
         ];
 
