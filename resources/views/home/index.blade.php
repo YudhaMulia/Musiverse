@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Home - Rediscover Heritage Palembang')
+@section('title', 'Beranda')
+@section('jarak_atas', 'pt-0')
 
 @section('content')
 <div class="flex flex-col w-full bg-surface">
     <!-- HERO SECTION dengan Image Carousel Natural (Tanpa Overlay Warna Menutupi) -->
-    <div class="w-full relative overflow-hidden min-h-[85vh] flex flex-col items-center justify-center py-12">
+    <div class="w-full relative overflow-hidden min-h-[85vh] flex flex-col items-center justify-center pt-28 pb-12" data-navbar-gelap>
         <!-- Carousel Images Background (Foto Asli dengan Soft Blur 2.5px & Exposure Optimal 0.68) -->
         <div class="absolute inset-0 z-0 overflow-hidden">
             @foreach($carouselSites as $index => $site)

@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             KuisQuestionSeeder::class,
             KartuMatchSeeder::class,
             TebakGambarSeeder::class,
+            MuseumItemSeeder::class,
         ]);
     }
 }

@@ -23,8 +23,6 @@
 /* ditambahkan oleh app.js setelah halaman di-scroll */
 .navbar.is-scrolled, .navbar.menu-open {
     background: rgba(14, 3, 7, .94);
-    -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
     border-bottom-color: rgba(201, 162, 74, .18);
     box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
 }
@@ -344,5 +342,114 @@
 }
 .nav-profile__menu a:hover { background: rgba(201, 162, 74, .15); }
 
-/* Halaman layout terang (bukan landing/games): navbar langsung gelap supaya menu terbaca */
-body:has(main.bg-surface) .navbar:not(.is-scrolled) { background: rgba(14, 3, 7, .94); }
+/* =========================================================
+   NAVBAR GAYA GAMES - berlaku untuk SEMUA halaman
+   Puncak halaman: transparan, menyatu dengan isi halaman.
+   Setelah di-scroll: gading dengan garis emas tipis.
+   Teks menu terang HANYA jika bagian atas halaman berupa
+   hero gelap (class "hero" atau atribut data-navbar-gelap).
+   ========================================================= */
+.navbar {
+    --nav-text:  #2B2B2B;
+    --nav-muted: #4A4038;
+    --nav-red:   #7A1C1C;
+    --nav-gold:  #D4AF37;
+    background: transparent;
+}
+.navbar.is-scrolled, .navbar.menu-open {
+    background: rgba(249, 246, 240, .95);
+    border-bottom-color: rgba(179, 139, 45, .35);
+    box-shadow: 0 6px 20px rgba(90, 19, 19, .08);
+}
+
+/* Logo */
+.navbar .logo__text { color: #7A1C1C; }
+.navbar .logo__icon {
+    background: linear-gradient(180deg, #7A1C1C 0 50%, #F9F6F0 50% 100%);
+    border-color: #7A1C1C;
+}
+.navbar .logo__icon::before { background: #D4AF37; }
+
+/* Menu (teks gelap di atas latar terang) */
+.navbar__menu a { text-shadow: none; }
+.navbar__menu a:hover, .navbar__menu a.is-active { color: #7A1C1C; }
+.navbar__menu a.is-active::after { background: #D4AF37; }
+
+/* Tombol Masuk: maroon di latar terang */
+.navbar .btn-masuk { color: #7A1C1C; border-color: rgba(122, 28, 28, .55); }
+.navbar .btn-masuk:hover { background: rgba(122, 28, 28, .08); border-color: #7A1C1C; }
+
+/* Di puncak halaman yang punya hero gelap: menu & tombol Masuk terang */
+@media (min-width: 961px) {
+    body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .navbar__menu a {
+        color: #F9F6F0; text-shadow: 0 1px 8px rgba(58, 12, 12, .85);
+    }
+    body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .navbar__menu a:hover,
+    body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .navbar__menu a.is-active {
+        color: #F0DFA0;
+    }
+}
+body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .btn-masuk {
+    color: #F9F6F0; border-color: rgba(240, 223, 160, .7);
+}
+body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .btn-masuk:hover {
+    background: rgba(240, 223, 160, .16); border-color: #F0DFA0;
+}
+
+/* Menu layar HP: gading */
+@media (max-width: 960px) {
+    .navbar__menu {
+        background: rgba(249, 246, 240, .98);
+        border-bottom: 1px solid rgba(179, 139, 45, .3);
+    }
+}
+
+/* ---------- Hover & menu aktif: emas di latar terang ---------- */
+.navbar .navbar__menu a:hover::after,
+.navbar .navbar__menu a.is-active::after { background: #D4AF37; }
+
+.navbar.is-scrolled .navbar__menu a:hover,
+.navbar.is-scrolled .navbar__menu a.is-active,
+body:not(:has(.hero, [data-navbar-gelap])) .navbar:not(.is-scrolled) .navbar__menu a:hover,
+body:not(:has(.hero, [data-navbar-gelap])) .navbar:not(.is-scrolled) .navbar__menu a.is-active {
+    color: #B38B2D !important;
+}
+@media (max-width: 960px) {
+    .navbar__menu a:hover, .navbar__menu a.is-active { color: #B38B2D !important; }
+}
+
+/* Hover & menu aktif di atas hero gelap: emas yang jelas (bukan emas muda) */
+@media (min-width: 961px) {
+    body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .navbar__menu a:hover,
+    body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .navbar__menu a.is-active {
+        color: #D4AF37 !important;
+    }
+}
+
+
+/* ===== Logo gambar (public/images/logo-musiverse.png) ===== */
+.logo__img { height: 40px; width: auto; display: block; flex-shrink: 0; }
+.modal-logo__img,
+.lobby-logo__img {
+    height: 52px; width: auto; display: block; flex-shrink: 0;
+    box-sizing: border-box; padding: 6px;
+    background: #f6ecdc; border-radius: 14px;
+    border: 2px solid var(--g-gold-l);
+}
+
+
+/* Pita logo selebar isinya, supaya teks tidak meluap keluar pita */
+.tema-games .modal-logo,
+.tema-games .lobby-logo {
+    width: max-content;
+    max-width: calc(100vw - 48px);
+    box-sizing: border-box;
+}
+
+/* Layar HP kecil: ukuran logo dan jarak sedikit dirapatkan */
+@media (max-width: 420px) {
+    .modal-logo__img,
+    .lobby-logo__img { height: 40px; }
+    .tema-games .modal-logo,
+    .tema-games .lobby-logo { padding-left: 16px; padding-right: 20px; gap: 8px; }
+}

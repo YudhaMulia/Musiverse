@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CagarBudayaController;
+use App\Http\Controllers\GaleriBudayaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
@@ -43,6 +44,9 @@ Route::prefix('cagar-budaya')->group(function () {
     Route::get('/', [CagarBudayaController::class, 'index'])->name('cagar-budaya.index');
     Route::get('/{slug}', [CagarBudayaController::class, 'show'])->name('cagar-budaya.show');
 });
+
+// Galeri Budaya (museum digital)
+Route::get('/galeri-budaya', [GaleriBudayaController::class, 'index'])->name('galeri-budaya.index');
 
 Route::prefix('audio-tour')->group(function () {
     Route::get('/{cagarBudaya}', [AudioTourController::class, 'show'])->name('audio-tour.show');

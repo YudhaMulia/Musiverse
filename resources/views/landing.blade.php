@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Selamat Datang - Rediscover Heritage')
+@section('title', 'Museum Digital Budaya Palembang')
 @section('jarak_atas', 'pt-0')
 @section('latar_main', 'bg-gradient-to-b from-[#160b0e] via-[#1c1013] to-[#160b0e]')
 
 @section('content')
-<div class="relative flex items-center justify-center min-h-screen p-6 overflow-hidden">
+<div class="relative flex items-center justify-center min-h-screen p-6 overflow-hidden" data-navbar-gelap>
     {{-- Background Image Layer dengan Blur Halus (2.5px) & Exposure Optimal (0.68) agar Gambar Natural & Teks Super Kontras --}}
     <div class="absolute inset-0 bg-cover bg-center pointer-events-none transition-all duration-700"
          style="background-image: url('{{ asset('images/ampera.jpg') }}'); filter: blur(2.5px) brightness(0.68); transform: scale(1.06);">
