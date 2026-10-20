@@ -13,6 +13,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VisitController;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('welcome'); // Landing page
 Route::get('/home', [HomeController::class, 'index'])->name('home'); // Halaman home asli
@@ -89,4 +90,9 @@ Route::prefix('api')->group(function () {
     Route::get('/cagar-budaya/era/{eraSlug}', [CagarBudayaApiController::class, 'filterByEra']);
     Route::get('/cagar-budaya/search', [CagarBudayaApiController::class, 'search']);
     Route::get('/cagar-budaya/nearby', [CagarBudayaApiController::class, 'getNearby']);
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/visits/{slug}', [VisitController::class, 'store']);
+    Route::patch('/visits/{slug}/decor', [VisitController::class, 'decor']);
 });
