@@ -112,6 +112,9 @@ class RoomController extends Controller
             return $room;
         });
 
+        // Kabari tuan rumah dan pemain lain bahwa ada yang baru masuk
+        $this->siarkan($room);
+
         return redirect()->route('rooms.show', $room);
     }
 
@@ -281,12 +284,18 @@ class RoomController extends Controller
     // Kabari semua pemain di ruangan lewat Pusher: "ada perubahan, ambil data terbaru"
     private function siarkan(Room $room): void
     {
-        try {
-            RuangDiperbarui::dispatch($room->code);
-        } catch (\Throwable $e) {
-            // Kunci Pusher salah / internet putus: catat saja, ruang tunggu tetap jalan lewat pengecekan cadangan
-            report($e);
-        }
+        $kode = $room->code;
+
+        // defer() = jalankan SETELAH balasan dikirim ke browser,
+        // jadi tombol tidak perlu menunggu server Pusher
+        defer(function () use ($kode) {
+            try {
+                RuangDiperbarui::dispatch($kode);
+            } catch (\Throwable $e) {
+                // Kunci Pusher salah / internet putus: catat saja, ruang tunggu tetap jalan lewat pengecekan cadangan
+                report($e);
+            }
+        });
     }
 
     private function urlMain(Room $room): string

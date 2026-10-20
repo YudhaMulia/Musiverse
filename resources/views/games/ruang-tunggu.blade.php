@@ -41,7 +41,7 @@
 
         {{-- Logo Musiverse: pita yang menempel di tepi atas kartu --}}
         <div class="lobby-logo">
-            <span class="lobby-logo__icon" aria-hidden="true"></span>
+            <img src="{{ asset('images/logo-musiverse.webp') }}" alt="" class="lobby-logo__img">
             <h1 class="lobby-logo__text">Musiverse</h1>
         </div>
 

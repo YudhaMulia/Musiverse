@@ -6,7 +6,7 @@
 <header class="navbar">
     <div class="navbar__inner">
         <a href="{{ route('welcome') }}" class="logo" aria-label="Musiverse - halaman awal">
-            <span class="logo__icon" aria-hidden="true"></span>
+            <img src="{{ asset('images/logo-musiverse.webp') }}" alt="" class="logo__img">
             <span class="logo__text">Musiverse</span>
         </a>
 
@@ -17,7 +17,9 @@
 
         <nav class="navbar__menu" data-menu>
             <a href="{{ route('home') }}"
-               class="{{ request()->routeIs('home') ? 'is-active' : '' }}">Home</a>
+               class="{{ request()->routeIs('home') ? 'is-active' : '' }}">Beranda</a>
+            <a href="{{ route('galeri-budaya.index') }}"
+               class="{{ request()->routeIs('galeri-budaya.*') ? 'is-active' : '' }}">Galeri Budaya</a>
             <a href="{{ route('cagar-budaya.index') }}"
                class="{{ request()->routeIs('cagar-budaya.*') ? 'is-active' : '' }}">Cagar Budaya</a>
             <a href="{{ route('games.index') }}"

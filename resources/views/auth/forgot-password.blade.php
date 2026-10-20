@@ -34,7 +34,7 @@
             <p class="auth__bawah"><a href="{{ route('login') }}">Kembali ke halaman masuk</a></p>
         </div>
 
-        @include('auth._visual', ['gambar' => 'forgot.jpg'])
+        @include('auth._visual', ['gambar' => 'forgot.webp'])
     </div>
 </section>
 @endsection

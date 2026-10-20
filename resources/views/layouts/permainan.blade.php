@@ -8,7 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Musiverse') | Budaya Palembang</title>
+    <title>@hasSection('title')@yield('title') | Musiverse @else Musiverse | Budaya Palembang @endif</title>
+    <link rel="icon" type="image/webp" href="{{ asset('images/logo-musiverse.webp') }}">
 
     <script>document.documentElement.classList.add('js');</script>
 

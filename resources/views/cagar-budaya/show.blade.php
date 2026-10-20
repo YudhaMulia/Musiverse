@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $cagarBudaya->name . ' - Rediscover Heritage')
+@section('title', $cagarBudaya->name)
 
 @section('content')
 <div class="flex flex-col w-full bg-surface">

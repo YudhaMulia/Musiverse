@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Peta Cagar Budaya - Rediscover Heritage')
+@section('title', 'Peta Cagar Budaya')
 
 @section('content')
 <div class="flex flex-col w-full bg-surface">

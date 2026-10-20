@@ -70,7 +70,7 @@
     }
 
     let mode = 'solo';
-    if (KODE_RUANG && window.Pusher && arena.dataset.pusherKey && adaManusiaLain(daftar)) {
+    if (KODE_RUANG && arena.dataset.pusherKey && adaManusiaLain(daftar)) {
         mode = daftar[0].kamu ? 'host' : 'tamu';
     }
 
@@ -126,6 +126,46 @@
     const soalTamu = [];         // khusus tamu: soal lengkap yang sudah diungkap (untuk halaman rekap)
 
     elTotal.textContent = totalSoal;
+
+        // ---------- 2b. Simpan keadaan di browser (supaya refresh tidak mengulang dari soal 1) ----------
+    // Tuan rumah menyimpan seluruh keadaan permainan; tamu menyimpan keadaan terakhir dari tuan rumah.
+    const KUNCI_SIMPAN = `musiverse_kuis_${KODE_RUANG}_${RONDE}`;
+    const UMUR_MAKS = 2 * 60 * 60 * 1000;   // simpanan lebih dari 2 jam dianggap basi
+    let pilihanku = null;                   // khusus tamu: { soal, pilih } jawabanku yang sudah terkunci
+    let keadaanTerakhir = null;             // khusus tamu: keadaan terakhir dari tuan rumah
+    let sedangKeluar = false;               // true setelah menekan "Keluar": jangan simpan lagi
+
+    const simpan = () => {
+        if (!KODE_RUANG || mode === 'solo' || sedangKeluar) return;
+        try {
+            sessionStorage.setItem(KUNCI_SIMPAN, JSON.stringify({
+                disimpan: Date.now(),
+                peran: mode,
+                mulai, nomor, fase, berlaluMs, tungguMs, selesai, versi,
+                rekam, soalTamu, pilihanku,
+                keadaan: keadaanTerakhir,
+                pemain: pemain.map((p) => ({
+                    skor: p.skor, benar: p.benar, bonus: p.bonus,
+                    jawab: p.jawab, detikJawab: p.detikJawab,
+                    akurasi: p.akurasi, rencanaDetik: p.rencanaDetik, rencanaPilih: p.rencanaPilih,
+                    keluar: p.keluar,
+                })),
+            }));
+        } catch (e) { /* penyimpanan penuh / diblokir: abaikan */ }
+    };
+
+    const bacaSimpan = () => {
+        if (!KODE_RUANG) return null;
+        try {
+            const f = JSON.parse(sessionStorage.getItem(KUNCI_SIMPAN));
+            if (!f || Date.now() - f.disimpan > UMUR_MAKS) return null;
+            return f;
+        } catch (e) { return null; }
+    };
+
+    // Simpan tepat saat halaman akan ditutup / di-refresh
+    window.addEventListener('pagehide', simpan);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) simpan(); });
 
     // ---------- 3. Tampilan ----------
     const tampilWaktu = () => {
@@ -248,7 +288,9 @@
     };
 
     const siarkan = () => {
-        if (mode !== 'host' || !kanalSiap) return;
+        if (mode !== 'host') return;
+        simpan();                    // simpan dulu, walau belum tersambung ke Pusher
+        if (!kanalSiap) return;
         terakhirKirim = performance.now();
         try { kanal.trigger('client-keadaan', ambilKeadaan()); } catch (e) { /* abaikan */ }
     };
@@ -265,6 +307,7 @@
         versiTerakhir = s.v;
         sudahTerima = true;
         terakhirTerima = performance.now();
+        keadaanTerakhir = s;
 
         if (!s.mulai) { tampilStatus('Menunggu tuan rumah memulai...'); return; }
         mulai = true;
@@ -275,7 +318,8 @@
         if (s.nomor !== nomorTampil) {
             nomor = s.nomor;
             nomorTampil = s.nomor;
-            tampilSoal(s.soal);
+            // Habis refresh: kunci lagi jawabanku di soal ini kalau sebelumnya sudah menjawab
+            if (pilihanku && pilihanku.soal === nomor) jawabkan(kamu, pilihanku.pilih, berlaluMs / 1000);
         }
         fase = s.fase;
         berlaluMs = s.ms;
@@ -292,7 +336,13 @@
             s.sudah.forEach((ya, i) => pemain[i]?.el.classList.toggle('is-jawab', !!ya));
             tampilWaktu();
             if (kamu.jawab === null) tampilStatus('Pilih jawabanmu!', true);
-            else tampilStatus('Jawaban terkunci. Menunggu pemain lain...');
+            else {
+                tampilStatus('Jawaban terkunci. Menunggu pemain lain...');
+                // Tuan rumah belum mencatat jawabanku (misal sempat di-refresh): kirim ulang
+                if (!s.sudah[saya] && kanalSiap) {
+                    try { kanal.trigger('client-jawab', { soal: nomor, pilih: kamu.jawab, dari: saya }); } catch (e) { /* abaikan */ }
+                }
+            }
         } else if (s.ungkap && s.nomor !== nomorUngkap) {
             nomorUngkap = s.nomor;
             const u = s.ungkap;
@@ -310,6 +360,7 @@
             tampilUngkap(lengkap);
         }
 
+        simpan();
         if (s.selesai) akhiri();
     };
 
@@ -353,7 +404,28 @@
         });
     };
 
+    const muatPusher = () => new Promise((ok, gagal) => {
+        if (window.Pusher) { ok(); return; }
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pusher/8.4.0/pusher.min.js';
+        s.onload = ok;
+        s.onerror = gagal;
+        document.head.appendChild(s);
+    });
+
     const sambung = () => {
+        muatPusher().then(sambungKe).catch(() => {
+            if (mode === 'host') {
+                mode = 'solo';
+                pemain.forEach((p) => { if (!p.kamu) p.bot = true; });
+                mulaiPermainan();
+            } else {
+                tampilStatus('Gagal tersambung ke ruangan. Muat ulang halaman.');
+            }
+        });
+    };
+
+    const sambungKe = () => {
         const pusher = new Pusher(arena.dataset.pusherKey, {
             cluster: arena.dataset.pusherCluster,
             channelAuthorization: {
@@ -389,7 +461,7 @@
         if (mode === 'host') {
             kanal.bind('pusher:subscription_succeeded', () => {
                 kanalSiap = true;
-                tampilStatus('Menunggu pemain lain siap...');
+                if (!sudahMulai) tampilStatus('Menunggu pemain lain siap...');
                 timerTunggu = setTimeout(mulaiPermainan, TUNGGU_TAMU);
                 siarkan();
             });
@@ -540,6 +612,8 @@
         if (mode === 'tamu') {
             if (!kanalSiap) return;
             jawabkan(kamu, i, berlaluMs / 1000);   // hanya mengunci tampilan; tuan rumah yang menghitung poin
+            pilihanku = { soal: nomor, pilih: i };
+            simpan();
             try { kanal.trigger('client-jawab', { soal: nomor, pilih: i, dari: saya }); } catch (e) { /* abaikan */ }
             return;
         }
@@ -616,9 +690,66 @@
     dialogKeluar.querySelector('[data-keluar-link]')?.addEventListener('click', (e) => {
         if (!KODE_RUANG) return;   // main sendiri: link biasa
         e.preventDefault();
+        sedangKeluar = true;   // jangan simpan lagi
+        try { sessionStorage.removeItem(KUNCI_SIMPAN); } catch (err) { /* abaikan */ }
         RuangSesi.keluar(arena.dataset.urlKeluar, KODE_RUANG, arena.dataset.keluar);
     });
     dialogKeluar.addEventListener('click', (e) => { if (e.target === dialogKeluar) dialogKeluar.close(); });
+
+        // ---------- Pulihkan keadaan setelah refresh ----------
+    // Dijalankan SEBELUM Pusher tersambung, jadi soal langsung tampil tanpa menunggu jaringan.
+    const pulihkan = () => {
+        const f = bacaSimpan();
+        if (!f || f.peran !== mode) return;
+        const lalu = Math.min(Math.max(0, Date.now() - f.disimpan), 30000);   // lama halaman sempat mati
+
+        if (mode === 'tamu') {
+            (f.soalTamu || []).forEach((v, i) => { if (v) soalTamu[i] = v; });
+            (f.rekam || []).forEach((v, i) => { if (v) rekam[i] = v; });
+            pilihanku = f.pilihanku || null;
+            const k = f.keadaan;
+            if (k && k.mulai) {
+                if (k.fase === 'tanya') k.ms += lalu; else k.tunggu += lalu;
+                terapkan(k);
+            }
+            return;
+        }
+
+        // ----- tuan rumah -----
+        if (!f.mulai) return;   // belum sempat mulai: ikuti alur biasa (menunggu tamu siap)
+        mulai = true;
+        sudahMulai = true;
+        versi = (f.versi || 0) + 1000;   // supaya tamu menganggap keadaan ini "lebih baru"
+        nomor = Math.min(f.nomor || 0, SOAL.length - 1);
+        (f.rekam || []).forEach((v, i) => { if (v) rekam[i] = v; });
+
+        f.pemain.forEach((a, i) => {
+            const p = pemain[i];
+            if (!p) return;
+            p.skor = a.skor; p.benar = a.benar; p.bonus = a.bonus;
+            p.akurasi = a.akurasi; p.rencanaDetik = a.rencanaDetik; p.rencanaPilih = a.rencanaPilih;
+            p.elPoin.textContent = p.skor;
+            if (a.keluar && !p.kamu) { p.keluar = true; p.el.remove(); }
+        });
+
+        tampilSoal(SOAL[nomor]);   // menggambar soal & mengosongkan jawaban, jadi jawaban diisi ulang sesudahnya
+        fase = (f.fase === 'ungkap' && rekam[nomor]) ? 'ungkap' : 'tanya';
+        berlaluMs = f.berlaluMs;
+        tungguMs = f.tungguMs;
+        if (fase === 'tanya') berlaluMs += lalu; else tungguMs += lalu;
+
+        f.pemain.forEach((a, i) => {
+            const p = pemain[i];
+            if (!p || a.jawab === null || a.jawab === undefined) return;
+            if (fase === 'tanya') jawabkan(p, a.jawab, a.detikJawab);
+            else { p.jawab = a.jawab; p.detikJawab = a.detikJawab; p.el.classList.add('is-jawab'); }
+        });
+
+        tampilWaktu();
+        if (fase === 'ungkap') tampilUngkap(SOAL[nomor]);
+        simpan();
+        if (f.selesai) akhiri();
+    };
 
     // ---------- Mulai ----------
     if (mode === 'solo') {
@@ -626,6 +757,7 @@
         mulaiSoal();
     } else {
         tampilStatus('Bersiap...');
+        pulihkan();
         sambung();
     }
 })();

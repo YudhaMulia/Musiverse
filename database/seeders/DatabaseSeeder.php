@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             KuisQuestionSeeder::class,
             KartuMatchSeeder::class,
             TebakGambarSeeder::class,
-            ReviewSeeder::class,
+ReviewSeeder::class,
+            MuseumItemSeeder::class,
         ]);
     }
 }

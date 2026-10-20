@@ -1,0 +1,30 @@
+/* =========================================================
+   FOOTER SERAGAM MUSIVERSE (dipakai semua halaman)
+   Tema krem
+   ========================================================= */
+.mv-footer {
+    background: #F1EADB;
+    border-top: 3px solid #c9a24a;
+    color: #4A4038;
+    font-family: 'Nunito Sans', Arial, sans-serif;
+}
+.mv-footer__inner {
+    max-width: 1280px; margin: 0 auto; padding: 32px 24px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px;
+}
+.mv-footer__logo {
+    display: flex; align-items: center; gap: 10px;
+    color: #7A1C1C; text-decoration: none;
+}
+.mv-footer__logo img { height: 40px; width: auto; display: block; flex-shrink: 0; }
+.mv-footer__logo span {
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 800; font-size: 1.6rem; line-height: 1;
+}
+.mv-footer p { margin: 0; font-size: .95rem; line-height: 1.5; }
+.mv-footer__copy { margin-left: auto; color: #7A1C1C; font-weight: 600; }
+
+@media (max-width: 700px) {
+    .mv-footer__inner { flex-direction: column; text-align: center; }
+    .mv-footer__copy { margin-left: 0; }
+}

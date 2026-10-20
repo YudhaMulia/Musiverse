@@ -70,5 +70,12 @@ class TebakGambarSeeder extends Seeder
                 ]
             );
         }
+        
+        // Hapus soal lama yang file gambarnya sudah tidak ada (misalnya sebelum diganti .webp)
+        TebakGambar::all()->each(function ($t) {
+            if (! File::exists(public_path('images/games/tebak-gambar/' . $t->gambar))) {
+                $t->delete();
+            }
+        });
     }
 }

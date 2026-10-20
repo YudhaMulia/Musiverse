@@ -123,10 +123,21 @@
     });
 
     // ---------- Keluarkan bot (tombol x di kartunya) ----------
-    slotGrid.addEventListener('click', (e) => {
+        slotGrid.addEventListener('click', (e) => {
         const hapus = e.target.closest('[data-hapus]');
         if (!hapus) return;
-        jalankan(lobby.dataset.urlHapus.replace('__ID__', hapus.dataset.hapus), 'DELETE');
+
+        const id       = +hapus.dataset.hapus;
+        const cadangan = state;
+
+        // Hilangkan kartunya dulu supaya terasa instan, server menyusul
+        state = { ...state, pemain: state.pemain.filter((p) => p.id !== id) };
+        render();
+
+        jalankan(lobby.dataset.urlHapus.replace('__ID__', id), 'DELETE').then((hasil) => {
+            // Kalau server menolak, kembalikan kartunya
+            if (!hasil) { state = cadangan; render(); }
+        });
     });
 
     // ---------- Salin kode ----------
@@ -206,7 +217,7 @@
     }
 
     // Jaring pengaman: kalau koneksi realtime sempat putus, tetap cek tiap 15 detik
-    setInterval(() => { if (!document.hidden) sinkron(); }, 15000);
+    setInterval(() => { if (!document.hidden) sinkron(); }, 5000);
 
     render();
 })();

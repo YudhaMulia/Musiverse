@@ -9,7 +9,7 @@
 
         {{-- Logo Musiverse dengan kilau emas (pengganti judul "Gabung Ruangan") --}}
         <div class="modal-logo">
-            <span class="modal-logo__icon" aria-hidden="true"></span>
+            <img src="{{ asset('images/logo-musiverse.webp') }}" alt="" class="modal-logo__img">
             <h3 class="modal-logo__text">Musiverse</h3>
         </div>
 

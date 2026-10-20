@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KuisQuestion;
+use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
@@ -10,11 +11,20 @@ class QuizController extends Controller
     private const JUMLAH_SOAL = 15;
 
     // Halaman permainan Musiverse Quiz: ambil 15 soal acak dari database
-    public function main()
+    public function main(Request $request)
     {
-        $soal = KuisQuestion::inRandomOrder()
-            ->limit(self::JUMLAH_SOAL)
-            ->get()
+        // Main bersama: acakannya "dikunci" oleh kode ruangan + ronde, jadi saat halaman
+        // di-refresh, soal & urutan pilihannya SAMA PERSIS (tidak berubah).
+        // Main sendiri (tanpa kode ruangan): tetap acak biasa.
+        $ruang = strtoupper((string) $request->query('ruang'));
+        if ($ruang !== '') {
+            mt_srand(crc32($ruang.'|'.$request->query('ronde')));
+        }
+
+        $semua = KuisQuestion::orderBy('id')->get()->all();
+        shuffle($semua);
+
+        $soal = collect(array_slice($semua, 0, self::JUMLAH_SOAL))
             ->map(function ($q) {
                 // Kumpulkan 4 pilihan, lalu acak urutannya supaya huruf A-D
                 // jawaban benar tidak selalu di tempat yang sama.
@@ -46,6 +56,8 @@ class QuizController extends Controller
                 ];
             })
             ->values();
+
+         mt_srand();   
 
         // Kalau tabel masih kosong, beri pesan yang jelas (bukan halaman rusak)
         abort_if(
