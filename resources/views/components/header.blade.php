@@ -6,7 +6,7 @@
 <header class="navbar">
     <div class="navbar__inner">
         <a href="{{ route('welcome') }}" class="logo" aria-label="Musiverse - halaman awal">
-            <img src="{{ asset('images/logo-musiverse.png') }}" alt="" class="logo__img">
+            <img src="{{ asset('images/logo-musiverse.webp') }}" alt="" class="logo__img">
             <span class="logo__text">Musiverse</span>
         </a>
 

@@ -32,6 +32,34 @@
 
     const SOAL = JSON.parse(document.getElementById('data-soal').textContent);
     if (!SOAL.length) return;
+    // ---------- Pramuat gambar ----------
+    // Semua gambar diunduh di awal dan disimpan di cache, jadi tidak dibatalkan browser.
+    const cacheGambar = new Map();
+    const muatGambar = (url) => {
+        if (!url) return Promise.resolve();
+        if (!cacheGambar.has(url)) {
+            const img = new Image();
+            img.src = url;
+            const siap = img.decode
+                ? img.decode().catch(() => {})
+                : new Promise((r) => { img.onload = img.onerror = r; });
+            cacheGambar.set(url, { img, siap });
+        }
+        return cacheGambar.get(url).siap;
+    };
+    // Gambar soal 1 diunduh duluan, baru sisanya, supaya soal pertama tidak antre
+    muatGambar(SOAL[0].gambar).then(() => SOAL.slice(1).forEach((s) => muatGambar(s.gambar)));
+
+    // Timer berhenti selama gambar soal ini belum siap (maksimal 15 detik)
+    let menungguGambar = false;
+    const tungguGambar = (url) => {
+        menungguGambar = true;
+        tampilStatus('Memuat gambar...');
+        Promise.race([muatGambar(url), new Promise((r) => setTimeout(r, 15000))]).then(() => {
+            menungguGambar = false;
+            tampilStatus('Perhatikan gambarnya baik-baik!');
+        });
+    };
     const URL_AVATAR = arena.dataset.avatarUrl;
     const CSRF = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 
@@ -206,6 +234,41 @@
     let versi = 0;               // nomor urut keadaan (tuan rumah menaikkan, tamu membuang yang lama)
     let terakhirKirim = 0;
 
+    // ---------- Simpanan: refresh halaman tidak mengulang dari soal 1 ----------
+    const KUNCI_SIMPAN = `musiverse_puzzle_${KODE_RUANG}_${RONDE}`;
+    let dipulihkan = false;    // true kalau permainan dilanjutkan dari simpanan
+    let akhiriPulih = false;   // true kalau ternyata permainan sudah di ujung
+
+    const simpan = () => {
+        if (mode !== 'host' || !KODE_RUANG || !RONDE) return;
+        try {
+            sessionStorage.setItem(KUNCI_SIMPAN, JSON.stringify({
+                v: versi, mulai, selesai, fase, nomor,
+                total: SOAL.length,
+                pemain: pemain.map((p) => [p.skor, p.benar, p.bonus]),
+                rekam,
+            }));
+        } catch (e) { /* abaikan */ }
+    };
+
+    if (mode === 'host' && KODE_RUANG && RONDE) {
+        try {
+            const d = JSON.parse(sessionStorage.getItem(KUNCI_SIMPAN));
+            if (d && d.mulai && d.total === SOAL.length && d.pemain.length === pemain.length) {
+                d.pemain.forEach((a, i) => {
+                    [pemain[i].skor, pemain[i].benar, pemain[i].bonus] = a;
+                    pemain[i].elPoin.textContent = pemain[i].skor;
+                });
+                d.rekam.forEach((r, i) => { if (r) rekam[i] = r; });
+                // Soal yang sudah diungkap tidak diulang (supaya poin tidak dihitung dua kali)
+                nomor = d.fase === 'ungkap' ? d.nomor + 1 : d.nomor;
+                if (d.selesai || nomor >= SOAL.length) { nomor = SOAL.length - 1; akhiriPulih = true; }
+                versi = d.v + 1000;   // harus lebih baru dari pesan lama, kalau tidak diabaikan pemain lain
+                dipulihkan = true;
+            }
+        } catch (e) { /* simpanan rusak: mulai dari awal */ }
+    }
+
     // Foto permainan saat ini (kecil, jauh di bawah batas 10 KB Pusher)
     const ambilKeadaan = () => {
         const s = SOAL[nomor];
@@ -234,6 +297,7 @@
     };
 
     const siarkan = () => {
+        simpan();
         if (mode !== 'host' || !kanalSiap) return;
         terakhirKirim = performance.now();
         try { kanal.trigger('client-keadaan', ambilKeadaan()); } catch (e) { /* abaikan */ }
@@ -279,7 +343,7 @@
             elForm.hidden = true;
             terkirim = false;
         }
-        if (s.berikut) new Image().src = s.berikut;
+        if (s.berikut) muatGambar(s.berikut);
 
         fase = s.fase;
         ms = s.ms;
@@ -357,7 +421,7 @@
         if (sudahMulai) return;
         sudahMulai = true;
         clearTimeout(timerTunggu);
-        setTimeout(() => { mulai = true; mulaiSoal(); }, 600);
+        setTimeout(() => { mulai = true; if (akhiriPulih) akhiri(); else mulaiSoal(); }, 600);
     };
 
     // Pemain tamu yang sah dari pesan "client-..." (null kalau pesannya tidak masuk akal)
@@ -434,7 +498,8 @@
             kanal.bind('pusher:subscription_succeeded', () => {
                 kanalSiap = true;
                 tampilStatus('Menunggu pemain lain siap...');
-                timerTunggu = setTimeout(mulaiPermainan, TUNGGU_TAMU);
+                // Habis refresh, pemain lain sudah di dalam permainan: tidak perlu menunggu 12 detik
+                timerTunggu = setTimeout(mulaiPermainan, dipulihkan ? 800 : TUNGGU_TAMU);
                 siarkan();
             });
 
@@ -509,8 +574,8 @@
         aturTombol('kunci', 'Tunggu...');
         tampilStatus('Perhatikan gambarnya baik-baik!');
 
-        // Muat gambar soal berikutnya lebih dulu supaya tidak berkedip
-        if (SOAL[nomor + 1]) new Image().src = SOAL[nomor + 1].gambar;
+        // Tahan timer sampai gambar soal ini benar-benar siap
+        tungguGambar(s.gambar);
         siarkan();
     };
 
@@ -631,7 +696,7 @@
         const sekarang = performance.now();
         const dt = Math.min(2000, sekarang - terakhirDetak);
         terakhirDetak = sekarang;
-        if (jeda || selesai || !mulai) return;
+        if (jeda || selesai || !mulai || menungguGambar) return;
 
         ms += dt;
 

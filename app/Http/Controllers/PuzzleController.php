@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TebakGambar;
+use Illuminate\Http\Request;
 
 class PuzzleController extends Controller
 {
@@ -13,13 +14,24 @@ class PuzzleController extends Controller
     private const FOLDER = 'images/games/tebak-gambar';
 
     // Halaman permainan Musiverse Puzzle: ambil 10 soal acak dari database
-    public function main()
+    public function main(Request $request)
     {
-        $soal = TebakGambar::inRandomOrder()
-            ->limit(self::JUMLAH_SOAL)
-            ->get()
+        $ruang = strtoupper((string) $request->query('ruang'));
+        $ronde = (string) $request->query('ronde');
+
+        $semua = TebakGambar::orderBy('id')->get();
+
+        // Main bersama: urutan acak dikunci dari kode ruang + ronde,
+        // jadi refresh halaman tidak mengganti soal. Main sendiri tetap acak.
+        $soal = ($ruang !== '' && $ronde !== '')
+            // Urutan dikunci: tiap soal diberi nilai tetap dari kode ruang + ronde + id soal,
+            // lalu diurutkan. Hasilnya sama setiap kali halaman dimuat, di browser mana pun.
+            ? $semua->sortBy(fn ($t) => crc32($ruang . '|' . $ronde . '|' . $t->id))
+            : $semua->shuffle();
+        $soal = $soal
+            ->take(self::JUMLAH_SOAL)
             ->map(fn ($t) => [
-                'gambar'     => asset(self::FOLDER . '/' . rawurlencode($t->gambar)),
+                'gambar'     => '/' . self::FOLDER . '/' . rawurlencode($t->gambar),
                 'jawaban'    => $t->jawaban,
                 'penjelasan' => $t->penjelasan,   // dipakai halaman rekap
             ])

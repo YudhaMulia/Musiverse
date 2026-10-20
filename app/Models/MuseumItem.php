@@ -43,9 +43,28 @@ class MuseumItem extends Model
         'is_featured' => 'boolean',
     ];
 
-    // Mengubah slug kategori jadi nama yang enak dibaca
+        // Mengubah slug kategori jadi nama yang enak dibaca
     public function getNamaKategoriAttribute(): string
     {
         return self::KATEGORI[$this->kategori] ?? $this->kategori;
+    }
+
+    // Alamat gambar dihitung ulang tiap halaman dibuka,
+    // supaya ikut domain yang sedang dipakai (localhost, tunnel, atau hosting)
+    public function getImageUrlAttribute($value)
+    {
+        if (! $value) {
+            return null;
+        }
+
+        // Ambil path-nya saja, misalnya "images/galeri/xxx.jpg"
+        $path = ltrim(parse_url($value, PHP_URL_PATH) ?? '', '/');
+
+        if (str_starts_with($path, 'images/')) {
+            return asset($path);
+        }
+
+        // Gambar dari luar (misalnya picsum.photos) dibiarkan apa adanya
+        return $value;
     }
 }

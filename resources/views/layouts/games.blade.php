@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@hasSection('title')@yield('title') | Musiverse @else Musiverse | Budaya Palembang @endif</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo-musiverse.png') }}">
+    <link rel="icon" type="image/webp" href="{{ asset('images/logo-musiverse.webp') }}">
 
     {{-- Tandai bahwa JavaScript aktif (dipakai animasi fade-up) --}}
     <script>document.documentElement.classList.add('js');</script>

@@ -10,7 +10,7 @@
 <section class="auth">
     <div class="auth__bingkai">
 
-        @include('auth._visual', ['gambar' => 'login.jpg'])
+        @include('auth._visual', ['gambar' => 'login.webp'])
 
         <div class="auth__form">
             <h1 class="auth__judul">Selamat Datang Kembali</h1>

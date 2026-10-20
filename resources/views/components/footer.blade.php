@@ -1,7 +1,7 @@
 <footer class="mv-footer">
     <div class="mv-footer__inner">
         <a href="{{ url('/') }}" class="mv-footer__logo">
-            <img src="{{ asset('images/logo-musiverse.png') }}" alt="">
+            <img src="{{ asset('images/logo-musiverse.webp') }}" alt="">
             <span>Musiverse</span>
         </a>
         <p>Budaya Kito, Kebanggaan Galo-Galo! &middot; Museum digital budaya Palembang.</p>

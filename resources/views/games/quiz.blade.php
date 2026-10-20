@@ -13,6 +13,9 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/match.css') }}">
     <link rel="stylesheet" href="{{ asset('css/quiz.css') }}">
+    {{-- Mulai mengunduh Pusher lebih awal, tanpa menghalangi tampilan --}}
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/pusher/8.4.0/pusher.min.js">
 @endpush
 
 @php
@@ -85,8 +88,8 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/8.4.0/pusher.min.js"></script>
-    <script src="{{ asset('js/ruang-sesi.js') }}"></script>
-    <script src="{{ asset('js/emote.js') }}"></script>   
-    <script src="{{ asset('js/quiz.js') }}"></script>
+    {{-- Pusher dimuat oleh quiz.js di belakang layar, supaya soal tampil lebih cepat --}}
+    <script src="{{ asset('js/ruang-sesi.js') }}" defer></script>
+    <script src="{{ asset('js/emote.js') }}" defer></script>
+    <script src="{{ asset('js/quiz.js') }}" defer></script>
 @endpush

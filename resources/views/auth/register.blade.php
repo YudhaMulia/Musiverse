@@ -50,7 +50,7 @@
             <p class="auth__bawah">Sudah punya akun? <a href="{{ route('login') }}">Masuk</a></p>
         </div>
 
-        @include('auth._visual', ['gambar' => 'register.jpg'])
+        @include('auth._visual', ['gambar' => 'register.webp'])
     </div>
 </section>
 @endsection

@@ -427,7 +427,7 @@ body:not(:has(.hero, [data-navbar-gelap])) .navbar:not(.is-scrolled) .navbar__me
 }
 
 
-/* ===== Logo gambar (public/images/logo-musiverse.png) ===== */
+/* ===== Logo gambar (public/images/logo-musiverse.webp) ===== */
 .logo__img { height: 40px; width: auto; display: block; flex-shrink: 0; }
 .modal-logo__img,
 .lobby-logo__img {

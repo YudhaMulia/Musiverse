@@ -356,11 +356,9 @@ class MuseumItemSeeder extends Seeder
                     'kategori'          => $kategori,
                     'asal_daerah'       => $asal,
                     'deskripsi_singkat' => $singkat,
-                    'image_url'         => file_exists(public_path("images/galeri/{$slug}.jpg"))
-                            ? asset("images/galeri/{$slug}.jpg")
-                            : (file_exists(public_path("images/galeri/{$slug}.png"))
-                                ? asset("images/galeri/{$slug}.png")
-                                : "https://picsum.photos/seed/{$slug}/900/600"),
+                    'image_url'         => file_exists(public_path("images/galeri/{$slug}.webp"))
+                            ? asset("images/galeri/{$slug}.webp")
+                            : "https://picsum.photos/seed/{$slug}/900/600",
                     'is_featured'       => $unggulan,
                     'deskripsi_lengkap' => $lengkap[$slug] ?? null,
                 ]
