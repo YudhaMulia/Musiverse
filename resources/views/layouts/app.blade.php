@@ -7,16 +7,17 @@
     <title>@hasSection('title')@yield('title') | Musiverse @else Musiverse | Budaya Palembang @endif</title>
     <link rel="icon" type="image/webp" href="{{ asset('images/logo-musiverse.webp') }}">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     {{-- Navbar Musiverse: font & CSS khusus navbar --}}
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -148,19 +149,6 @@
             main > :last-child {
                 margin-bottom: 0 !important;
             }
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #F9F6F0;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #D4AF37;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #B38B2D;
         }
 
         /* Hero content smooth transition */
@@ -348,7 +336,6 @@
         });
     </script>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     {{-- Navbar Musiverse: transparan -> gelap saat scroll, menu HP --}}
     <script src="{{ asset('js/app.js') }}"></script>
     {{-- Musik latar: lanjut terus saat pindah halaman --}}

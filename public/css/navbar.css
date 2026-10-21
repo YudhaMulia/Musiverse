@@ -487,3 +487,31 @@ body:not(:has(.hero, [data-navbar-gelap])) .navbar:not(.is-scrolled) .navbar__me
         text-shadow: 0 1px 10px rgba(0, 0, 0, .7);
     }
 }
+
+
+/* =========================================================
+   SCROLLBAR GLOBAL (emas), sama di seluruh halaman
+   ========================================================= */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #F9F6F0;
+}
+::-webkit-scrollbar-thumb {
+    background: #D4AF37;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #B38B2D;
+}
+
+/* Firefox memakai aturan berbeda; blok ini hanya berlaku di browser yang
+   tidak mengenal ::-webkit-scrollbar, jadi tampilan Chrome/Edge tidak terganggu */
+@supports not selector(::-webkit-scrollbar) {
+    html {
+        scrollbar-width: thin;
+        scrollbar-color: #D4AF37 #F9F6F0;
+    }
+}

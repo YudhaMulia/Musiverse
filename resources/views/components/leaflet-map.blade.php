@@ -1,7 +1,13 @@
 <div id="mapid" style="height: 400px; width: 100%;"></div>
 
-@push("scripts")
-<script>
+    @push("styles")
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    @endpush
+
+    @push("scripts")
+    {{-- Leaflet hanya diunduh di halaman yang benar-benar memakai peta --}}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
     document.addEventListener("DOMContentLoaded", function () {
         var map = L.map("mapid").setView([0, 0], 13); // Default view, will be updated
 

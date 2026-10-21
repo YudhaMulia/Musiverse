@@ -238,9 +238,10 @@
     const KUNCI_SIMPAN = `musiverse_puzzle_${KODE_RUANG}_${RONDE}`;
     let dipulihkan = false;    // true kalau permainan dilanjutkan dari simpanan
     let akhiriPulih = false;   // true kalau ternyata permainan sudah di ujung
+    let sedangKeluar = false;  // true setelah menekan "Keluar": jangan simpan lagi
 
     const simpan = () => {
-        if (mode !== 'host' || !KODE_RUANG || !RONDE) return;
+        if (mode === 'tamu' || !RONDE || sedangKeluar) return;
         try {
             sessionStorage.setItem(KUNCI_SIMPAN, JSON.stringify({
                 v: versi, mulai, selesai, fase, nomor,
@@ -251,7 +252,8 @@
         } catch (e) { /* abaikan */ }
     };
 
-    if (mode === 'host' && KODE_RUANG && RONDE) {
+    // Main sendiri maupun tuan rumah sama-sama bisa melanjutkan permainan setelah refresh
+    if (mode !== 'tamu' && RONDE) {
         try {
             const d = JSON.parse(sessionStorage.getItem(KUNCI_SIMPAN));
             if (d && d.mulai && d.total === SOAL.length && d.pemain.length === pemain.length) {
@@ -844,6 +846,8 @@
 
     // Tombol "Keluar" di popup: main bersama -> keluar dari ruangan dulu (supaya hilang di layar pemain lain)
     dialogKeluar.querySelector('[data-keluar-link]')?.addEventListener('click', (e) => {
+        sedangKeluar = true;   // keluar = permainan berakhir, jangan disimpan/dilanjutkan lagi
+        try { sessionStorage.removeItem(KUNCI_SIMPAN); } catch (err) { /* abaikan */ }
         if (!KODE_RUANG) return;   // main sendiri: link biasa
         e.preventDefault();
         RuangSesi.keluar(arena.dataset.urlKeluar, KODE_RUANG, arena.dataset.keluar);
@@ -853,7 +857,9 @@
     // ---------- Mulai ----------
     if (mode === 'solo') {
         mulai = true;
-        mulaiSoal();
+        // Kalau halaman di-refresh di tengah permainan, "nomor" sudah berisi soal terakhir
+        if (akhiriPulih) akhiri();
+        else mulaiSoal();
     } else {
         tampilStatus('Bersiap...');
         sambung();

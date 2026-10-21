@@ -16,14 +16,23 @@ class PuzzleController extends Controller
     // Halaman permainan Musiverse Puzzle: ambil 10 soal acak dari database
     public function main(Request $request)
     {
+        // Main sendiri belum punya penanda ronde: buatkan satu, lalu muat ulang halaman
+        // dengan penanda itu di alamatnya. Dengan begitu, kalau halaman di-refresh,
+        // soalnya tetap sama dan permainan bisa dilanjutkan (tidak mengulang dari awal).
+        if ($request->query('ruang') === null && $request->query('ronde') === null) {
+            return redirect()->to($request->fullUrlWithQuery([
+                'ronde' => (string) (time() * 1000 + random_int(0, 999)),
+            ]));
+        }
+
         $ruang = strtoupper((string) $request->query('ruang'));
         $ronde = (string) $request->query('ronde');
 
         $semua = TebakGambar::orderBy('id')->get();
 
-        // Main bersama: urutan acak dikunci dari kode ruang + ronde,
-        // jadi refresh halaman tidak mengganti soal. Main sendiri tetap acak.
-        $soal = ($ruang !== '' && $ronde !== '')
+        // Urutan acak dikunci dari kode ruang + ronde, jadi refresh halaman
+        // tidak mengganti soal.
+        $soal = ($ronde !== '')
             // Urutan dikunci: tiap soal diberi nilai tetap dari kode ruang + ronde + id soal,
             // lalu diurutkan. Hasilnya sama setiap kali halaman dimuat, di browser mana pun.
             ? $semua->sortBy(fn ($t) => crc32($ruang . '|' . $ronde . '|' . $t->id))

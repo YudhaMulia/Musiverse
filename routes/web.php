@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\CagarBudayaAdminController;
 use App\Http\Controllers\Api\CagarBudayaApiController;
 use App\Http\Controllers\AudioTourController;
 use App\Http\Controllers\Auth\LoginController;
@@ -73,16 +72,6 @@ Route::prefix('review')->middleware('auth')->group(function () {
     Route::put('/{review}', [ReviewController::class, 'update'])->name('review.update');
     Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('review.destroy');
     Route::delete('/photo/{photoId}', [ReviewController::class, 'deletePhoto'])->name('review.deletePhoto');
-});
-
-// Admin Routes
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::prefix('cagar-budaya')->name('cagar-budaya.')->group(function () {
-        Route::get('/', [CagarBudayaAdminController::class, 'index'])->name('index');
-        Route::get('/{cagarBudaya}/edit', [CagarBudayaAdminController::class, 'edit'])->name('edit');
-        Route::post('/{cagarBudaya}/upload-image', [CagarBudayaAdminController::class, 'updateImage'])->name('update-image');
-        Route::delete('/{cagarBudaya}/image', [CagarBudayaAdminController::class, 'destroy'])->name('destroy-image');
-    });
 });
 
 Route::prefix('api')->group(function () {

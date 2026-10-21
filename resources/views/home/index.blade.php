@@ -111,6 +111,61 @@
             </div>
         </section>
 
+        {{-- ===== CERITA: masalah, inovasi, solusi (tanpa kartu, menyatu dengan latar) ===== --}}
+        @php
+            // Gambar PNG taruh di public/images/beranda/. Kalau belum ada, tampil ikon pengganti.
+            $pngMasalah = file_exists(public_path('images/beranda/masalah.png')) ? asset('images/beranda/masalah.png') : null;
+            $pngInovasi = file_exists(public_path('images/beranda/inovasi.png')) ? asset('images/beranda/inovasi.png') : null;
+        @endphp
+
+        <section class="bh-seksi bh-cerita">
+            <div class="bh-wadah">
+
+                {{-- Masalah: teks kiri, gambar kanan --}}
+                <div class="bh-babak">
+                    <div class="bh-babak__teks rv rv-kiri">
+                        <span class="bh-eyebrow">Masalah</span>
+                        <h2 class="bh-judul bh-judul--kiri">Budaya Mulai Dilupakan Generasi Muda</h2>
+                        <div class="bh-garis" aria-hidden="true"></div>
+                        <p>Anak muda kini lebih akrab dengan layar ponsel daripada cerita di balik pempek, songket, atau Benteng Kuto Besak. Budaya terasa jauh, membosankan, dan hanya hadir di buku pelajaran. Perlahan, warisan Palembang terdengar asing bagi generasinya sendiri, dan yang tidak dikenal akan mudah dilupakan.</p>
+                    </div>
+                    <div class="bh-babak__gambar rv rv-kanan">
+                        @if ($pngMasalah)
+                            <img src="{{ $pngMasalah }}" alt="Anak muda yang mulai melupakan budaya" width="800" height="600" loading="lazy" decoding="async">
+                        @else
+                            <span class="bh-babak__ikon"><i class="material-symbols-outlined">phonelink_erase</i></span>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- Inovasi: gambar kiri, teks kanan --}}
+                <div class="bh-babak bh-babak--balik">
+                    <div class="bh-babak__gambar rv rv-kiri">
+                        @if ($pngInovasi)
+                            <img src="{{ $pngInovasi }}" alt="Inovasi Musiverse" loading="lazy" decoding="async">
+                        @else
+                            <span class="bh-babak__ikon"><i class="material-symbols-outlined">lightbulb</i></span>
+                        @endif
+                    </div>
+                    <div class="bh-babak__teks rv rv-kanan">
+                        <span class="bh-eyebrow">Inovasi</span>
+                        <h2 class="bh-judul bh-judul--kiri">Membawa Budaya ke Tempat Mereka Berada</h2>
+                        <div class="bh-garis" aria-hidden="true"></div>
+                        <p>Bagaimana jika budaya hadir di layar yang setiap hari mereka pegang? Musiverse mengubah layar itu menjadi pintu ke masa lalu: museum digital yang bisa dijelajahi, peta situs lengkap dengan audio tour, dan permainan yang membuat belajar budaya terasa seperti bertualang.</p>
+                    </div>
+                </div>
+
+                {{-- Solusi: teks di tengah --}}
+                <div class="bh-solusi rv">
+                    <span class="bh-eyebrow">Solusi</span>
+                    <h2 class="bh-judul">Musiverse</h2>
+                    <div class="bh-ornamen" aria-hidden="true"><span></span></div>
+                    <p>Musiverse mempertemukan tradisi dan teknologi dalam satu tempat. Kenali budayanya, kunjungi tempatnya, abadikan kenangannya, lalu mainkan untuk menguatkan ingatan. Dengan cara yang akrab dan menyenangkan, warisan Palembang kembali dekat dan dijaga oleh generasi yang memilikinya.</p>
+                </div>
+
+            </div>
+        </section>
+
         {{-- ===== 2. ALUR: kenali, kunjungi, abadikan, mainkan ===== --}}
         <section class="bh-seksi">
             <div class="bh-wadah">
@@ -165,7 +220,44 @@
             </div>
         </section>
 
-        {{-- ===== 3. CAGAR BUDAYA PILIHAN ===== --}}
+        {{-- ===== 3. GALERI BUDAYA PILIHAN: bingkai lengkung ala pameran museum ===== --}}
+        @if ($galeriUnggulan->isNotEmpty())
+            <section class="bh-seksi">
+                <div class="bh-wadah">
+                    <header class="bh-kepala rv">
+                        <span class="bh-eyebrow">Koleksi Terpopuler</span>
+                        <h2 class="bh-judul">Budaya Paling Dicari di Galeri</h2>
+                        <div class="bh-ornamen" aria-hidden="true"><span></span></div>
+                        <p>Tiga koleksi yang paling sering dibuka pengunjung Galeri Budaya Musiverse.</p>
+                    </header>
+
+                    <div class="bh-pameran">
+                        @foreach ($galeriUnggulan as $item)
+                            <a href="{{ route('galeri-budaya.index') }}" class="bh-karya rv">
+                                <span class="bh-karya__bingkai">
+                                    <img src="{{ $item->image_url ?: $fotoCadangan }}" alt="{{ $item->nama }}" loading="lazy" decoding="async"
+                                         onerror="this.onerror=null;this.src='{{ $fotoCadangan }}'">
+                                    <b class="bh-karya__no">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</b>
+                                </span>
+                                <span class="bh-karya__kategori">{{ $item->nama_kategori }}</span>
+                                <h3>{{ $item->nama }}</h3>
+                                <p>{{ $item->deskripsi_singkat }}</p>
+                                <span class="bh-langkah__tautan">Baca Ceritanya <i class="material-symbols-outlined">arrow_forward</i></span>
+                            </a>
+                        @endforeach
+                    </div>
+
+                    <div class="bh-lanjut rv">
+                        <a href="{{ route('galeri-budaya.index') }}" class="mv-tombol">
+                            <span>Buka Galeri Budaya</span>
+                            <i class="material-symbols-outlined">museum</i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        @endif
+
+        {{-- ===== 4. CAGAR BUDAYA PILIHAN ===== --}}
         @if ($featuredSites->isNotEmpty())
             <section class="bh-seksi">
                 <div class="bh-wadah">
@@ -194,64 +286,67 @@
                             </article>
                         @endforeach
                     </div>
+
+                    <div class="bh-lanjut rv">
+                        <a href="{{ route('cagar-budaya.index') }}" class="mv-tombol">
+                            <span>Buka Peta Lengkap</span>
+                            <i class="material-symbols-outlined">map</i>
+                        </a>
+                    </div>
                 </div>
             </section>
         @endif
 
-                {{-- ===== 4. PETA: semua lokasi, bisa diklik langsung ke tempatnya ===== --}}
+        {{-- ===== 5. GAMES: pita gelap penuh lebar, tiga ubin miring bertingkat ===== --}}
         @php
-            $semuaLokasi = collect(config('heritage_map.sites'));
-            $grupLokasi = [
-                'keraton'   => ['Keraton & Kesultanan',      '#D4AF37'],
-                'arkeologi' => ['Situs Arkeologi Sriwijaya', '#F0A58B'],
-                'museum'    => ['Museum',                    '#9ED0BE'],
-                'religi'    => ['Religi & Tempat Ibadah',    '#F6E3A1'],
-                'kolonial'  => ['Bangunan Kolonial',         '#D9A066'],
-                'kampung'   => ['Kampung Budaya',            '#D3A0C8'],
-                'monumen'   => ['Monumen & Ikon Kota',       '#8EC3E6'],
+            $gamesBeranda = [
+                ['nama' => 'Musiverse Match', 'ikon' => 'style', 'warna' => '#F0A58B', 'gambar' => 'images/games/match.webp',
+                 'desc' => 'Buka dua kartu dan temukan pasangan gambar budaya yang sama. Sekali meleset, giliran pindah ke lawan.',
+                 'info' => ['6×6 Kartu', '2–4 Pemain'], 'link' => route('games.match.play', ['solo' => 1])],
+                ['nama' => 'Musiverse Quiz', 'ikon' => 'quiz', 'warna' => '#9ED0BE', 'gambar' => 'images/games/quiz-tengah.webp',
+                 'desc' => '15 pertanyaan acak seputar budaya Palembang. Makin cepat kamu menjawab, makin besar bonus yang didapat.',
+                 'info' => ['15 Soal', 'Bonus Kecepatan'], 'link' => route('games.quiz.play', ['solo' => 1])],
+                ['nama' => 'Musiverse Puzzle', 'ikon' => 'extension', 'warna' => '#F6E3A1', 'gambar' => 'images/games/puzzle.webp',
+                 'desc' => 'Amati gambar selama 5 detik, lalu jadilah yang tercepat menebak kata budayanya sebelum lawan merebutnya.',
+                 'info' => ['10 Soal', 'Tombol Rebutan'], 'link' => route('games.puzzle.play', ['solo' => 1])],
             ];
         @endphp
 
         <section class="bh-seksi bh-seksi--akhir">
-            <div class="bh-wadah">
-                <div class="bh-peta rv">
-                    <div class="bh-peta__teks">
-                        <span class="bh-eyebrow bh-eyebrow--terang">Peta Interaktif</span>
-                        <h2>Satu Peta, {{ $semuaLokasi->count() }} Lokasi Bersejarah</h2>
-                        <p>Pilih tempat mana pun di samping untuk langsung melihat letaknya di peta, lengkap dengan rute menuju lokasinya.</p>
+            <div class="bh-arena">
+                <div class="bh-wadah">
+                    <header class="bh-kepala bh-kepala--terang rv">
+                        <span class="bh-eyebrow bh-eyebrow--terang">Belajar Sambil Bermain</span>
+                        <h2 class="bh-judul bh-judul--terang">Tiga Permainan, Satu Ingatan Budaya</h2>
+                        <div class="bh-ornamen" aria-hidden="true"><span></span></div>
+                        <p>Mainkan sendiri atau tantang teman di ruang permainan. Setiap ronde membuat budaya Palembang makin melekat.</p>
+                    </header>
 
-                        <div class="bh-peta__tombol">
-                            <a href="{{ route('cagar-budaya.index') }}" class="mv-tombol">
-                                <span>Buka Peta</span>
-                                <i class="material-symbols-outlined">map</i>
+                    <div class="bh-ubin-baris">
+                        @foreach ($gamesBeranda as $g)
+                            <a href="{{ $g['link'] }}" class="bh-ubin rv" style="--warna: {{ $g['warna'] }}">
+                                <span class="bh-ubin__gambar">
+                                    <img src="{{ asset($g['gambar']) }}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'">
+                                    <i class="material-symbols-outlined">{{ $g['ikon'] }}</i>
+                                </span>
+                                <h3>{{ $g['nama'] }}</h3>
+                                <p>{{ $g['desc'] }}</p>
+                                <span class="bh-ubin__info">
+                                    @foreach ($g['info'] as $teks)<em>{{ $teks }}</em>@endforeach
+                                </span>
+                                <span class="bh-ubin__main">Main Sekarang <i class="material-symbols-outlined">play_arrow</i></span>
                             </a>
-                            <a href="{{ route('games.index') }}" class="mv-tombol mv-tombol--garis">
-                                <span>Coba Games</span>
-                                <i class="material-symbols-outlined">sports_esports</i>
-                            </a>
-                        </div>
-
-                        @guest
-                            <p class="bh-peta__daftar-akun">Belum punya akun? <a href="{{ route('register') }}">Daftar gratis</a></p>
-                        @endguest
+                        @endforeach
                     </div>
 
-                    <div class="bh-peta__daftar">
-                        @foreach ($grupLokasi as $kode => [$namaGrup, $warna])
-                            @php $anggota = $semuaLokasi->where('category', $kode); @endphp
-                            @if ($anggota->isNotEmpty())
-                                <div>
-                                    <div class="bh-grup__judul">{{ $namaGrup }}</div>
-                                    <div class="bh-grup__pil">
-                                        @foreach ($anggota as $lokasi)
-                                            <a href="{{ route('cagar-budaya.index', ['lokasi' => $lokasi['slug']]) }}" class="bh-pil">
-                                                <span class="bh-pil__titik" style="background: {{ $warna }}"></span>{{ $lokasi['name'] }}
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
+                    <div class="bh-lanjut rv">
+                        <a href="{{ route('games.index') }}" class="mv-tombol mv-tombol--garis">
+                            <span>Lihat Semua Games</span>
+                            <i class="material-symbols-outlined">sports_esports</i>
+                        </a>
+                        @guest
+                            <p class="bh-lanjut__akun">Belum punya akun? <a href="{{ route('register') }}">Daftar gratis</a> untuk main bersama teman.</p>
+                        @endguest
                     </div>
                 </div>
             </div>
@@ -560,56 +655,144 @@
     .bh-pilihan--rata .bh-kartu { min-height: 360px; }
     .bh-pilihan--rata .bh-kartu:first-child { grid-row: auto; }
 
-    /* ----- 4. Peta 18 lokasi ----- */
-    .bh-peta {
-        position: relative; overflow: hidden; color: #fff6e8; border-radius: 28px;
-        display: grid; grid-template-columns: .85fr 1.15fr; gap: 44px; align-items: center;
-        padding: 58px 52px;
-        background:
-            radial-gradient(ellipse 70% 90% at 15% 0%, rgba(212, 175, 55, .24), transparent 70%),
-            url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2756%27 height=%2756%27 viewBox=%270 0 56 56%27%3E%3Cg fill=%27none%27 stroke=%27%23D4AF37%27 stroke-opacity=%27.16%27%3E%3Cpath d=%27M28 3 53 28 28 53 3 28Z%27/%3E%3Cpath d=%27M28 17 39 28 28 39 17 28Z%27/%3E%3C/g%3E%3C/svg%3E'),
-            linear-gradient(145deg, #6b1919, #3a0c0c);
-        border: 1px solid rgba(212, 175, 55, .65);
-        box-shadow: 0 24px 54px rgba(58, 12, 12, .3), inset 0 0 0 6px rgba(212, 175, 55, .08);
+    /* ----- Cerita: masalah, inovasi, solusi (tanpa kartu) ----- */
+    .bh-cerita { padding-top: 120px; overflow-x: clip; }
+    .bh-judul--kiri { text-align: left; }
+    .bh-garis { width: 74px; height: 3px; margin: 18px 0; border-radius: 3px; background: linear-gradient(90deg, #D4AF37, rgba(212, 175, 55, 0)); }
+    .bh-babak { display: grid; grid-template-columns: 1.05fr .95fr; gap: 64px; align-items: center; margin-bottom: 104px; }
+    .bh-babak--balik { grid-template-columns: .95fr 1.05fr; }
+    .bh-babak__teks p { font-size: 1.08rem; line-height: 1.85; color: #5d2a2a; max-width: 560px; }
+    .bh-babak__gambar { display: grid; place-items: center; min-height: 280px; }
+    .bh-babak__gambar img {
+        width: 100%; max-width: 460px; height: auto; display: block;
+        filter: drop-shadow(0 26px 30px rgba(74, 16, 16, .22));
+        animation: bhMelayang 7s ease-in-out infinite;
     }
-    .bh-peta__teks h2 {
-        margin-top: 10px; font-family: 'Montserrat', Arial, sans-serif; font-style: italic; font-weight: 800;
-        font-size: clamp(1.8rem, 3.6vw, 2.6rem); line-height: 1.18;
+    .bh-babak--balik .bh-babak__gambar img { animation-delay: -3.5s; }
+    @keyframes bhMelayang { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+    /* ikon pengganti jika PNG belum ada */
+    .bh-babak__ikon {
+        width: 220px; height: 220px; border-radius: 50%; display: grid; place-items: center; color: #D4AF37;
+        border: 2px dashed rgba(212, 175, 55, .6); background: radial-gradient(circle, rgba(212, 175, 55, .16), transparent 70%);
     }
-    .bh-peta__teks > p { margin-top: 16px; line-height: 1.75; color: #f1e4cf; }
-    .bh-peta__tombol { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
-    .bh-peta__tombol .mv-tombol { margin-top: 0; }
-    .bh-peta__daftar-akun { margin-top: 22px; font-size: .92rem; color: #e6d6bd; }
-    .bh-peta__daftar-akun a { color: #f3d98a; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+    .bh-babak__ikon .material-symbols-outlined { font-size: 96px; }
 
-    .bh-peta__daftar { display: grid; gap: 20px; }
-    .bh-grup__judul {
-        display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
-        font-size: .72rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #f3d98a;
+    .bh-solusi { text-align: center; max-width: 760px; margin: 0 auto; }
+    .bh-solusi p { margin: 4px auto 0; font-size: 1.12rem; line-height: 1.9; color: #5d2a2a; }
+    .bh-solusi .mv-tombol { margin-top: 30px; }
+
+    /* ----- Tombol lanjut di bawah tiap sorotan ----- */
+    .bh-lanjut { margin-top: 44px; text-align: center; }
+    .bh-lanjut .mv-tombol { margin-top: 0; }
+    .bh-lanjut__akun { margin-top: 18px; font-size: .92rem; color: #e6d6bd; }
+    .bh-lanjut__akun a { color: #f3d98a; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ----- Galeri pilihan: bingkai lengkung ala pameran ----- */
+    .bh-pameran { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .bh-karya { display: block; text-align: center; color: inherit; text-decoration: none; }
+    .bh-karya__bingkai {
+        position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden;
+        border-radius: 999px 999px 18px 18px; border: 3px solid #D4AF37; padding: 8px; background: #FFFDF8;
+        box-shadow: 0 22px 44px rgba(74, 16, 16, .16), 0 0 0 7px rgba(212, 175, 55, .12);
+        transition: transform .4s, box-shadow .4s;
     }
-    .bh-grup__judul::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(240, 223, 160, .5), transparent); }
-    .bh-grup__pil { display: flex; flex-wrap: wrap; gap: 8px; }
-    .bh-pil {
-        display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px;
-        font-size: .84rem; font-weight: 700; color: #fff6e8; text-decoration: none;
-        background: rgba(255, 255, 255, .07); border: 1px solid rgba(240, 223, 160, .4);
-        transition: transform .2s, background .2s, border-color .2s;
+    .bh-karya__bingkai img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        border-radius: 999px 999px 10px 10px; transition: transform .8s ease;
     }
-    .bh-pil:hover { transform: translateY(-2px); background: rgba(240, 223, 160, .18); border-color: #F0DFA0; }
-    .bh-pil__titik { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(255, 255, 255, .12); }
+    .bh-karya:hover .bh-karya__bingkai { transform: translateY(-8px); box-shadow: 0 30px 54px rgba(74, 16, 16, .22), 0 0 0 9px rgba(212, 175, 55, .18); }
+    .bh-karya:hover .bh-karya__bingkai img { transform: scale(1.06); }
+    .bh-karya__no {
+        position: absolute; left: 50%; bottom: 18px; translate: -50% 0; padding: 4px 16px; border-radius: 999px;
+        font-family: 'Montserrat', Arial, sans-serif; font-size: .95rem; font-weight: 800; letter-spacing: .12em; color: #4A1010;
+        background: linear-gradient(135deg, #f6e3a1, #D4AF37); border: 2px solid #FFFDF8;
+    }
+    .bh-karya__kategori { display: block; margin-top: 22px; font-size: .74rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: #B38B2D; }
+    .bh-karya h3 { margin-top: 6px; font-family: 'Montserrat', Arial, sans-serif; font-style: italic; font-weight: 800; font-size: 1.4rem; color: #7A1C1C; }
+    .bh-karya p {
+        margin: 8px auto 0; max-width: 340px; font-size: .94rem; line-height: 1.65; color: #783838;
+        display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .bh-karya .bh-langkah__tautan { margin-top: 14px; }
+    .bh-karya:hover .bh-langkah__tautan .material-symbols-outlined { transform: translateX(4px); }
+
+    /* ----- Games: pita gelap penuh lebar ----- */
+    .bh-arena {
+        position: relative; overflow: hidden; color: #fff6e8; padding: 96px 0 100px;
+        background:
+            radial-gradient(ellipse 60% 80% at 50% 0%, rgba(212, 175, 55, .22), transparent 70%),
+            url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2756%27 height=%2756%27 viewBox=%270 0 56 56%27%3E%3Cg fill=%27none%27 stroke=%27%23D4AF37%27 stroke-opacity=%27.14%27%3E%3Cpath d=%27M28 3 53 28 28 53 3 28Z%27/%3E%3Cpath d=%27M28 17 39 28 28 39 17 28Z%27/%3E%3C/g%3E%3C/svg%3E'),
+            linear-gradient(160deg, #5f1717, #2f0a0a);
+        border-top: 3px solid #D4AF37; border-bottom: 3px solid #D4AF37;
+    }
+    .bh-kepala--terang p { color: #f1e4cf; }
+    .bh-judul--terang { color: #fff6e8; }
+    .bh-ubin-baris { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
+    .bh-ubin {
+        position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+        padding: 0 8px 4px; color: inherit; text-decoration: none;
+    }
+    .bh-ubin:nth-child(2) { margin-top: -30px; }
+    .bh-ubin:nth-child(1) .bh-ubin__gambar { rotate: -5deg; }
+    .bh-ubin:nth-child(3) .bh-ubin__gambar { rotate: 5deg; }
+    .bh-ubin__gambar {
+        position: relative; width: 100%; max-width: 300px; aspect-ratio: 1; overflow: hidden;
+        border-radius: 28px; border: 3px solid var(--warna); background: #2c0a14;
+        box-shadow: 0 0 0 7px rgba(255, 255, 255, .06), 0 0 38px color-mix(in srgb, var(--warna) 45%, transparent), 0 22px 40px rgba(0, 0, 0, .4);
+        transition: rotate .45s, transform .45s, box-shadow .45s;
+    }
+    .bh-ubin__gambar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .bh-ubin__gambar i {
+        position: absolute; left: 12px; top: 12px; width: 44px; height: 44px; display: grid; place-items: center;
+        border-radius: 50%; font-size: 24px; color: #3a0c0c; background: var(--warna); box-shadow: 0 6px 14px rgba(0, 0, 0, .35);
+    }
+    .bh-ubin:hover .bh-ubin__gambar { rotate: 0deg; transform: translateY(-8px) scale(1.03); }
+    .bh-ubin h3 { margin-top: 26px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 1.35rem; color: var(--warna); }
+    .bh-ubin p { margin-top: 8px; max-width: 320px; font-size: .94rem; line-height: 1.65; color: #f1e4cf; }
+    .bh-ubin__info { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; }
+    .bh-ubin__info em {
+        font-style: normal; font-size: .74rem; font-weight: 800; letter-spacing: .06em; padding: 4px 12px; border-radius: 999px;
+        color: var(--warna); border: 1px solid color-mix(in srgb, var(--warna) 60%, transparent);
+    }
+    .bh-ubin__main {
+        margin-top: 18px; display: inline-flex; align-items: center; gap: 6px; padding: 10px 22px; border-radius: 999px;
+        font-size: .82rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #3a0c0c; background: var(--warna);
+        transition: transform .25s, box-shadow .25s;
+    }
+    .bh-ubin__main .material-symbols-outlined { font-size: 20px; }
+    .bh-ubin:hover .bh-ubin__main { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0, 0, 0, .4); }
 
     @media (max-width: 960px) {
-        .bh-peta { grid-template-columns: 1fr; gap: 32px; padding: 44px 24px; }
+        .bh-cerita { padding-top: 88px; }
+        .rv-aktif .rv.rv-kiri  { translate: -40px 0; }
+        .rv-aktif .rv.rv-kanan { translate: 40px 0; }
+        .bh-babak, .bh-babak--balik { grid-template-columns: 1fr; gap: 28px; margin-bottom: 72px; }
+        .bh-babak--balik .bh-babak__gambar { order: -1; }
+        .bh-babak__gambar { min-height: 0; }
+        .bh-babak__gambar img { max-width: 340px; }
+        .bh-pameran { grid-template-columns: 1fr; gap: 56px; max-width: 360px; margin: 0 auto; }
+        .bh-ubin-baris { grid-template-columns: 1fr; gap: 56px; }
+        .bh-ubin:nth-child(2) { margin-top: 0; }
+        .bh-arena { padding: 72px 0 80px; }
     }
 
     /* ----- Animasi muncul saat di-scroll (ringan) ----- */
     .rv-aktif .rv { opacity: 0; translate: 0 26px; transition: opacity .7s ease, translate .7s cubic-bezier(.2, .7, .2, 1); }
     .rv-aktif .rv.is-in { opacity: 1; translate: 0 0; }
+    /* Muncul dari samping (kiri / kanan) */
+    .rv-aktif .rv.rv-kiri,
+    .rv-aktif .rv.rv-kanan { transition: opacity .9s ease, translate .9s cubic-bezier(.2, .7, .2, 1); }
+    .rv-aktif .rv.rv-kiri  { translate: -90px 0; }
+    .rv-aktif .rv.rv-kanan { translate: 90px 0; }
+    .rv-aktif .rv.rv-kiri.is-in,
+    .rv-aktif .rv.rv-kanan.is-in { translate: 0 0; }
     .rv-aktif .bh-jalur .rv:nth-child(2) { transition-delay: .08s; }
     .rv-aktif .bh-jalur .rv:nth-child(3) { transition-delay: .16s; }
     .rv-aktif .bh-jalur .rv:nth-child(4) { transition-delay: .24s; }
     .rv-aktif .bh-pilihan .rv:nth-child(2) { transition-delay: .10s; }
     .rv-aktif .bh-pilihan .rv:nth-child(3) { transition-delay: .20s; }
+    .rv-aktif .bh-pameran .rv:nth-child(2), .rv-aktif .bh-ubin-baris .rv:nth-child(2) { transition-delay: .10s; }
+    .rv-aktif .bh-pameran .rv:nth-child(3), .rv-aktif .bh-ubin-baris .rv:nth-child(3) { transition-delay: .20s; }
 
     /* ----- Responsif ----- */
     @media (max-width: 960px) {
@@ -631,7 +814,10 @@
         .mv-slide.is-active::before, .mv-slide.is-active .mv-slide__img,
         .mv-slide.is-active .mv-slide__body > *,
         .mv-slide.is-active .mv-slide__body > .mv-judul { animation: none; }
-        .rv-aktif .rv { opacity: 1; translate: 0 0; transition: none; }
+        .rv-aktif .rv,
+        .rv-aktif .rv.rv-kiri,
+        .rv-aktif .rv.rv-kanan { opacity: 1; translate: 0 0; transition: none; }
+        .bh-babak__gambar img { animation: none; }
     }
 </style>
 @endpush

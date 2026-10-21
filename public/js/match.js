@@ -164,7 +164,8 @@
 
     let dipulihkan = false;   // true kalau halaman di-refresh dan permainan dilanjutkan
     if (mode !== 'tamu') {
-        const lama = (mode === 'host' && simpanan && simpanan.host && !simpanan.selesai
+        // Main sendiri maupun tuan rumah sama-sama bisa melanjutkan permainan setelah refresh
+        const lama = (simpanan && simpanan.host && !simpanan.selesai
             && Array.isArray(simpanan.dek) && simpanan.dek.every((id) => kartuDariId(id))) ? simpanan : null;
         if (lama) {
             bangunPapan(lama.dek.map((id) => ({ ...kartuDariId(id) })));
@@ -255,11 +256,12 @@
     });
 
     const siarkan = () => {
-        if (mode !== 'host') return;
+        if (mode === 'tamu') return;
         const keadaan = ambilKeadaan();
-        simpan({ ...keadaan, host: true });   // cadangan kalau tuan rumah refresh
-        if (!kanalSiap) return;
+        // Cadangan di browser: dipakai main sendiri maupun tuan rumah kalau halaman di-refresh
+        simpan({ ...keadaan, host: true });
         terakhirKirim = performance.now();
+        if (mode !== 'host' || !kanalSiap) return;
         try { kanal.trigger('client-keadaan', keadaan); } catch (e) { /* abaikan */ }
     };
 
@@ -646,7 +648,8 @@
 
         if (sisaTotal <= 0) return akhiri('Waktu permainan habis!');
         if (sisaGiliran <= 0) waktuGiliranHabis();
-        if (mode === 'host' && sekarang - terakhirKirim > 1000) siarkan();   // denyut tiap 1 detik
+        // Denyut tiap 1 detik: tuan rumah mengirim keadaan, main sendiri menyimpan cadangan
+        if (mode !== 'tamu' && sekarang - terakhirKirim > 1000) siarkan();
     }, 100);
 
     // ---------- 10. Selesai ----------
@@ -708,6 +711,7 @@
 
     // Tombol "Keluar" di popup: main bersama -> keluar dari ruangan dulu (supaya hilang di layar pemain lain)
     dialogKeluar.querySelector('[data-keluar-link]')?.addEventListener('click', (e) => {
+        hapusSimpanan();           // keluar = permainan berakhir, jangan dilanjutkan lagi
         if (!KODE_RUANG) return;   // main sendiri: link biasa
         e.preventDefault();
         RuangSesi.keluar(arena.dataset.urlKeluar, KODE_RUANG, arena.dataset.keluar);
