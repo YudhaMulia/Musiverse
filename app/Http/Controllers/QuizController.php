@@ -13,12 +13,21 @@ class QuizController extends Controller
     // Halaman permainan Musiverse Quiz: ambil 15 soal acak dari database
     public function main(Request $request)
     {
-        // Main bersama: acakannya "dikunci" oleh kode ruangan + ronde, jadi saat halaman
-        // di-refresh, soal & urutan pilihannya SAMA PERSIS (tidak berubah).
-        // Main sendiri (tanpa kode ruangan): tetap acak biasa.
+        // Main sendiri belum punya penanda ronde: buatkan satu, lalu muat ulang halaman
+        // dengan penanda itu di alamatnya. Dengan begitu, kalau halaman di-refresh,
+        // soalnya tetap sama dan permainan bisa dilanjutkan (tidak mengulang dari awal).
+        if ($request->query('ruang') === null && $request->query('ronde') === null) {
+            return redirect()->to($request->fullUrlWithQuery([
+                'ronde' => (string) (time() * 1000 + random_int(0, 999)),
+            ]));
+        }
+
+        // Acakan "dikunci" oleh kode ruangan + ronde, jadi saat halaman di-refresh
+        // soal & urutan pilihannya SAMA PERSIS (tidak berubah).
         $ruang = strtoupper((string) $request->query('ruang'));
-        if ($ruang !== '') {
-            mt_srand(crc32($ruang.'|'.$request->query('ronde')));
+        $ronde = (string) $request->query('ronde');
+        if ($ronde !== '') {
+            mt_srand(crc32($ruang.'|'.$ronde));
         }
 
         $semua = KuisQuestion::orderBy('id')->get()->all();

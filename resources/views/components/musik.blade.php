@@ -3,7 +3,8 @@
      Lagu melanjutkan dari detik terakhir saat pindah halaman.
      JS: public/js/musik.js  |  CSS: public/css/navbar.css
      ========================================================= --}}
-<audio id="musikLatar" src="{{ route('musik.latar') }}" preload="auto" loop></audio>
+{{-- preload="none": berkas musik baru diunduh saat benar-benar diputar --}}
+<audio id="musikLatar" src="{{ route('musik.latar') }}" preload="none" loop></audio>
 
 <button type="button" class="tombol-musik" id="tombolMusik" aria-label="Matikan musik" title="Musik Gending Sriwijaya">
     {{-- ikon speaker menyala --}}

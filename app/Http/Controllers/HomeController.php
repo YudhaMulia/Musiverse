@@ -67,7 +67,13 @@ class HomeController extends Controller
             ],
         ];
 
-        return view('home.index', compact('carouselSites', 'featuredSites', 'stats'));
+        // 3 budaya paling populer dari Galeri Budaya (yang bertanda is_featured)
+        $galeriUnggulan = MuseumItem::where('is_featured', true)
+            ->orderBy('id')
+            ->limit(3)
+            ->get();
+
+        return view('home.index', compact('carouselSites', 'featuredSites', 'stats', 'galeriUnggulan'));
     }
 
     private function getHeroTitle($site, $index)

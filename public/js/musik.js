@@ -65,16 +65,18 @@
     };
 
     // ---------- Putar ----------
+    // Berkas musik memakai preload="none", jadi baru diunduh saat play() dipanggil.
+    // Posisi lanjutan disetel setelah durasi lagu diketahui.
     const putar = () => {
-        const mulai = () => {
-            audio.currentTime = posisiLanjutan();
-            naikkanVolume();
-            return audio.play().then(() => aturTombol(true));
+        const lanjutkanPosisi = () => {
+            const detik = posisiLanjutan();
+            if (detik > 0) { try { audio.currentTime = detik; } catch (e) { /* abaikan */ } }
         };
-        // durasi lagu harus diketahui dulu sebelum lompat ke posisi tertentu
-        if (audio.readyState >= 1) return mulai();
-        return new Promise((ok, gagal) => {
-            audio.addEventListener('loadedmetadata', () => mulai().then(ok, gagal), { once: true });
+        naikkanVolume();
+        return audio.play().then(() => {
+            aturTombol(true);
+            if (audio.readyState >= 1) lanjutkanPosisi();
+            else audio.addEventListener('loadedmetadata', lanjutkanPosisi, { once: true });
         });
     };
 

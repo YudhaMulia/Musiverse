@@ -136,7 +136,7 @@
     let sedangKeluar = false;               // true setelah menekan "Keluar": jangan simpan lagi
 
     const simpan = () => {
-        if (!KODE_RUANG || mode === 'solo' || sedangKeluar) return;
+        if (sedangKeluar) return;
         try {
             sessionStorage.setItem(KUNCI_SIMPAN, JSON.stringify({
                 disimpan: Date.now(),
@@ -155,7 +155,6 @@
     };
 
     const bacaSimpan = () => {
-        if (!KODE_RUANG) return null;
         try {
             const f = JSON.parse(sessionStorage.getItem(KUNCI_SIMPAN));
             if (!f || Date.now() - f.disimpan > UMUR_MAKS) return null;
@@ -288,10 +287,10 @@
     };
 
     const siarkan = () => {
-        if (mode !== 'host') return;
-        simpan();                    // simpan dulu, walau belum tersambung ke Pusher
-        if (!kanalSiap) return;
+        if (mode === 'tamu') return;
+        simpan();                    // cadangan di browser (main sendiri & tuan rumah)
         terakhirKirim = performance.now();
+        if (mode !== 'host' || !kanalSiap) return;
         try { kanal.trigger('client-keadaan', ambilKeadaan()); } catch (e) { /* abaikan */ }
     };
 
@@ -611,7 +610,8 @@
             tungguMs += dt;
             if (tungguMs >= JEDA_JAWABAN) soalBerikut();
         }
-        if (mode === 'host' && sekarang - terakhirKirim > 1000) siarkan();   // denyut tiap 1 detik
+        // Denyut tiap 1 detik: tuan rumah mengirim keadaan, main sendiri menyimpan cadangan
+        if (mode !== 'tamu' && sekarang - terakhirKirim > 1000) siarkan();
     }, 100);
 
     // ---------- 7. Menjawab (klik atau keyboard) ----------
@@ -698,10 +698,10 @@
 
     // Tombol "Keluar" di popup: main bersama -> keluar dari ruangan dulu (supaya hilang di layar pemain lain)
     dialogKeluar.querySelector('[data-keluar-link]')?.addEventListener('click', (e) => {
+        sedangKeluar = true;   // keluar = permainan berakhir, jangan disimpan/dilanjutkan lagi
+        try { sessionStorage.removeItem(KUNCI_SIMPAN); } catch (err) { /* abaikan */ }
         if (!KODE_RUANG) return;   // main sendiri: link biasa
         e.preventDefault();
-        sedangKeluar = true;   // jangan simpan lagi
-        try { sessionStorage.removeItem(KUNCI_SIMPAN); } catch (err) { /* abaikan */ }
         RuangSesi.keluar(arena.dataset.urlKeluar, KODE_RUANG, arena.dataset.keluar);
     });
     dialogKeluar.addEventListener('click', (e) => { if (e.target === dialogKeluar) dialogKeluar.close(); });
@@ -710,7 +710,7 @@
     // Dijalankan SEBELUM Pusher tersambung, jadi soal langsung tampil tanpa menunggu jaringan.
     const pulihkan = () => {
         const f = bacaSimpan();
-        if (!f || f.peran !== mode) return;
+        if (!f || f.peran !== mode) return false;
         const lalu = Math.min(Math.max(0, Date.now() - f.disimpan), 30000);   // lama halaman sempat mati
 
         if (mode === 'tamu') {
@@ -722,11 +722,11 @@
                 if (k.fase === 'tanya') k.ms += lalu; else k.tunggu += lalu;
                 terapkan(k);
             }
-            return;
+            return true;
         }
 
-        // ----- tuan rumah -----
-        if (!f.mulai) return;   // belum sempat mulai: ikuti alur biasa (menunggu tamu siap)
+        // ----- main sendiri / tuan rumah -----
+        if (!f.mulai) return false;   // belum sempat mulai: ikuti alur biasa (menunggu tamu siap)
         mulai = true;
         sudahMulai = true;
         versi = (f.versi || 0) + 1000;   // supaya tamu menganggap keadaan ini "lebih baru"
@@ -759,12 +759,16 @@
         if (fase === 'ungkap') tampilUngkap(SOAL[nomor]);
         simpan();
         if (f.selesai) akhiri();
+        return true;
     };
 
     // ---------- Mulai ----------
     if (mode === 'solo') {
-        mulai = true;
-        mulaiSoal();
+        // Kalau halaman di-refresh di tengah permainan, lanjutkan dari soal terakhir
+        if (!pulihkan()) {
+            mulai = true;
+            mulaiSoal();
+        }
     } else {
         tampilStatus('Bersiap...');
         pulihkan();
