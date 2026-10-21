@@ -28,7 +28,7 @@ return [
             'desc'     => 'Situs bersejarah yang dikaitkan dengan masa Kerajaan Sriwijaya. (ganti dengan narasi kalian)',
             'lat'      => -2.996998,
             'lng'      => 104.725155,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/bukit-siguntang.webp'],
             'tour'     => null,
         ],
         [
@@ -40,7 +40,7 @@ return [
             BKB berfungsi sebagai pusat komando militer dan benteng pertahanan terakhir, terutama saat Perang Palembang (1819–1821) di bawah kepemimpinan Sultan Mahmud Badaruddin II. Setelah jatuh ke tangan Belanda pada tahun 1821, benteng ini beralih fungsi menjadi markas tentara kolonial, yang kemudian berlanjut hingga kini sebagai markas Komando Daerah Militer (Kodam) II/Sriwijaya. Saat ini, kawasan pelataran luar BKB difungsikan sebagai objek wisata sejarah dan ruang publik favorit warga untuk menikmati panorama Jembatan Ampera serta seni budaya Palembang.',
             'lat'      => -2.991055,
             'lng'      => 104.759208,
-            'photos'   => ['images/cagarbudaya/bkb.jpg'],
+            'photos'   => ['images/cagarbudaya/bkb.webp'],
             'tour'     => null,
         ],
         [
@@ -51,7 +51,7 @@ return [
             'desc'     => 'Monumen hidrolik bersejarah dari era Hindia Belanda.',
             'lat'      => -2.990850,
             'lng'      => 104.756714,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/menara-air.webp'],
             'tour'     => null,
         ],
         [
@@ -62,7 +62,7 @@ return [
             'desc'     => 'Museum Sultan Mahmud Badaruddin II berlokasi di atas tanah bekas lokasi Keraton Kuto Lamo (Kuto Tengkuruk), yakni istana tua Kesultanan Palembang yang dihancurkan pemerintah kolonial. Di atas reruntuhan istana tersebut, Belanda mendirikan bangunan bergaya perpaduan arsitektur kolonial dan atap Rumah Limas tradisional Palembang pada tahun 1823–1825 yang dahulu difungsikan sebagai rumah kediaman Residen Belanda. Setelah melalui berbagai peralihan fungsi militer hingga pascakemerdekaan, bangunan ini secara resmi dialihfungsikan oleh Pemerintah Kota Palembang pada tahun 1984 menjadi museum—dengan mengabadikan nama Sultan Mahmud Badaruddin II sebagai bentuk penghormatan atas jasa pahlawan nasional tersebut dalam memimpin perlawanan melawan penjajah. Saat ini, Museum Sultan Mahmud Badaruddin II berfungsi sebagai cagar budaya, sarana edukasi, dan destinasi wisata sejarah yang menyimpan ribuan peninggalan artefak, seperti prasasti, koin kuno, kerajinan tekstil kain songket, naskah kuno, hingga senjata tradisional guna melestarikan identitas sejarah Kota Palembang dari era Kedatuan Sriwijaya, Kesultanan Palembang Darussalam, hingga masa kolonial.',
             'lat'      => -2.989999,
             'lng'      => 104.761378,
-            'photos'   => ['images/cagarbudaya/museum-badarudin2.jpg'],
+            'photos'   => ['images/cagarbudaya/museum-badarudin2.webp'],
             'tour'     => null,
         ],
         [
@@ -73,7 +73,7 @@ return [
             'desc'     => 'Masjid bersejarah peninggalan masa Kesultanan Palembang. (ganti dengan narasi kalian)',
             'lat'      => -2.987746,
             'lng'      => 104.760171,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Masjid-Agung-Palembang.webp'],
             'tour'     => null,
         ],
 
@@ -86,7 +86,7 @@ return [
             'desc'     => 'Kawasan taman arkeologi dengan kolam, parit, dan peninggalan yang berkaitan dengan Kerajaan Sriwijaya. (ganti dengan narasi kalian)',
             'lat'      => -3.014893,
             'lng'      => 104.734407,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Taman-Purbakala-Kerajaan-Sriwijaya.webp'],
             'tour'     => null,
         ],
         [
@@ -97,7 +97,7 @@ return [
             'desc'     => 'Kompleks makam Sultan Mahmud Badaruddin I dan keluarga Kesultanan Palembang Darussalam. (ganti dengan narasi kalian)',
             'lat'      => -2.979209,
             'lng'      => 104.783274,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Makam-Kawah-Tekurep.webp'],
             'tour'     => null,
         ],
         [
@@ -108,7 +108,7 @@ return [
             'desc'     => 'Museum negeri Sumatera Selatan dengan koleksi arkeologi, sejarah, dan budaya daerah. (ganti dengan narasi kalian)',
             'lat'      => -2.950509,
             'lng'      => 104.730282,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Museum-Balaputra-Dewa.webp'],
             'tour'     => null,
         ],
         [
@@ -119,7 +119,7 @@ return [
             'desc'     => 'Museum yang mengenang tokoh pejuang kemerdekaan dr. A.K. Gani dari Sumatera Selatan. (ganti dengan narasi kalian)',
             'lat'      => -2.929839,
             'lng'      => 104.769534,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Museum-Dr.-A.K.-Gani.webp'],
             'tour'     => null,
         ],
         [
@@ -130,7 +130,7 @@ return [
             'desc'     => 'Rumah adat khas Palembang berbentuk limas bertingkat yang menyimpan benda dan tradisi adat. (ganti dengan narasi kalian)',
             'lat'      => -2.967432,
             'lng'      => 104.733676,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Rumah-Limas-Palembang.webp'],
             'tour'     => null,
         ],
         [
@@ -141,7 +141,7 @@ return [
             'desc'     => 'Masjid tua peninggalan masa Kesultanan Palembang dengan arsitektur khas. (ganti dengan narasi kalian)',
             'lat'      => -2.980634,
             'lng'      => 104.775379,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Masjid-Lawang-Kidul.webp'],
             'tour'     => null,
         ],
         [
@@ -152,7 +152,7 @@ return [
             'desc'     => 'Masjid bersejarah di kawasan Kertapati yang dibangun pada abad ke-19. (ganti dengan narasi kalian)',
             'lat'      => -3.014875,
             'lng'      => 104.750028,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Masjid-Ki-Marogan.webp'],
             'tour'     => null,
         ],
         [
@@ -163,7 +163,7 @@ return [
             'desc'     => 'Pulau di tengah Sungai Musi dengan klenteng dan pagoda, lekat dengan legenda Tan Bun An dan Siti Fatimah. (ganti dengan narasi kalian)',
             'lat'      => -2.977840,
             'lng'      => 104.817586,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Pulau-Kemaro.webp'],
             'tour'     => null,
         ],
         [
@@ -174,7 +174,7 @@ return [
             'desc'     => 'Bangunan bekas kantor perusahaan dagang Belanda dari era Hindia Belanda. (ganti dengan narasi kalian)',
             'lat'      => -2.993147,
             'lng'      => 104.757273,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Bangunan-Jacobson-Van -Den-Berg.webp', 'images/cagarbudaya/Bangunan-Jacobson-Van-Den-Berg.webp'],
             'tour'     => null,
         ],
         [
@@ -185,7 +185,7 @@ return [
             'desc'     => 'Kampung wisata keturunan Hadrami (Arab) di tepi Sungai Musi dengan rumah-rumah tua. (ganti dengan narasi kalian)',
             'lat'      => -2.986938,
             'lng'      => 104.772915,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Kampung-Al-Munawar.webp'],
             'tour'     => null,
         ],
         [
@@ -196,7 +196,7 @@ return [
                         'desc'     => "Kampung Kapitan adalah kawasan cagar budaya di tepi Sungai Musi, di sisi barat Jembatan Ampera (7 Ulu). Pada masa penjajahan Belanda, tempat ini menjadi permukiman pertama warga Tionghoa di Palembang.\n\nPemimpin pertamanya, Tjoa Kie Tjuan, berpangkat mayor (1830-1855). Putranya, Tjoa Han Him, menggantikannya sebagai kapiten dan mengawasi pajak, sehingga kawasan ini dinamai Kampung Kapitan.\n\nDahulu kawasan ini menjadi pusat perdagangan kota; para pedagang kerap singgah beristirahat di rumah Kapitan.",
             'lat'      => -2.994539,
             'lng'      => 104.763364,
-            'photos'   => ['images/cagarbudaya/kampungkapitan.jpg'],
+            'photos'   => ['images/cagarbudaya/kampungkapitan.webp'],
             'tour'     => null,
         ],
         [
@@ -207,7 +207,7 @@ return [
             'desc'     => 'Monumen yang mengenang Pertempuran Lima Hari Lima Malam di Palembang. (ganti dengan narasi kalian)',
             'lat'      => -2.989064,
             'lng'      => 104.760341,
-            'photos'   => [],
+            'photos'   => ['images/cagarbudaya/Monumen-Perjuangan-Rakyat-(Monpera).webp'],
             'tour'     => null,
         ],
         [
@@ -218,7 +218,7 @@ return [
             'desc'     => 'Jembatan Ampera yang awalnya dinamai Jembatan Bung Karno sebagai bentuk penghargaan kepada Presiden Soekarno yang memprakarsai dan menyetujui pembiayaannya dari dana pampasan perang Jepang—mulai dibangun pada tahun 1962 dan resmi diresmikan pada tahun 1965. Didirikan untuk menyatukan kawasan Seberang Ulu dan Seberang Ilir yang terpisah oleh Sungai Musi, jembatan ini kemudian berganti nama menjadi Ampera (Amanat Penderitaan Rakyat) pada tahun 1966 seiring dinamika politik nasional. Dibuat dengan teknologi canggih pada zamannya yang sempat memungkinkan bagian tengahnya terangkat untuk melintasnya kapal-kapal besar, Jembatan Ampera berfungsi sebagai sarana transportasi vital pengganti jalur penyeberangan perahu, urat nadi perekonomian, serta menjadi ikon cagar budaya dan simbol kebanggaan utama Kota Palembang.',
             'lat'      => -2.991913,
             'lng'      => 104.763626,
-            'photos'   => ['images/cagarbudaya/ampera.jpeg'],
+            'photos'   => ['images/cagarbudaya/ampera.webp'],
             'tour'     => null,
         ],
     ],

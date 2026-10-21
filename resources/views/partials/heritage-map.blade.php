@@ -1,4 +1,31 @@
 @php
+    // Audio tour dari database, dicocokkan ke lokasi peta lewat slug (atau nama bila slug berbeda)
+    $daftarCagar = \App\Models\CagarBudaya::with('audioTours')->get();
+    $cariAudio = function ($s) use ($daftarCagar) {
+        $cb = $daftarCagar->first(fn ($c) => $c->slug === $s['slug'])
+            ?? $daftarCagar->first(fn ($c) => mb_strtolower($c->name) === mb_strtolower($s['name']));
+        $a = $cb?->audioTours->first(fn ($t) => $t->audio_file_url);
+
+        if ($a) {
+            return ['title' => $a->title, 'url' => $a->audio_file_url, 'narrator' => $a->narrator];
+        }
+
+        // Belum ada di database: tetap tampilkan ikon audio. File dicari di public/audio/tours/{slug}.mp3
+        return ['title' => $s['name'], 'url' => asset('audio/tours/' . $s['slug'] . '.mp3'), 'narrator' => null];
+    };
+
+    // Foto lokasi: dari config + otomatis dari public/images/cagarbudaya/{slug}.(webp|jpg|jpeg|png). Hanya file yang benar-benar ada.
+    $cariFoto = function ($s) {
+        $daftar = collect($s['photos'] ?? []);
+        foreach (['webp', 'jpg', 'jpeg', 'png'] as $ext) {
+            $daftar->push('images/cagarbudaya/' . $s['slug'] . '.' . $ext);
+        }
+
+        return $daftar->unique()
+            ->filter(fn ($p) => file_exists(public_path($p)))
+            ->map(fn ($p) => asset($p))
+            ->values()->all();
+    };
     $mapSites = collect(config('heritage_map.sites'))->map(fn ($s) => [
         'slug'     => $s['slug'],
         'name'     => $s['name'],
@@ -7,8 +34,9 @@
         'desc'     => $s['desc'] ?? '',
         'lat'      => (float) $s['lat'],
         'lng'      => (float) $s['lng'],
-        'photos'   => collect($s['photos'] ?? [])->map(fn ($p) => asset($p))->all(),
+        'photos'   => $cariFoto($s),
         'tour'     => $s['tour'] ?? null,
+        'audio'    => $cariAudio($s),
         'rating'   => $s['rating'] ?? null,
         'reviews'  => $s['reviews'] ?? 0,
     ])->values();
@@ -39,7 +67,6 @@
                   border-radius:14px; box-shadow:0 12px 30px rgba(0,0,0,.18); overflow:hidden; }
     .hm-results button { display:block; width:100%; text-align:left; padding:10px 14px; background:none; border:0; cursor:pointer; font-size:14px; color:var(--ink); }
     .hm-results button:hover { background:#f6efe3; }
-    .hm-score { background:#fff; border:1px solid var(--line); border-radius:999px; padding:8px 14px; font-size:13px; font-weight:600; }
 
     .hm-grid { display:grid; grid-template-columns:1fr; gap:14px; }
     .hm-grid.has-panel { grid-template-columns:1fr 380px; }
@@ -47,17 +74,28 @@
     .hm-mapbox { position:relative; height:640px; border-radius:16px; overflow:hidden; border:1px solid var(--line); isolation:isolate; }
     #heritage-map { height:100%; width:100%; background:#e8e2d6; }
 
-    .hm-legend { position:absolute; top:12px; left:12px; z-index:500; background:rgba(255,253,248,.96); border:1px solid var(--line);
-                 border-radius:14px; padding:10px 12px; font-size:12px; box-shadow:0 6px 18px rgba(0,0,0,.18); }
-    .hm-legend-item { display:flex; align-items:center; gap:8px; background:none; border:0; padding:3px 0; cursor:pointer; color:var(--ink); font-size:12px; }
-    .hm-legend-item.off { opacity:.4; text-decoration:line-through; }
+    .hm-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:0 0 12px; }
+    .hm-tbtn { display:inline-flex; align-items:center; gap:6px; height:38px; padding:0 14px; border:1px solid var(--line);
+               border-radius:999px; background:#fff; color:var(--ink); font-size:13px; font-weight:600; cursor:pointer; }
+    .hm-tbtn:hover { background:#f6efe3; }
+    .hm-tbtn--ikon { width:38px; padding:0; justify-content:center; }
+    .hm-tbtn.on { background:var(--brown); color:#fff; border-color:var(--brown); }
+    .hm-tbtn .material-symbols-outlined { font-size:20px; }
+    .hm-chev { transition:transform .2s; }
+    .hm-tbtn[aria-expanded="true"] .hm-chev { transform:rotate(180deg); }
+    .hm-legend { display:flex; flex-wrap:wrap; gap:6px; flex:1 1 100%; }
+    .hm-legend[hidden] { display:none; }
+    .hm-legend-item { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border:1px solid var(--line);
+                      border-radius:999px; background:#fff; cursor:pointer; color:var(--ink); font-size:12px; }
+    .hm-legend-item.off { opacity:.45; text-decoration:line-through; }
     .hm-dot { width:12px; height:12px; border-radius:50%; flex:none; display:inline-block; }
     .hm-toast { position:absolute; left:50%; bottom:16px; transform:translateX(-50%); z-index:600; background:#3a2a20; color:#fff;
                 padding:9px 14px; border-radius:999px; font-size:13px; box-shadow:0 6px 18px rgba(0,0,0,.3); max-width:90%; text-align:center; }
     .hm-locate { width:34px; height:34px; background:#fff; border:2px solid rgba(0,0,0,.2); border-radius:4px; cursor:pointer; font-size:18px; line-height:1; }
 
     .hm-tip.leaflet-tooltip { background:#fffdf8; border:1px solid var(--line); border-radius:12px; padding:8px 10px; color:#3a2a20;
-                              box-shadow:0 8px 22px rgba(0,0,0,.3); font-size:12px; }
+                              box-shadow:0 8px 22px rgba(0,0,0,.3); font-size:12px;
+                              white-space:normal; width:250px; box-sizing:border-box; }
     .hm-tip.leaflet-tooltip-top:before { border-top-color:#fffdf8; }
 
     .me-wrap { position:relative; width:40px; height:40px; }
@@ -114,29 +152,28 @@
 
         /* ===== Buku Jurnal ===== */
     .hm-toast { z-index:1600; }
-    .bk-layer { position:absolute; inset:0; z-index:1500; display:flex; flex-direction:column; background:rgba(36,20,12,.62);
-                backdrop-filter:blur(3px); opacity:0; transition:opacity .4s ease; }
+    .bk-layer { position:absolute; inset:0; z-index:1500; display:flex; flex-direction:column; background:rgba(36,20,12,.78);
+                opacity:0; transition:opacity .25s ease; }
     .bk-layer[hidden] { display:none; }
     .bk-layer.show { opacity:1; }
     .bk-area { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; }
     .bk-stage { width:900px; height:560px; flex:none; }
     .bk-swing { width:100%; height:100%; }
-    .bk-swing.swing { animation:bkSwing 1s cubic-bezier(.2,.9,.25,1.05) both; }
+    .bk-swing.swing { animation:bkSwing .45s ease-out both; }
     @keyframes bkSwing {
-        0%   { opacity:0; transform:translateY(140px) rotateX(40deg) rotateZ(-10deg) scale(.55); }
-        60%  { opacity:1; transform:translateY(-14px) rotateX(-4deg) rotateZ(2deg) scale(1.02); }
+        0%   { opacity:0; transform:translateY(36px) scale(.96); }
         100% { opacity:1; transform:none; }
     }
-    .bk-book { position:relative; width:100%; height:100%; perspective:2600px; transition:transform 1s cubic-bezier(.5,.05,.2,1); }
+    .bk-book { position:relative; width:100%; height:100%; perspective:2600px; transition:transform .6s cubic-bezier(.5,.05,.2,1); }
     .bk-book.closed { transform:translateX(-25%); }
     .bk-leather { position:absolute; top:-14px; bottom:-14px; width:calc(50% + 14px);
-                  background:linear-gradient(135deg,#7a4a2e,#4a2616); box-shadow:0 30px 60px rgba(0,0,0,.5); }
+                  background:linear-gradient(135deg,#7a4a2e,#4a2616); box-shadow:0 10px 24px rgba(0,0,0,.4); }
     .bk-leather.r { left:50%; border-radius:0 18px 18px 0; }
     .bk-leather.l { right:50%; border-radius:18px 0 0 18px; transition:opacity .6s; }
     .bk-book.closed .bk-leather.l { opacity:0; }
 
     .bk-sheet { position:absolute; top:0; left:50%; width:50%; height:100%; transform-origin:left center;
-                transform-style:preserve-3d; transition:transform 1.05s cubic-bezier(.45,.05,.2,1); }
+                transform-style:preserve-3d; will-change:transform; transition:transform .65s cubic-bezier(.45,.05,.2,1); }
     .bk-sheet.flipped { transform:rotateY(-180deg); }
     .bk-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow:hidden;
                padding:26px 28px 60px; background:radial-gradient(circle at 20% 15%,#fffaf0,#f3e4c6 90%); color:#4a2a18; }
@@ -151,6 +188,21 @@
     .bk-nav.n { right:26px; }
     .bk-bar { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; padding:10px 12px 14px; }
     .bk-bar [hidden] { display:none; }
+    .bk-swing { position:relative; }
+    .bk-tools { position:absolute; top:24px; right:26px; z-index:3000; display:flex; gap:6px;
+                transform:scale(calc(1 / var(--sc, 1))); transform-origin:100% 0; }
+    #rc-swing .bk-tools { top:42px; }
+    .bk-face.front .bk-judul { padding-right:130px; }
+    .bk-face.front .rc-judul { padding-right:48px; }
+    .bk-ik { width:34px; height:34px; border-radius:50%; border:0; display:inline-flex; align-items:center; justify-content:center;
+             cursor:pointer; text-decoration:none; background:#fffdf8; color:#3a2a20; box-shadow:0 4px 12px rgba(0,0,0,.35);
+             transition:transform .15s, background .15s; }
+    .bk-ik:hover { transform:scale(1.08); background:#f6efe3; }
+    .bk-ik .material-symbols-outlined { font-size:20px; }
+    .bk-ik.on { background:#6b3a28; color:#fff; }
+    .bk-ik--rute { background:#6b3a28; color:#fff; }
+    .bk-ik--rute:hover { background:#8e1b1f; }
+    .bk-ik[hidden] { display:none; }
     .bk-chip { position:absolute; top:12px; left:50%; transform:translateX(-50%); z-index:700; background:#fffdf8;
                border:1px solid var(--line); border-radius:999px; padding:6px 6px 6px 16px; display:flex; gap:8px; align-items:center;
                font-size:13px; box-shadow:0 8px 22px rgba(0,0,0,.3); max-width:92%; }
@@ -240,8 +292,8 @@
     .rc-hero-text span { display:block; }
     .rc-pill { display:inline-block !important; margin-top:12px; background:#6b3a28; color:#fff; border-radius:999px; padding:9px 16px; font-size:13px; font-weight:700; }
 
-    .rc-layer { position:fixed; inset:0; z-index:1800; display:flex; flex-direction:column; background:rgba(36,12,10,.8);
-                backdrop-filter:blur(3px); opacity:0; transition:opacity .4s ease; }
+    .rc-layer { position:fixed; inset:0; z-index:1800; display:flex; flex-direction:column; background:rgba(36,12,10,.88);
+                opacity:0; transition:opacity .25s ease; }
     .rc-layer[hidden] { display:none; }
     .rc-layer.show { opacity:1; }
     #rc-book .bk-leather { background:linear-gradient(135deg,#8e1b1f,#4d0b0e); }
@@ -252,18 +304,13 @@
         .rc-no { position:absolute; bottom:18px; left:26px; color:#a88a68; font-size:12px; }
 
     /* ===== Kartu Memories Book di dalam peta ===== */
-    .hm-dock { position:absolute; top:12px; left:12px; z-index:500; display:flex; align-items:flex-start; gap:12px;
-               max-width:calc(100% - 84px); pointer-events:none; }
+    .hm-dock { position:absolute; top:12px; right:12px; z-index:500; pointer-events:none; }
     .hm-dock > * { pointer-events:auto; }
-    .hm-dock .hm-legend { position:relative; top:auto; left:auto; z-index:auto; flex:none; }
 
-    .rm-mini { position:relative; display:flex; align-items:center; gap:16px; flex:none; width:310px; padding:14px 16px 14px 16px;
-               border:1px solid var(--line); border-radius:14px; cursor:pointer; text-align:left; color:var(--ink); font-family:inherit;
-               background:radial-gradient(circle at 16% 50%,rgba(246,196,83,.45),transparent 60%),rgba(255,250,238,.97);
-               box-shadow:0 6px 18px rgba(0,0,0,.18); overflow:hidden;
-               animation:rmIn .7s cubic-bezier(.2,.9,.3,1.2) .2s backwards;
-               transition:transform .25s ease, box-shadow .25s ease; }
-    .rm-mini:hover { transform:translateY(-3px); box-shadow:0 14px 28px rgba(80,20,10,.3); }
+    .rm-mini { position:relative; display:flex; flex:none; width:80px; height:110px; padding:0; border:0; background:none;
+               cursor:pointer; font-family:inherit; animation:rmIn .7s cubic-bezier(.2,.9,.3,1.2) .2s backwards;
+               transition:transform .25s ease; }
+    .rm-mini:hover { transform:translateY(-3px); }
     @keyframes rmIn { 0% { opacity:0; transform:translateX(-26px) scale(.92); } 100% { opacity:1; transform:none; } }
 
     .rm-sp { position:absolute; color:#e0b84a; pointer-events:none; animation:rmTw 2.4s ease-in-out infinite; }
@@ -309,9 +356,7 @@
     .rm-mini:hover .rm-pill { background:#8e1b1f; transform:translateX(3px); }
 
     @media (max-width:700px) {
-        .hm-dock { flex-direction:column; max-width:calc(100% - 24px); }
-        .rm-mini { width:auto; }
-        .rm-desc { display:none; }
+        .hm-dock { top:8px; right:8px; transform:scale(.8); transform-origin:top right; }
     }
     @media (prefers-reduced-motion: reduce) {
         .rm-bk, .rm-shadow, .rm-shine, .rm-sp, .rm-mini { animation:none; }
@@ -359,6 +404,15 @@
         .hm-mapbox { height:460px; }
         .hm-panel { height:auto; }
     }
+    @media (max-width:700px) {
+        .hm { padding:12px; border-radius:16px; margin:8px 0; }
+        .hm-head h1 { font-size:18px; }
+        .hm-head-right, .hm-search { width:100%; }
+        .hm-mapbox { height:calc(100svh - 300px); min-height:420px; }
+        .hm-tbtn { height:36px; padding:0 12px; }
+        .hm-tbtn--ikon { width:36px; padding:0; }
+        .bk-tools { transform:scale(calc(.7 / var(--sc, 1))); }
+    }
 </style>
 
 <div class="hm" id="hm-root" data-sites="{{ json_encode($mapSites) }}" data-games="{{ $gamesUrl }}"
@@ -373,7 +427,6 @@
                 <input id="hm-search" type="search" placeholder="Cari lokasi cagar budaya..." autocomplete="off">
                 <div id="hm-results" class="hm-results" hidden></div>
             </div>
-            <div id="hm-score" class="hm-score"></div>
         </div>
     </header>
 
@@ -382,6 +435,9 @@
             <div id="rc-stage" class="bk-stage">
                 <div id="rc-swing" class="bk-swing">
                                         <div id="rc-book" class="bk-book closed"></div>
+                    <div class="bk-tools">
+                        <button id="rc-close" type="button" class="bk-ik" title="Tutup" aria-label="Tutup"><i class="material-symbols-outlined">close</i></button>
+                    </div>
                     <div id="rc-hint" class="rc-hint" hidden>
                         <svg class="rc-hand" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                             <g fill="#fff" stroke="#4a2a18" stroke-width="2.5" stroke-linejoin="round">
@@ -394,20 +450,26 @@
                 </div>
             </div>
         </div>
-        <div class="bk-bar">
-            <button id="rc-close" type="button" class="hm-btn ghost">✕ Tutup</button>
-        </div>
+    </div>
+
+    <div class="hm-toolbar">
+        <button id="hm-cat-toggle" type="button" class="hm-tbtn" aria-expanded="true" aria-controls="hm-legend">
+            <i class="material-symbols-outlined">category</i><span>Kategori</span>
+            <i class="material-symbols-outlined hm-chev">expand_more</i>
+        </button>
+        <button id="hm-layer-toggle" type="button" class="hm-tbtn hm-tbtn--ikon" title="Ganti tampilan peta (Peta / Satelit)" aria-label="Ganti tampilan peta">
+            <i class="material-symbols-outlined">layers</i>
+        </button>
+        <div id="hm-legend" class="hm-legend"></div>
     </div>
 
     <div class="hm-grid">
         <div class="hm-mapbox">
             <div id="heritage-map"></div>
             <div class="hm-dock">
-                <div id="hm-legend" class="hm-legend"></div>
-
-                <button id="rc-open" type="button" class="rm-mini">
-                    <span class="rm-sp" style="left:112px;top:8px;font-size:13px">✦</span>
-                    <span class="rm-sp" style="left:12px;top:92px;font-size:10px;animation-delay:1s">✦</span>
+                <button id="rc-open" type="button" class="rm-mini" title="Memories Book" aria-label="Buka Memories Book">
+                    <span class="rm-sp" style="left:68px;top:2px;font-size:13px">✦</span>
+                    <span class="rm-sp" style="left:8px;top:92px;font-size:10px;animation-delay:1s">✦</span>
                     <span class="rm-stage">
                         <span class="rm-shadow"></span>
                         <span class="rm-bk">
@@ -420,12 +482,6 @@
                             <span class="rm-clasp"></span>
                         </span>
                     </span>
-                    <span class="rm-txt">
-                        <b>Memories Book</b>
-                        <span class="rm-desc">Kilas balik jurnal perjalananmu di Palembang.</span>
-                        <span id="rc-sub"></span>
-                        <span class="rm-pill">Buka Buku ›</span>
-                    </span>
                 </button>
             </div>
                         <div id="hm-toast" class="hm-toast" hidden></div>
@@ -437,14 +493,14 @@
                     <div id="bk-stage" class="bk-stage">
                         <div id="bk-swing" class="bk-swing">
                             <div id="bk-book" class="bk-book closed"></div>
+                            <div class="bk-tools">
+                                <button id="bk-audio" type="button" class="bk-ik" hidden title="Putar Audio Tour" aria-label="Putar Audio Tour"><i class="material-symbols-outlined">headphones</i></button>
+                                <a id="bk-nav-link" class="bk-ik bk-ik--rute" target="_blank" rel="noopener" href="#" title="Navigasi Rute" aria-label="Navigasi Rute"><i class="material-symbols-outlined">directions</i></a>
+                                <button id="bk-tour" type="button" class="bk-ik" hidden title="Kunjungi Secara Digital" aria-label="Kunjungi Secara Digital"><i class="material-symbols-outlined">view_in_ar</i></button>
+                                <button id="bk-close" type="button" class="bk-ik" title="Tutup Buku" aria-label="Tutup Buku"><i class="material-symbols-outlined">close</i></button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="bk-bar">
-                    <a id="bk-nav-link" class="hm-btn brown" target="_blank" rel="noopener" href="#">➤ Navigasi Rute</a>
-                    <a id="bk-games" class="hm-btn gold" href="#">🎮 Mainkan Games</a>
-                    <button id="bk-tour" type="button" class="hm-btn ghost" hidden>🕶️ Kunjungi Secara Digital</button>
-                    <button id="bk-close" type="button" class="hm-btn ghost">✕ Tutup Buku</button>
                 </div>
             </div>
         </div>
@@ -584,7 +640,13 @@
 
         const map = L.map('heritage-map', { layers: [voyager], zoomControl: false, zoomSnap: 0.25 })
         .setView([-2.9905, 104.7600], 13);
-        L.control.layers({ 'Peta': voyager, 'Satelit': satellite }, null, { position: 'topright' }).addTo(map);
+    let modeSatelit = false;
+    $('hm-layer-toggle').onclick = function () {
+        modeSatelit = !modeSatelit;
+        if (modeSatelit) { map.removeLayer(voyager); satellite.addTo(map); }
+        else { map.removeLayer(satellite); voyager.addTo(map); }
+        this.classList.toggle('on', modeSatelit);
+    };
 
     /* ---------- Ikon ---------- */
     const pinIcon = (color, visited, active) => {
@@ -622,17 +684,14 @@
     /* ---------- Skor & legenda ---------- */
     function updateScore() {
         const done = sites.filter((s) => visits[s.slug]);
-        const pts = done.reduce((n, s) => n + (visits[s.slug].points || 0), 0);
-                $('hm-score').innerHTML = `⭐ <b>${pts}</b> poin &nbsp;·&nbsp; 📍 ${done.length}/${sites.length} tempat`;
-        $('rc-sub').textContent = done.length
-            ? `${done.length} dari ${sites.length} kenangan tersimpan`
-            : 'Belum ada kenangan tersimpan.';
+        $('rc-open').title = done.length
+            ? `Memories Book · ${done.length} dari ${sites.length} kenangan tersimpan`
+            : 'Memories Book · belum ada kenangan';
     }
 
     function renderLegend() {
         const used = new Set(sites.map(catKey));
-        $('hm-legend').innerHTML = '<b style="display:block;margin-bottom:6px">Kategori</b>'
-            + Object.entries(CATS).filter(([k]) => used.has(k)).map(([k, c]) =>
+        $('hm-legend').innerHTML = Object.entries(CATS).filter(([k]) => used.has(k)).map(([k, c]) =>
                 `<button type="button" data-cat="${k}" class="hm-legend-item${offCats.has(k) ? ' off' : ''}">
                    <span class="hm-dot" style="background:${c.color}"></span>${esc(c.label)}</button>`).join('');
         $('hm-legend').querySelectorAll('[data-cat]').forEach((b) => {
@@ -643,6 +702,16 @@
                 renderLegend();
             };
         });
+    }
+
+    $('hm-cat-toggle').onclick = function () {
+        const buka = $('hm-legend').hidden;           // true = sedang tertutup, jadi dibuka
+        $('hm-legend').hidden = !buka;
+        this.setAttribute('aria-expanded', String(buka));
+    };
+    if (window.innerWidth < 700) {                   // di HP, kategori tertutup dulu
+        $('hm-legend').hidden = true;
+        $('hm-cat-toggle').setAttribute('aria-expanded', 'false');
     }
 
     /* ---------- Buku Jurnal ---------- */
@@ -681,8 +750,9 @@
     function fitBook() {
         const a = $('bk-area');
         if (!a || !a.clientWidth) return;
-        const sc = Math.max(0.2, Math.min(1, (a.clientWidth - 16) / 960, (a.clientHeight - 8) / 610));
+        const sc = Math.max(0.2, Math.min(1, (a.clientWidth - 16) / 960, (a.clientHeight - 16) / 560));
         $('bk-stage').style.transform = `scale(${sc})`;
+        $('bk-stage').style.setProperty('--sc', sc);
     }
     window.addEventListener('resize', fitBook);
 
@@ -701,7 +771,7 @@
         function bookHTML(i) {
         const s = sites[i], c = catOf(s);
         const cover = s.photos[0]
-            ? `<img src="${esc(s.photos[0])}" alt="" style="width:100%;height:100%;object-fit:cover">`
+            ? `<img src="${esc(s.photos[0])}" alt="" decoding="async" style="width:100%;height:100%;object-fit:cover">`
             : '<span style="font-size:64px">🏛️</span>';
         const rating = s.rating ? `★ ${Number(s.rating).toFixed(1)} (${s.reviews} ulasan)` : 'Belum ada ulasan';
 
@@ -709,7 +779,7 @@
         const fs = s.desc.length > 650 ? 14 : (s.desc.length > 420 ? 15 : 16.5);
         const polaroid = `<figure class="bk-pol big">
             ${s.photos[0]
-                ? `<img src="${esc(s.photos[0])}" alt="${esc(s.name)}" onerror="this.style.display='none'">`
+                ? `<img src="${esc(s.photos[0])}" alt="${esc(s.name)}" decoding="async" loading="lazy" onerror="this.style.display='none'">`
                 : '<div class="bk-pol-ph">🏛️</div>'}
             <figcaption>${esc(s.name)}</figcaption>
         </figure>`;
@@ -739,7 +809,7 @@
 
         <div class="bk-sheet" data-sheet="1">
             <div class="bk-face front">
-                <h3 class="bk-h bk-hand">📜 Kisah Tempat Ini</h3>
+                <h3 class="bk-h bk-hand bk-judul">📜 Kisah Tempat Ini</h3>
                     <div class="bk-scroll">
                     <p class="hm-desc" style="max-height:none;overflow:visible;font-size:15px;line-height:1.7;font-family:Georgia,serif">${esc(s.desc)}</p>
                     <div class="rv-title">💬 Ulasan Pengunjung</div>
@@ -810,8 +880,10 @@
 
         $('bk-book').innerHTML = bookHTML(i);
         $('bk-nav-link').href = `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}`;
-        $('bk-games').href = GAMES_URL;
         $('bk-tour').hidden = !s.tour;
+        audioStop();
+        $('bk-audio').hidden = !s.audio;
+        if (s.audio) $('bk-audio').title = 'Putar Audio Tour: ' + s.audio.title;
         $('bk-tour').onclick = () => openTour(s.tour);
 
         layer.hidden = false;
@@ -828,6 +900,7 @@
 
     function closeBook() {
         const layer = $('bk-layer');
+        audioStop();
         clearTimeout(BOOK.t);
         layer.classList.remove('show');
         setTimeout(() => { if (!layer.classList.contains('show')) layer.hidden = true; }, 400);
@@ -839,6 +912,38 @@
         if (g) go(Number(g.dataset.go));
     });
     $('bk-close').onclick = closeBook;
+
+    /* ---------- Audio Tour di buku (data dari tabel audio_tours) ---------- */
+    const AUD = { el: null, bgWasOn: false };
+    const musikLatar = () => document.getElementById('tombolMusik');   // tombol musik latar di layout
+    function audioUI(main) {
+        const b = $('bk-audio');
+        b.classList.toggle('on', main);
+        b.querySelector('i').textContent = main ? 'pause' : 'headphones';
+    }
+    function audioStop() {
+        if (AUD.el) { AUD.el.pause(); AUD.el = null; }
+        audioUI(false);
+        if (AUD.bgWasOn) {                                   // nyalakan lagi musik latar yang tadi dijeda
+            AUD.bgWasOn = false;
+            const t = musikLatar();
+            if (t && !t.classList.contains('is-playing')) t.click();
+        }
+    }
+    function audioToggle() {
+        const s = sites[BOOK.idx];
+        if (!s || !s.audio) return;
+        if (AUD.el) { audioStop(); return; }
+        const t = musikLatar();
+        AUD.bgWasOn = !!t && t.classList.contains('is-playing');
+        if (AUD.bgWasOn) t.click();                          // jeda musik latar selama narasi diputar
+        const a = new Audio(s.audio.url);
+        AUD.el = a;
+        a.onended = audioStop;
+        a.onerror = () => { audioStop(); toast('File audio tour belum tersedia.'); };
+        a.play().then(() => audioUI(true)).catch(() => { audioStop(); toast('Audio tour tidak bisa diputar.'); });
+    }
+    $('bk-audio').onclick = audioToggle;
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('bk-layer').hidden) closeBook(); });
 
         /* --- Halaman galeri (kiri) & pengalaman (kanan) --- */
@@ -855,7 +960,7 @@
             <button type="button" class="bk-nav p" data-go="1">‹ Kembali</button>`;
 
         pg.innerHTML = `
-            <h3 class="bk-h bk-hand">✍️ Pengalamanmu</h3>
+            <h3 class="bk-h bk-hand bk-judul">✍️ Pengalamanmu</h3>
             <textarea class="bk-ta" style="height:190px;font-size:14px" data-story placeholder="Tulis pengalamanmu di sini... (singkat pun boleh!)">${esc(d.story)}</textarea>
             <div style="color:var(--muted);margin-top:8px;font-size:13px">Seberapa seru tempat ini?</div>
             <div class="hm-stars" data-stars></div>
@@ -913,7 +1018,7 @@
             updateScore();
             renderJournal(); renderDeco();
             requestAnimationFrame(() => go(3));
-            toast(`🎉 Kamu dapat +${entry.points} poin dari ${s.name}!`);
+            toast(`🎉 Kenangan dari ${s.name} tersimpan!`);
 
             try {
                 pendingSave = persistExperience(s, entry);
@@ -960,7 +1065,7 @@
                 ${v.photos.map((p, k) => `<div class="bk-ph" style="--rot:${[-3, 2, -1.5][k % 3]}deg;width:118px;height:118px"><img src="${esc(p)}" alt=""></div>`).join('')}
             </div>
             ${v.story ? `<p class="bk-hand" style="font-size:15px;line-height:1.6;white-space:pre-line;margin-top:12px;max-height:130px;overflow:auto">${esc(v.story)}</p>` : ''}
-            <div style="color:#f5a623;font-size:20px;margin-top:6px">${'★'.repeat(v.rating)}${'☆'.repeat(5 - v.rating)} <small style="color:#8a6a4a">+${v.points} poin</small></div>
+            <div style="color:#f5a623;font-size:20px;margin-top:6px">${'★'.repeat(v.rating)}${'☆'.repeat(5 - v.rating)}</div>
             <div class="bk-stlayer" data-stlayer></div>
             <button type="button" class="bk-nav p" data-go="2">‹ Kembali</button>`;
         drawStickers();
@@ -1009,7 +1114,7 @@
         const s = sites[BOOK.idx], v = visits[s.slug], pg = document.querySelector('[data-deco-page]');
         const done = sites.filter((x) => visits[x.slug]).length;
         pg.innerHTML = `
-            ${v ? `<div class="bk-yay">🎉 Yay! <b>+${v.points} poin</b> · 📍 ${done}/${sites.length} tempat terkumpul</div>`
+            ${v ? `<div class="bk-yay">🎉 Yay! 📍 ${done}/${sites.length} tempat terkumpul</div>`
                 : '<p class="hm-rate" style="font-size:13px">Isi pengalamanmu dulu, lalu kamu bisa menghias jurnal di sini.</p>'}
             <b style="font-size:13px">Stiker</b>
             <div class="bk-tray">${STICKERS.map(([e, n]) => `<button type="button" data-stk="${e}" title="${esc(n)}">${e}</button>`).join('')}</div>
@@ -1069,7 +1174,7 @@
         const c = catOf(s);
         return `
             <div class="bk-hand" style="color:#8a6a4a;font-size:12px">${fmtDate(v.at)}</div>
-            <h3 class="bk-h bk-hand">${esc(s.name)}</h3>
+            <h3 class="bk-h bk-hand rc-judul">${esc(s.name)}</h3>
             <span class="hm-badge" style="background:${c.color}">${esc(c.label)}</span>
             <div class="bk-jphotos fr-${esc(v.frame || 'polaroid')}">
                 ${(v.photos || []).map((p, k) => `<div class="bk-ph" style="--rot:${[-3, 2, -1.5][k % 3]}deg;width:118px;height:118px"><img src="${esc(p)}" alt=""></div>`).join('')}
@@ -1113,8 +1218,9 @@
     function rcFit() {
         const a = $('rc-area');
         if (!a || !a.clientWidth) return;
-        const sc = Math.max(0.2, Math.min(1.1, (a.clientWidth - 16) / 960, (a.clientHeight - 8) / 610));
+        const sc = Math.max(0.2, Math.min(1.1, (a.clientWidth - 16) / 960, (a.clientHeight - 16) / 560));
         $('rc-stage').style.transform = `scale(${sc})`;
+        $('rc-stage').style.setProperty('--sc', sc);
     }
 
     function rcApply() {
@@ -1324,8 +1430,8 @@
     const markers = sites.map((s, i) => {
         const m = L.marker([s.lat, s.lng], { icon: pinIcon(catOf(s).color, !!visits[s.slug], false), riseOnHover: true }).addTo(map);
         m.bindTooltip(`
-            <div style="display:flex;gap:8px;align-items:center;max-width:240px">
-                ${s.photos[0] ? `<img src="${esc(s.photos[0])}" alt="" style="width:52px;height:52px;object-fit:cover;border-radius:8px">` : '<span style="font-size:28px">🏛️</span>'}
+            <div style="display:flex;gap:8px;align-items:center;width:100%">
+                ${s.photos[0] ? `<img src="${esc(s.photos[0])}" alt="" style="width:52px;height:52px;flex:none;object-fit:cover;border-radius:8px">` : '<span style="font-size:28px;flex:none">🏛️</span>'}
                 <div><b style="font-size:13px">${esc(s.name)}</b><br>
                 <span style="color:#7b6a5d">${esc(catOf(s).label)}</span><br>
                 <span style="color:#7b6a5d">Klik untuk detail &amp; rute</span></div>
@@ -1410,9 +1516,19 @@
         $('tour-modal').classList.remove('open');
     };
 
-    /* ---------- Mulai ---------- */
+        /* ---------- Mulai ---------- */
     renderLegend();
     updateScore();
     renderEmpty();
+
+    /* ---------- Buka lokasi dari tautan (?lokasi=slug), mis. tombol "Tinjau Lokasi" di beranda ---------- */
+    const slugTujuan = new URLSearchParams(window.location.search).get('lokasi');
+    if (slugTujuan) {
+        const idxTujuan = sites.findIndex((s) => s.slug === slugTujuan);
+        if (idxTujuan >= 0) {
+            selectSite(idxTujuan);
+            map.setView([sites[idxTujuan].lat, sites[idxTujuan].lng], 16);
+        }
+    }
 })();
 </script>

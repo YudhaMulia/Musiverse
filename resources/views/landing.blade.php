@@ -1,56 +1,36 @@
 @extends('layouts.games')
 
-@section('title', 'Musiverse | Cagar Budaya Palembang')
+@section('title', 'Landing Page')
+@section('tanpa-footer', true)
 
 @section('content')
 
     {{-- ===== HERO LANDING ===== --}}
     <section class="hero landing-hero" data-navbar-gelap>
-        {{-- Background Image Layer --}}
+        {{-- Gambar latar memenuhi layar --}}
         <div class="hero__art landing-hero__bg">
-            <img src="{{ asset('images/ampera.jpg') }}" alt="Jembatan Ampera Palembang" loading="eager" fetchpriority="high">
+            <img src="{{ asset('images/ampera.webp') }}" alt="Jembatan Ampera Palembang" loading="eager" fetchpriority="high">
         </div>
 
         {{-- Partikel debu emas --}}
         <div class="hero__sparkles" aria-hidden="true">
             @for ($i = 0; $i < 22; $i++)
-                <span style="--x: {{ rand(35, 98) }}%; --s: {{ rand(2, 5) }}px; --t: {{ rand(70, 140) / 10 }}s; --d: {{ rand(0, 90) / 10 }}s;"></span>
+                <span style="--x: {{ rand(2, 98) }}%; --s: {{ rand(2, 5) }}px; --t: {{ rand(70, 140) / 10 }}s; --d: {{ rand(0, 90) / 10 }}s;"></span>
             @endfor
         </div>
 
-        {{-- Content --}}
+        {{-- Konten di tengah --}}
         <div class="hero__content landing-hero__content">
-            <div class="gb-wadah">
-                <p class="gb-eyebrow">Museum Digital & Pelestarian Warisan</p>
+            <h1 class="hero__title landing-hero__title">Musiverse</h1>
 
-                <span class="hero__quote" aria-hidden="true">&#8220;</span>
-                <p class="hero__tagline">Budaya Kito, Kebanggaan Galo-Galo!</p>
+            <div class="divider"><span>Museum Digital · Jejak Kenangan · Permainan Budaya</span></div>
 
-                <h1 class="hero__title landing-hero__title">Musiverse</h1>
-
-                <h2 class="landing-hero__subtitle">Cagar Budaya Palembang</h2>
-
-                <div class="divider"><span>Warisan Tak Terhingga</span></div>
-
-                <p class="hero__desc landing-hero__desc">
-                    Jelajahi kekayaan sejarah dan budaya Palembang melalui warisan-warisan yang tak ternilai harganya.
-                    Sebuah perjalanan untuk memahami masa lalu, merayakan masa kini, dan melestarikan masa depan.
-                </p>
-            </div>
+            <p class="hero__desc landing-hero__desc">
+                Kenali warisan Palembang lewat museum digital, abadikan kenanganmu saat menjelajahi situs-situsnya,
+                lalu asah pengetahuanmu lewat permainan. Tiga cara berbeda, satu tujuan: membuat budaya kita tetap hidup.
+            </p>
         </div>
     </section>
-
-    {{-- ===== STATS BAR ===== --}}
-    <div class="gb-wadah" style="margin-top: -48px; margin-bottom: 48px;">
-        <ul class="badges badges--center" aria-label="Statistik Cagar Budaya">
-            <li><span class="stat-value">{{ $totalSites ?? 6 }}+</span> Situs Sejarah</li>
-            <li><span class="stat-value">{{ $totalAudioTours ?? 6 }}+</span> Audio Tour</li>
-            <li><span class="stat-value">3</span> Game Edukatif</li>
-        </ul>
-    </div>
-
-    {{-- ===== FOOTER SPACER ===== --}}
-    <div class="gb-akhir"></div>
 
 @endsection
 
@@ -71,7 +51,6 @@
             window.addEventListener('scroll', () => {
                 const scrolled = window.scrollY;
                 if (scrolled < window.innerHeight && hero) {
-                    hero.style.setProperty('--parallax-y', `${scrolled * 0.3}px`);
                     if (bgImg) {
                         bgImg.style.transform = `scale(1) translateY(${scrolled * 0.3}px)`;
                     }
@@ -91,15 +70,17 @@
         padding-top: 80px;
         display: flex;
         align-items: center;
-        background: radial-gradient(ellipse 60% 70% at 20% 45%, rgba(70, 14, 30, .55), transparent 70%);
+        justify-content: center;
+        background: #1a0910;
     }
 
-    /* Aura emas berdenyut */
+    /* Aura emas berdenyut di tengah */
     .landing-hero::before {
         content: ""; position: absolute; z-index: 1; pointer-events: none;
         mix-blend-mode: screen;
-        top: 10%; right: 12%; width: 46vw; height: 46vw; max-width: 720px; max-height: 720px;
-        background: radial-gradient(circle, rgba(232, 190, 100, .22) 0%, rgba(200, 36, 58, .10) 40%, transparent 70%);
+        top: 50%; left: 50%; translate: -50% -50%;
+        width: 60vw; height: 60vw; max-width: 900px; max-height: 900px;
+        background: radial-gradient(circle, rgba(232, 190, 100, .20) 0%, rgba(200, 36, 58, .08) 40%, transparent 70%);
         animation: aura 6s ease-in-out infinite;
     }
     @keyframes aura {
@@ -107,26 +88,20 @@
         50%      { opacity: 1;  scale: 1.08; }
     }
 
-    .landing-hero__bg {
-        position: absolute; top: 0; right: 0; bottom: 0; width: 66%;
-        z-index: 0;
-        -webkit-mask-image:
-            radial-gradient(ellipse 100% 135% at 100% 32%,
-                #000 0%, #000 40%, rgba(0,0,0,.93) 50%, rgba(0,0,0,.74) 60%,
-                rgba(0,0,0,.48) 70%, rgba(0,0,0,.24) 81%, rgba(0,0,0,.08) 91%, transparent 100%),
-            linear-gradient(0deg, transparent 0%, rgba(0,0,0,.2) 7%, rgba(0,0,0,.5) 15%,
-                rgba(0,0,0,.8) 25%, rgba(0,0,0,.95) 34%, #000 42%);
-        -webkit-mask-composite: source-in;
-        mask-image:
-            radial-gradient(ellipse 100% 135% at 100% 32%,
-                #000 0%, #000 40%, rgba(0,0,0,.93) 50%, rgba(0,0,0,.74) 60%,
-                rgba(0,0,0,.48) 70%, rgba(0,0,0,.24) 81%, rgba(0,0,0,.08) 91%, transparent 100%),
-            linear-gradient(0deg, transparent 0%, rgba(0,0,0,.2) 7%, rgba(0,0,0,.5) 15%,
-                rgba(0,0,0,.8) 25%, rgba(0,0,0,.95) 34%, #000 42%);
-        mask-composite: intersect;
+    /* Gambar penuh layar */
+    .landing-hero .landing-hero__bg {
+        position: absolute; inset: 0; width: 100%; height: 100%;
+        z-index: 0; opacity: 1;
+        -webkit-mask-image: none; mask-image: none;
+    }
+    .landing-hero .landing-hero__bg::after {
+        content: ""; position: absolute; inset: 0;
+        background:
+            radial-gradient(ellipse 70% 60% at 50% 50%, rgba(20, 6, 12, .55), rgba(20, 6, 12, .30) 70%),
+            rgba(20, 6, 12, .25);
     }
     .landing-hero__bg img {
-        width: 100%; height: 100%; object-fit: cover;
+        width: 100%; height: 100%; object-fit: cover; display: block;
         transform: scale(1.08); transition: transform 6s ease-out;
         animation: fadeIn 1.4s ease both, sinematik 22s ease-in-out 1.4s infinite alternate;
     }
@@ -136,23 +111,22 @@
     }
     .landing-hero.is-loaded .landing-hero__bg img { transform: scale(1); }
 
-    .landing-hero__content {
+    /* Konten rata tengah */
+    .landing-hero .landing-hero__content {
         position: relative; z-index: 2;
-        width: 100%; max-width: 620px;
-        margin-left: max(24px, calc((100vw - 1280px) / 2 + 24px));
-        padding: 64px 0;
+        width: 100%; max-width: 900px;
+        margin: 0 auto;
+        padding: 64px 24px;
+        text-align: center;
     }
     .landing-hero__content > * { animation: fadeUp .9s cubic-bezier(.2, .7, .2, 1) both; }
-    .landing-hero__content > *:nth-child(2) { animation-delay: .08s; }
-    .landing-hero__content > *:nth-child(3) { animation-delay: .16s; }
-    .landing-hero__content > *:nth-child(4) { animation-delay: .24s; }
-    .landing-hero__content > *:nth-child(5) { animation-delay: .32s; }
-    .landing-hero__content > *:nth-child(6) { animation-delay: .40s; }
+    .landing-hero__content > *:nth-child(2) { animation-delay: .12s; }
+    .landing-hero__content > *:nth-child(3) { animation-delay: .24s; }
 
     .landing-hero__title {
         font-family: var(--font-title); font-style: italic; font-weight: 800;
-        font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1.1;
-        background: linear-gradient(110deg, var(--text) 38%, #fff6d8 46%, #e8c56f 50%, #fff6d8 54%, var(--text) 62%);
+        font-size: clamp(3rem, 9vw, 6rem); line-height: 1.1;
+        background: linear-gradient(110deg, #ffffff 38%, #fff6d8 46%, #e8c56f 50%, #fff6d8 54%, #ffffff 62%);
         background-size: 260% 100%;
         background-position: 100% 0;
         -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -164,14 +138,15 @@
         45%, 100% { background-position: -60% 0; }
     }
 
-    .landing-hero__subtitle {
-        font-family: var(--font-title); font-weight: 700;
-        font-size: clamp(1.4rem, 3vw, 2.2rem);
-        color: var(--gb-gold); margin-top: 12px;
+    /* Garis + tulisan tiga fitur */
+    .landing-hero .divider {
+        justify-content: center;
+        margin: 20px 0 24px;
+        font-size: .85rem; letter-spacing: .22em;
+        color: #f3d98a;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, .6);
     }
-    .landing-hero__desc { color: var(--text); margin: 24px 0; max-width: 560px; font-size: 1.05rem; line-height: 1.7; }
-
-    /* Divider berkilau */
+    .landing-hero .divider span { white-space: normal; text-align: center; }
     .divider::before, .divider::after {
         background: linear-gradient(90deg, var(--gold-dark), #fff1c4, var(--gold-dark));
         background-size: 200% 100%;
@@ -182,24 +157,17 @@
         to   { background-position: 0 0; }
     }
 
-    /* ===== STATS BADGES ===== */
-    .stat-value {
-        font-family: var(--font-title); font-style: italic; font-weight: 800;
-        font-size: clamp(1.8rem, 4vw, 2.4rem);
-        background: linear-gradient(180deg, var(--gb-gold-l), var(--gb-gold));
-        -webkit-background-clip: text; background-clip: text; color: transparent;
-        margin-right: 6px;
+    .landing-hero .landing-hero__desc {
+        color: #fff6e8; margin: 0 auto; max-width: 680px;
+        font-size: 1.1rem; line-height: 1.75;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, .6);
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
-        .landing-hero__bg { width: 100%; opacity: .35; }
-        .landing-hero__content { margin-left: 24px; max-width: none; }
-        .landing-hero::before { width: 90vw; height: 90vw; right: -10%; }
+        .landing-hero .landing-hero__content { padding: 48px 20px; }
+        .landing-hero .divider { letter-spacing: .12em; font-size: .75rem; }
         .hero__sparkles span:nth-child(n + 12) { display: none; }
-    }
-    @media (max-width: 720px) {
-        .gb-wadah { padding: 0 14px; }
     }
     @media (prefers-reduced-motion: reduce) {
         .landing-hero__content > *,

@@ -30,7 +30,10 @@
         @yield('content')
     </main>
 
-    @include('components.footer')
+    @hasSection('tanpa-footer')
+    @else
+        @include('components.footer')
+    @endif
 
     @include('components.musik')
 

@@ -477,3 +477,13 @@ body:not(:has(.hero, [data-navbar-gelap])) .navbar:not(.is-scrolled) .navbar__me
     .navbar .logo__text { font-size: 1.1rem; }
     .navbar .btn-masuk { padding: 6px 12px; font-size: .82rem; }
 }
+
+/* ===== Teks menu PUTIH di puncak halaman berhero gelap (Landing, Beranda, Galeri Budaya) ===== */
+@media (min-width: 961px) {
+    body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .navbar__menu a,
+    body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .navbar__menu a:hover,
+    body:has(.hero, [data-navbar-gelap]) .navbar:not(.is-scrolled) .navbar__menu a.is-active {
+        color: #FFFFFF !important;
+        text-shadow: 0 1px 10px rgba(0, 0, 0, .7);
+    }
+}

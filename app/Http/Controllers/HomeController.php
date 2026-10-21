@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CagarBudaya;
+use App\Models\MuseumItem;
 use App\Models\Era;
 
 class HomeController extends Controller
@@ -24,29 +25,38 @@ class HomeController extends Controller
                 ];
             });
 
-        // Get featured sites for preview section
+        // Daftar lokasi di peta (config/heritage_map.php), dipakai juga untuk tombol "Tinjau Lokasi"
+        $lokasiPeta = collect(config('heritage_map.sites'));
+
+        // Situs pilihan + pasangan slug-nya di peta (dicocokkan lewat slug, atau lewat nama bila slug berbeda)
         $featuredSites = CagarBudaya::where('is_featured', true)
             ->with(['era', 'location'])
             ->limit(3)
-            ->get();
+            ->get()
+            ->each(function ($site) use ($lokasiPeta) {
+                $cocok = $lokasiPeta->first(fn ($p) => $p['slug'] === $site->slug)
+                    ?? $lokasiPeta->first(fn ($p) => mb_strtolower($p['name']) === mb_strtolower($site->name));
 
-        $totalSites = CagarBudaya::count();
-        $totalEras = Era::count();
+                $site->map_slug = $cocok['slug'] ?? null;
+
+                $fotoPeta = $cocok['photos'][0] ?? null;
+                $site->map_foto = $fotoPeta ? asset($fotoPeta) : null;
+            });
 
         $stats = [
             [
-                'icon' => 'account_balance',
-                'number' => $totalSites,
-                'suffix' => '+',
-                'label' => 'Situs Sejarah',
-                'description' => 'Cagar budaya terdata',
+                'icon' => 'category',
+                'number' => count(MuseumItem::KATEGORI),
+                'suffix' => '',
+                'label' => 'Kategori Budaya',
+                'description' => 'Koleksi di Galeri Budaya',
             ],
             [
-                'icon' => 'headphones',
-                'number' => $totalSites,
-                'suffix' => '+',
-                'label' => 'Audio Tour',
-                'description' => 'Narasi sejarah lokasi',
+                'icon' => 'account_balance',
+                'number' => $lokasiPeta->count(),
+                'suffix' => '',
+                'label' => 'Tempat Cagar Budaya',
+                'description' => 'Lokasi di peta interaktif',
             ],
             [
                 'icon' => 'sports_esports',
