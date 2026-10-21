@@ -37,8 +37,10 @@ return new class extends Migration
         Schema::create('failed_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
-            $table->string('connection');
-            $table->string('queue');
+            // Dipendekkan agar indeks gabungan di bawah muat di MySQL lama
+            // (batas 1000 byte). 64 huruf x 4 byte = 256 byte per kolom.
+            $table->string('connection', 64);
+            $table->string('queue', 64);
             $table->longText('payload');
             $table->longText('exception');
             $table->timestamp('failed_at')->useCurrent();

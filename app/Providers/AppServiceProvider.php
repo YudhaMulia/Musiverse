@@ -7,6 +7,8 @@ use App\Policies\ReviewPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,7 +26,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // MySQL versi lama (hosting gratis) hanya menerima kunci indeks 1000 byte.
+        // 255 huruf x 4 byte = 1020 byte -> terlalu panjang. 191 x 4 = 764 byte -> aman.
+        Schema::defaultStringLength(191);
+
+        // Di hosting, semua tautan dan berkas dibuat dengan https
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+
         $this->app->make(Gate::class)->policy(Review::class, ReviewPolicy::class);
         // Email "lupa kata sandi" dalam bahasa Indonesia
         ResetPassword::toMailUsing(function (object $notifiable, string $token) {

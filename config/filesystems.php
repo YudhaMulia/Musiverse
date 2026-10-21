@@ -40,7 +40,11 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            // Disimpan langsung di dalam folder publik, bukan lewat tautan pintas,
+            // karena hosting gratis tidak melayani symlink.
+            // Di hosting, jalurnya ditulis tegas lewat .env (PUBLIC_STORAGE_PATH),
+            // karena saat membuat cache konfigurasi Laravel tidak mengenali htdocs.
+            'root' => env('PUBLIC_STORAGE_PATH') ?: public_path('storage'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
                         'visibility' => 'public',
             'throw' => false,
@@ -49,7 +53,7 @@ return [
 
         'foto' => [
             'driver' => 'local',
-            'root' => public_path('uploads'),
+            'root' => env('PUBLIC_UPLOADS_PATH') ?: public_path('uploads'),
             'url' => '/uploads',
             'visibility' => 'public',
             'throw' => false,
